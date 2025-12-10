@@ -1,0 +1,316 @@
+/**
+ * Global Styles for haolamnm.dev
+ *
+ * WHY this structure:
+ * - @font-face first: Self-hosted variable fonts eliminate external DNS lookups
+ * - Tailwind layers: Standard base/components/utilities for CSS purging
+ * - Custom properties: Centralized design tokens for consistency
+ */
+
+/* ============================================
+   SELF-HOSTED FONTS
+   WHY: Eliminates Google Fonts external requests, reduces FCP by ~200-500ms
+   ============================================ */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   DESIGN TOKENS
+   WHY: Centralized values for consistency and potential theming
+   ============================================ */
+:root {
+  --color-bg: #09090b;
+  --color-surface: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-hover: rgba(255, 255, 255, 0.2);
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* ============================================
+   BASE LAYER
+   WHY: Sensible defaults that apply globally
+   ============================================ */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-zinc-950 text-white font-sans;
+    min-height: 100vh;
+  }
+
+  /* Selection styling for brand consistency */
+  ::selection {
+    @apply bg-white/20 text-white;
+  }
+
+  /* Keyboard accessibility without affecting mouse users */
+  :focus-visible {
+    @apply outline-none ring-2 ring-white/50 ring-offset-2 ring-offset-zinc-950;
+  }
+}
+
+/* ============================================
+   COMPONENT LAYER
+   WHY: Reusable patterns that compose into UI
+   ============================================ */
+@layer components {
+
+  /* Glass Card - Core glassmorphism component */
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl;
+    /* WHY transition: Smooth hover state changes */
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .glass-card:hover {
+    @apply border-white/20 bg-white/[0.07];
+  }
+
+  /* Glass Button - Interactive glass element */
+  .glass-button {
+    @apply glass-card px-4 py-2 cursor-pointer;
+    @apply hover:scale-105 active:scale-95;
+  }
+
+  /* Text Shimmer - Hero headline effect
+     WHY separate class: Reusable, can be disabled via prefers-reduced-motion
+     WHY will-change: Hints GPU compositing to avoid CLS from non-composited animation */
+  .text-shimmer {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.95) 50%,
+        rgba(255, 255, 255, 0.1) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 2.5s linear infinite;
+    will-change: background-position;
+  }
+
+  /* WHY reduced-motion: Accessibility - static fallback for motion-sensitive users */
+  @media (prefers-reduced-motion: reduce) {
+    .text-shimmer {
+      animation: none;
+      background: none;
+      color: white;
+    }
+  }
+}
+
+/* ============================================
+   UTILITY LAYER
+   WHY: One-off utilities that extend Tailwind
+   ============================================ */
+@layer utilities {
+
+  /* Gradient text utility */
+  .text-gradient {
+    @apply bg-gradient-to-r from-white via-zinc-300 to-white bg-clip-text text-transparent;
+  }
+
+  /* Subtle glow effect */
+  .glow {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================
+   KEYFRAMES
+   ============================================ */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================
+   CODE BLOCK STYLING
+   WHY: Consistent look for blog post code blocks
+   ============================================ */
+pre {
+  @apply glass-card p-4 overflow-x-auto font-mono text-sm relative;
+}
+
+pre::before {
+  content: attr(data-language);
+  @apply absolute top-2 right-2 text-xs text-zinc-500 uppercase;
+}
+
+code {
+  @apply font-mono text-sm;
+}
+
+/* Inline code */
+:not(pre)>code {
+  @apply bg-white/10 px-1.5 py-0.5 rounded text-zinc-300;
+}
+
+/* ============================================
+   SYNTAX HIGHLIGHTING
+   WHY: Basic colors for code readability in monochrome theme
+   ============================================ */
+
+/* Python/JS keywords */
+.prose-content pre .keyword,
+pre .token.keyword,
+pre .token.builtin {
+  color: #a78bfa;
+  /* purple-400 */
+}
+
+/* Strings */
+.prose-content pre .string,
+pre .token.string {
+  color: #86efac;
+  /* green-300 */
+}
+
+/* Comments */
+.prose-content pre .comment,
+pre .token.comment {
+  color: #71717a;
+  /* zinc-500 */
+  font-style: italic;
+}
+
+/* Functions */
+.prose-content pre .function,
+pre .token.function {
+  color: #60a5fa;
+  /* blue-400 */
+}
+
+/* Numbers */
+.prose-content pre .number,
+pre .token.number {
+  color: #fbbf24;
+  /* amber-400 */
+}
+
+/* Operators and punctuation */
+pre .token.operator,
+pre .token.punctuation {
+  color: #a1a1aa;
+  /* zinc-400 */
+}
+
+/* Class names */
+pre .token.class-name {
+  color: #f472b6;
+  /* pink-400 */
+}
+
+/* Basic token colors via MDX */
+pre code .hljs-keyword {
+  color: #a78bfa;
+}
+
+pre code .hljs-string {
+  color: #86efac;
+}
+
+pre code .hljs-comment {
+  color: #71717a;
+  font-style: italic;
+}
+
+pre code .hljs-function {
+  color: #60a5fa;
+}
+
+pre code .hljs-number {
+  color: #fbbf24;
+}
+
+pre code .hljs-title {
+  color: #60a5fa;
+}
+
+pre code .hljs-params {
+  color: #d4d4d8;
+}
+
+pre code .hljs-built_in {
+  color: #a78bfa;
+}
+
+/* ============================================
+   MARKDOWN/BLOG STYLING
+   ============================================ */
+.prose-content {
+  @apply text-zinc-300 leading-relaxed;
+}
+
+.prose-content h1,
+.prose-content h2,
+.prose-content h3 {
+  @apply text-white font-bold font-mono;
+}
+
+.prose-content h1 {
+  @apply text-3xl mb-6;
+}
+
+.prose-content h2 {
+  @apply text-2xl mt-8 mb-4;
+}
+
+.prose-content h3 {
+  @apply text-xl mt-6 mb-3;
+}
+
+.prose-content p {
+  @apply mb-4;
+}
+
+.prose-content a {
+  @apply text-white underline underline-offset-4 hover:text-zinc-300 transition-colors;
+}
+
+.prose-content ul,
+.prose-content ol {
+  @apply mb-4 pl-6;
+}
+
+.prose-content li {
+  @apply mb-2;
+}
+
+.prose-content blockquote {
+  @apply border-l-2 border-white/30 pl-4 italic text-zinc-400;
+}
