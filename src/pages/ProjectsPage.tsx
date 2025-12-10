@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { projects, type Project } from "@lib/projects";
 import { pageContent } from "@lib/content";
-import { SearchIcon, GithubIcon, GlobeIcon } from "@lib/icons";
+import { SearchIcon, GithubIcon, GlobeIcon, CodebergIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
 import GlassCard from "@components/GlassCard";
 import Tag from "@components/Tag";
@@ -156,6 +156,18 @@ function ProjectCard({
                         >
                             <GithubIcon className="w-4 h-4" />
                             <span>GitHub</span>
+                        </a>
+                    )}
+                    {project.codeberg && (
+                        <a
+                            href={project.codeberg}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
+                            aria-label={`View ${project.title} on Codeberg`}
+                        >
+                            <CodebergIcon className="w-4 h-4" />
+                            <span>Codeberg</span>
                         </a>
                     )}
                     {project.website && (
