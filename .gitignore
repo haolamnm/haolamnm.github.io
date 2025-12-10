@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+coverage/
+
+# Cache
+.cache/
+*.tsbuildinfo
+
+# Bundle analysis
+stats.html
+
+# Playwright
+playwright-report/
+playwright/.cache/
+test-results/
+blob-report/
+
+# Misc
+*.local
