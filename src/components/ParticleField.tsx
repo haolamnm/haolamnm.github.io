@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { PARTICLE_CONFIG } from "@lib/particle-config";
 
 interface Particle {
     id: number;
@@ -75,7 +76,7 @@ export default function ParticleField() {
             width: number,
             height: number
         ): { x: number; y: number } => {
-            const edgeBias = Math.random() < 0.85;
+            const edgeBias = Math.random() < PARTICLE_CONFIG.edgeBias;
 
             if (edgeBias) {
                 const edge = Math.floor(Math.random() * 4);
@@ -100,17 +101,17 @@ export default function ParticleField() {
             }
         };
 
-        const PARTICLE_COUNT = 50;
-        particlesRef.current = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
+        particlesRef.current = Array.from({ length: PARTICLE_CONFIG.count }, (_, i) => {
             const pos = generateEdgeBiasedPosition(canvas.width, canvas.height);
+            const { sizeRange, opacityRange } = PARTICLE_CONFIG;
             return {
                 id: i,
                 x: pos.x,
                 y: pos.y,
                 vx: 0,
                 vy: 0,
-                size: 2 + Math.random() * 3,
-                opacity: 0.1 + Math.random() * 0.25,
+                size: sizeRange.min + Math.random() * (sizeRange.max - sizeRange.min),
+                opacity: opacityRange.min + Math.random() * (opacityRange.max - opacityRange.min),
                 pulse: Math.random() * Math.PI * 2,
             };
         });
@@ -130,24 +131,23 @@ export default function ParticleField() {
                 const dy = mouse.y - p.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
-                const ATTRACT_RADIUS = 180;
-                const REPEL_RADIUS = 60;
+                const { attractRadius, repelRadius, attractForce, repelForce, friction } = PARTICLE_CONFIG;
 
-                if (dist < REPEL_RADIUS && dist > 0) {
-                    const force = ((REPEL_RADIUS - dist) / REPEL_RADIUS) * 0.4;
+                if (dist < repelRadius && dist > 0) {
+                    const force = ((repelRadius - dist) / repelRadius) * repelForce;
                     p.vx -= (dx / dist) * force;
                     p.vy -= (dy / dist) * force;
-                } else if (dist < ATTRACT_RADIUS && dist > REPEL_RADIUS) {
+                } else if (dist < attractRadius && dist > repelRadius) {
                     const force =
-                        ((dist - REPEL_RADIUS) / (ATTRACT_RADIUS - REPEL_RADIUS)) * 0.08;
+                        ((dist - repelRadius) / (attractRadius - repelRadius)) * attractForce;
                     p.vx += (dx / dist) * force;
                     p.vy += (dy / dist) * force;
                 }
 
                 p.x += p.vx;
                 p.y += p.vy;
-                p.vx *= 0.96;
-                p.vy *= 0.96;
+                p.vx *= friction;
+                p.vy *= friction;
 
                 // Wrap around edges
                 if (p.x < 0) p.x = canvas.width;
@@ -155,7 +155,7 @@ export default function ParticleField() {
                 if (p.y < 0) p.y = canvas.height;
                 if (p.y > canvas.height) p.y = 0;
 
-                p.pulse += 0.025;
+                p.pulse += PARTICLE_CONFIG.pulseSpeed;
                 const pulseScale = 1 + Math.sin(p.pulse) * 0.25;
 
                 ctx.beginPath();
