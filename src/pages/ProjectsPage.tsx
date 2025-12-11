@@ -10,10 +10,7 @@ import { SEO } from "@components/SEO";
 
 const content = pageContent.projects;
 
-/**
- * @description Projects page with Bento Grid layout, search, and pagination
- * @details Uses useSearchList hook for search/filter/pagination logic
- */
+/** Projects page with Bento Grid layout, search, and pagination */
 export default function ProjectsPage() {
     const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
         items: projects,
@@ -112,7 +109,7 @@ function ProjectCard({
 }) {
     return (
         <motion.div variants={fadeInUp}>
-            <GlassCard className={`h-full flex flex-col ${className}`} hover={true}>
+            <GlassCard className={`h-full flex flex-col ${className}`} variant="hoverable">
                 <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map((tag) => (
                         <Tag key={tag} size="md">{tag}</Tag>
