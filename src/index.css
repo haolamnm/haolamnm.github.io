@@ -1,15 +1,15 @@
 /**
  * Global Styles for haolamnm.dev
  *
- * WHY this structure:
- * - @font-face first: Self-hosted variable fonts eliminate external DNS lookups
- * - Tailwind layers: Standard base/components/utilities for CSS purging
- * - Custom properties: Centralized design tokens for consistency
+ * Structure:
+ * - @font-face: Self-hosted variable fonts (no external DNS lookups)
+ * - Tailwind layers: base/components/utilities for CSS purging
+ * - Custom properties: Design tokens for consistency
  */
 
 /* ============================================
    SELF-HOSTED FONTS
-   WHY: Eliminates Google Fonts external requests, reduces FCP by ~200-500ms
+   Self-hosted to eliminate Google Fonts requests, improves FCP
    ============================================ */
 @font-face {
   font-family: "Inter";
@@ -33,7 +33,7 @@
 
 /* ============================================
    DESIGN TOKENS
-   WHY: Centralized values for consistency and potential theming
+   Centralized values for consistency and theming
    ============================================ */
 :root {
   --color-bg: #09090b;
@@ -46,7 +46,7 @@
 
 /* ============================================
    BASE LAYER
-   WHY: Sensible defaults that apply globally
+   Global defaults
    ============================================ */
 @layer base {
   html {
@@ -58,12 +58,11 @@
     min-height: 100vh;
   }
 
-  /* Selection styling for brand consistency */
   ::selection {
     @apply bg-white/20 text-white;
   }
 
-  /* Keyboard accessibility without affecting mouse users */
+  /* Keyboard focus only - no mouse focus ring */
   :focus-visible {
     @apply outline-none ring-2 ring-white/50 ring-offset-2 ring-offset-zinc-950;
   }
@@ -71,14 +70,13 @@
 
 /* ============================================
    COMPONENT LAYER
-   WHY: Reusable patterns that compose into UI
+   Reusable UI patterns
    ============================================ */
 @layer components {
 
-  /* Glass Card - Core glassmorphism component */
+  /* Glass Card - Glassmorphism base component */
   .glass-card {
     @apply bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl;
-    /* WHY transition: Smooth hover state changes */
     @apply transition-all duration-300 ease-out;
   }
 
@@ -92,9 +90,8 @@
     @apply hover:scale-105 active:scale-95;
   }
 
-  /* Text Shimmer - Hero headline effect
-     WHY separate class: Reusable, can be disabled via prefers-reduced-motion
-     WHY will-change: Hints GPU compositing to avoid CLS from non-composited animation */
+  /* Text Shimmer - Animated gradient text effect
+     Uses will-change for GPU compositing */
   .text-shimmer {
     background: linear-gradient(90deg,
         rgba(255, 255, 255, 0.1) 0%,
@@ -108,7 +105,7 @@
     will-change: background-position;
   }
 
-  /* WHY reduced-motion: Accessibility - static fallback for motion-sensitive users */
+  /* Reduced motion: static fallback */
   @media (prefers-reduced-motion: reduce) {
     .text-shimmer {
       animation: none;
@@ -120,21 +117,18 @@
 
 /* ============================================
    UTILITY LAYER
-   WHY: One-off utilities that extend Tailwind
+   One-off utilities extending Tailwind
    ============================================ */
 @layer utilities {
 
-  /* Gradient text utility */
   .text-gradient {
     @apply bg-gradient-to-r from-white via-zinc-300 to-white bg-clip-text text-transparent;
   }
 
-  /* Subtle glow effect */
   .glow {
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   }
 
-  /* Hide scrollbar but keep functionality */
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -160,7 +154,7 @@
 
 /* ============================================
    CODE BLOCK STYLING
-   WHY: Consistent look for blog post code blocks
+   Blog post code blocks
    ============================================ */
 pre {
   @apply glass-card p-4 overflow-x-auto font-mono text-sm relative;
@@ -182,7 +176,7 @@ code {
 
 /* ============================================
    SYNTAX HIGHLIGHTING
-   WHY: Basic colors for code readability in monochrome theme
+   Monochrome theme colors for code readability
    ============================================ */
 
 /* Python/JS keywords */
@@ -235,7 +229,7 @@ pre .token.class-name {
   /* pink-400 */
 }
 
-/* Basic token colors via MDX */
+/* hljs token colors */
 pre code .hljs-keyword {
   color: #a78bfa;
 }
