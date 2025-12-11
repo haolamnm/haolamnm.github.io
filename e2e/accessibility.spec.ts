@@ -2,10 +2,9 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 /**
- * @description Automated accessibility testing with Axe
- * @details Catches ~60% of WCAG issues vs Lighthouse's ~30%. Runs automatically in CI to prevent accessibility regressions
+ * Accessibility E2E tests using Axe.
+ * Validates WCAG 2.1 AA compliance across all pages.
  */
-
 test.describe("Accessibility (WCAG 2.1 AA)", () => {
     test("homepage should not have accessibility violations", async ({ page }) => {
         await page.goto("/");
@@ -14,7 +13,6 @@ test.describe("Accessibility (WCAG 2.1 AA)", () => {
             .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
             .analyze();
 
-        // Log violations for debugging
         if (accessibilityScanResults.violations.length > 0) {
             console.log("\nAccessibility violations found on homepage:");
             accessibilityScanResults.violations.forEach((violation) => {

@@ -1,15 +1,13 @@
 import { test, expect } from "@playwright/test";
 
 /**
- * @description Navigation E2E tests
- * @details Ensures core user flows work correctly across the site
+ * Navigation E2E tests.
+ * Validates core user flows work correctly.
  */
-
 test.describe("Site Navigation", () => {
     test("homepage loads correctly", async ({ page }) => {
         await page.goto("/");
         await expect(page).toHaveTitle(/Hao Lam/);
-        // Use specific locator for role badge to avoid matching description paragraph
         await expect(page.locator("span.glass-card")).toContainText("Computer Vision");
     });
 
