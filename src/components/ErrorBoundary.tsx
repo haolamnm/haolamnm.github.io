@@ -15,6 +15,7 @@ interface State {
 /**
  * Error boundary for lazy-loaded pages.
  * Catches render errors and displays fallback UI.
+ * Auto-reloads on ChunkLoadError (version skew after deployment).
  */
 export default class ErrorBoundary extends Component<Props, State> {
     constructor(props: Props) {
@@ -28,6 +29,17 @@ export default class ErrorBoundary extends Component<Props, State> {
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
         console.error("ErrorBoundary caught:", error, errorInfo);
+
+        // Detect chunk load failure (version skew after deployment)
+        const isChunkError =
+            error.name === "ChunkLoadError" ||
+            error.message.includes("Failed to fetch dynamically imported module") ||
+            error.message.includes("Loading chunk");
+
+        if (isChunkError) {
+            // Auto-reload to get fresh chunks
+            window.location.reload();
+        }
     }
 
     render(): ReactNode {
