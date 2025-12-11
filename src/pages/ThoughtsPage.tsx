@@ -73,7 +73,7 @@ export default function ThoughtsPage() {
                     ))}
 
                     {filtered.length === 0 && (
-                        <motion.p variants={fadeInUp} className="text-center text-zinc-500 py-12">
+                        <motion.p variants={fadeInUp} className="text-center text-zinc-400 py-12">
                             {allPosts.length === 0
                                 ? content.emptyDefault
                                 : content.emptyState(query)}

@@ -73,7 +73,7 @@ export default function ProjectsPage() {
                     {filtered.length === 0 && (
                         <motion.p
                             variants={fadeInUp}
-                            className="col-span-full text-center text-zinc-500 py-12"
+                            className="col-span-full text-center text-zinc-400 py-12"
                         >
                             {content.emptyState(query)}
                         </motion.p>
@@ -116,9 +116,9 @@ function ProjectCard({
                     ))}
                 </div>
 
-                <h3 className="text-xl font-bold font-mono text-white mb-2">
+                <h2 className="text-xl font-bold font-mono text-white mb-2">
                     {project.title}
-                </h3>
+                </h2>
 
                 <p className="text-zinc-400 text-sm mb-4 flex-grow">
                     {project.description}
