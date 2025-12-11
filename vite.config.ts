@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { copyFileSync } from "fs";
+import { copyFileSync, existsSync, readFileSync } from "fs";
 import react from "@vitejs/plugin-react";
 import mdx from "@mdx-js/rollup";
 import remarkGfm from "remark-gfm";
@@ -14,11 +14,25 @@ import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
 
 /**
+ * @description Load posts manifest for dynamic sitemap routes
+ */
+function getPostSlugs(): string[] {
+  const manifestPath = path.resolve(__dirname, "./src/lib/posts-manifest.json");
+  if (!existsSync(manifestPath)) return [];
+  try {
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+    return manifest.map((p: { slug: string }) => `/thoughts/${p.slug}`);
+  } catch {
+    return [];
+  }
+}
+
+/**
  * @description Vite configuration for haolamnm.dev portfolio
  *
  * @details
  * - MDX BEFORE React: MDX must transform .mdx files before React processes JSX
- * - Sitemap: Auto-generates sitemap.xml for SEO
+ * - Sitemap: Auto-generates sitemap.xml for SEO with dynamic blog routes
  * - copy404: Fixes GitHub Pages SPA routing (see below)
  *
  * @details remark/rehype plugins:
@@ -43,7 +57,7 @@ export default defineConfig({
     react(),
     Sitemap({
       hostname: "https://haolamnm.dev",
-      dynamicRoutes: ["/", "/projects", "/thoughts"],
+      dynamicRoutes: ["/", "/projects", "/thoughts", ...getPostSlugs()],
     }),
     /**
      * WHY visualizer plugin:
