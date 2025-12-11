@@ -3,10 +3,8 @@ import { render, screen } from "@testing-library/react";
 import Hero from "@components/Hero";
 
 /**
- * WHY these Hero tests:
- * - Verify critical content renders
- * - Test accessibility of main heading
- * - Ensure shimmer class is applied
+ * Hero component tests.
+ * Verifies content rendering, accessibility, and shimmer effect.
  */
 describe("Hero", () => {
     it("renders the name with shimmer effect", () => {
@@ -26,7 +24,7 @@ describe("Hero", () => {
     it("renders the tagline with emphasized words", () => {
         render(<Hero />);
 
-        // WHY separate assertions: algorithms and art are now in separate spans
+        // Emphasized words are in separate spans
         expect(screen.getByText("algorithms")).toBeInTheDocument();
         expect(screen.getByText("art")).toBeInTheDocument();
     });

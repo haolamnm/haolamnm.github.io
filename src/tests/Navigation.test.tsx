@@ -5,8 +5,8 @@ import Navigation from "@components/Navigation";
 import { navItems } from "@lib/config";
 
 /**
- * Navigation component tests
- * WHY: Ensures navigation is accessible and all routes are rendered
+ * Navigation component tests.
+ * Verifies route rendering and link correctness.
  */
 describe("Navigation", () => {
     it("renders all navigation items", () => {

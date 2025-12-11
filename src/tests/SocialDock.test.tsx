@@ -4,8 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import SocialDock from "@components/SocialDock";
 
 /**
- * SocialDock component tests
- * WHY: Ensures all external links have proper security attributes
+ * SocialDock component tests.
+ * Verifies external link security and accessibility attributes.
  */
 describe("SocialDock", () => {
     it("renders all social links", () => {
@@ -32,7 +32,6 @@ describe("SocialDock", () => {
             const href = link.getAttribute("href");
             const target = link.getAttribute("target");
 
-            // External links should have security attributes
             if (href?.startsWith("http") && target === "_blank") {
                 const rel = link.getAttribute("rel");
                 expect(rel).toContain("noopener");
