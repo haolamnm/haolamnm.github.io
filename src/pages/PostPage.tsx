@@ -2,6 +2,8 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { getPostBySlug, type Post } from "@lib/posts";
+import { asPostSlug } from "@lib/types";
+import { formatDate } from "@lib/formatters";
 import { pageContent } from "@lib/content";
 import { pageEntrance } from "@lib/animations";
 import { ArrowLeftIcon, CalendarIcon } from "@lib/icons";
@@ -27,7 +29,7 @@ export default function PostPage() {
         setError(null);
 
         try {
-            const result = await getPostBySlug(slug);
+            const result = await getPostBySlug(asPostSlug(slug));
             setPost(result);
         } catch (err) {
             setError(err as Error);
@@ -98,11 +100,7 @@ export default function PostPage() {
         );
     }
 
-    const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    const formattedDate = formatDate(post.date);
 
     const { Content } = post;
 

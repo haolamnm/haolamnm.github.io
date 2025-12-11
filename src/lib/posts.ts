@@ -3,10 +3,10 @@
  * Uses build-time manifest for listing, lazy loads content on demand.
  */
 
-import type { PostMeta } from "./types";
+import type { PostMeta, PostSlug } from "./types";
 import postsManifest from "./posts-manifest.json";
 
-export type { PostMeta };
+export type { PostMeta, PostSlug };
 
 export interface Post extends PostMeta {
     Content: React.ComponentType;
@@ -27,10 +27,10 @@ export function getAllPosts(): PostMeta[] {
 
 /**
  * Get single post by slug with lazy-loaded content.
- * @param slug - Post slug
+ * @param slug - Post slug (branded type)
  * @returns Post with Content component or null
  */
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+export async function getPostBySlug(slug: PostSlug): Promise<Post | null> {
     const manifest = postsManifest as PostMeta[];
     const meta = manifest.find((p) => p.slug === slug);
     if (!meta) return null;

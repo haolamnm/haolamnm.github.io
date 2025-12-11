@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getAllPosts, type PostMeta } from "@lib/posts";
+import { formatDate } from "@lib/formatters";
 import { pageContent } from "@lib/content";
 import { SearchIcon, CalendarIcon, ArrowRightIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
@@ -101,11 +102,7 @@ export default function ThoughtsPage() {
 }
 
 function PostCard({ post }: { post: PostMeta }) {
-    const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    const formattedDate = formatDate(post.date);
 
     return (
         <motion.div variants={fadeInUp}>
