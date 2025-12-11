@@ -3,16 +3,10 @@
  * Uses build-time manifest for listing, lazy loads content on demand.
  */
 
+import type { PostMeta } from "./types";
 import postsManifest from "./posts-manifest.json";
 
-/** Post metadata for listings */
-export interface PostMeta {
-    slug: string;
-    title: string;
-    date: string;
-    excerpt: string;
-    tags: string[];
-}
+export type { PostMeta };
 
 export interface Post extends PostMeta {
     Content: React.ComponentType;
