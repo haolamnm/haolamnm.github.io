@@ -7,12 +7,14 @@
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦉</text></svg>" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self';" />
   <!-- SEO Meta Tags -->
   <title>Hao Lam | Computer Vision</title>
   <meta name="description"
     content="Hao Lam - Computer Vision specialist at haolamnm.dev. Exploring the frontiers of Computer Vision. Bridging the gap between pixels and perception." />
   <meta name="author" content="Hao Lam" />
-  <meta name="keywords" content="Computer Vision, Machine Learning, Deep Learning, Portfolio, Hao Lam" />
 
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website" />
@@ -22,7 +24,8 @@
   <meta property="og:image" content="/og-image.png" />
 
   <!-- Preload self-hosted fonts for faster initial render -->
-  <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin
+    fetchpriority="high">
   <link rel="preload" href="/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Preconnect to external origins for faster resource loading -->
