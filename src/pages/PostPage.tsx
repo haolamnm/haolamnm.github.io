@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { getPostBySlug, type Post } from "@lib/posts";
 import { pageContent } from "@lib/content";
@@ -10,25 +10,35 @@ import { SEO } from "@components/SEO";
 
 const content = pageContent.post;
 
-/**
- * @description Individual blog post page with async loading
- */
+/** Individual blog post page with async loading and error recovery */
 export default function PostPage() {
     const { slug } = useParams<{ slug: string }>();
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<Error | null>(null);
 
-    useEffect(() => {
+    const loadPost = useCallback(async () => {
         if (!slug) {
             setLoading(false);
             return;
         }
 
-        getPostBySlug(slug).then((result) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const result = await getPostBySlug(slug);
             setPost(result);
+        } catch (err) {
+            setError(err as Error);
+        } finally {
             setLoading(false);
-        });
+        }
     }, [slug]);
+
+    useEffect(() => {
+        loadPost();
+    }, [loadPost]);
 
     if (loading) {
         return (
@@ -39,6 +49,28 @@ export default function PostPage() {
                 className="text-center py-24"
             >
                 <div className="text-zinc-400">Loading...</div>
+            </motion.div>
+        );
+    }
+
+    if (error) {
+        return (
+            <motion.div
+                variants={pageEntrance}
+                initial="hidden"
+                animate="visible"
+                className="text-center py-24"
+            >
+                <h1 className="text-4xl font-bold font-mono mb-4">Failed to load</h1>
+                <p className="text-zinc-400 mb-8">
+                    Something went wrong loading this post.
+                </p>
+                <button
+                    onClick={loadPost}
+                    className="inline-flex items-center gap-2 px-4 py-2 glass-card text-white hover:bg-white/10 transition-colors"
+                >
+                    Try Again
+                </button>
             </motion.div>
         );
     }
