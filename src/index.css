@@ -317,3 +317,54 @@ pre code .hljs-built_in {
 .prose-content blockquote {
   @apply border-l-2 border-white/30 pl-4 italic text-zinc-400;
 }
+
+/* Print stylesheet for PDF exports */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Hide non-essential elements */
+  nav,
+  footer,
+  canvas,
+  .social-dock {
+    display: none !important;
+  }
+
+  /* Reset text colors for readability */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: black !important;
+  }
+
+  p,
+  li,
+  span {
+    color: #333 !important;
+  }
+
+  /* Make links visible and useful */
+  a {
+    color: #333 !important;
+    text-decoration: underline !important;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Remove backgrounds and shadows */
+  .glass-card {
+    background: white !important;
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+  }
+}
