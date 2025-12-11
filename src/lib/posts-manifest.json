@@ -1,13 +1,1 @@
-[
-  {
-    "slug": "hello-world",
-    "title": "Hello World",
-    "date": "2024-12-11",
-    "excerpt": "A test post demonstrating various markdown features and syntax highlighting.",
-    "tags": [
-      "markdown",
-      "test",
-      "hello-world"
-    ]
-  }
-]
+[]
