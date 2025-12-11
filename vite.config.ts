@@ -9,6 +9,7 @@ import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import rehypePrismPlus from "rehype-prism-plus";
+import rehypeExternalLinks from "rehype-external-links";
 import Sitemap from "vite-plugin-sitemap";
 import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
@@ -34,7 +35,7 @@ function getPostSlugs(): string[] {
  * Plugin order: MDX before React (MDX transforms .mdx before React processes JSX)
  *
  * Remark plugins: GFM, math, frontmatter extraction
- * Rehype plugins: KaTeX, slugs, Prism syntax highlighting
+ * Rehype plugins: KaTeX, slugs, Prism syntax highlighting, external links
  */
 export default defineConfig({
   plugins: [
@@ -49,6 +50,7 @@ export default defineConfig({
         rehypeKatex,
         rehypeSlug,
         [rehypePrismPlus, { ignoreMissing: true }],
+        [rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
       ],
     }),
     react(),
