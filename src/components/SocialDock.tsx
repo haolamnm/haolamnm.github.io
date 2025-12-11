@@ -8,17 +8,15 @@ import {
     FileTextIcon,
 } from "@lib/icons";
 
-/**
- * @description Mac-style floating social dock with icon links
- */
 const iconMap = {
     github: <GithubIcon />,
     linkedin: <LinkedinIcon />,
     facebook: <FacebookIcon />,
     email: <MailIcon className="w-5 h-5" />,
     resume: <FileTextIcon className="w-5 h-5" />,
-} as const;
+};
 
+/** Mac-style floating social dock */
 export default function SocialDock() {
     return (
         <motion.nav
@@ -38,8 +36,8 @@ export default function SocialDock() {
                         aria-label={link.label}
                         title={link.label}
                         className={`flex items-center justify-center w-10 h-10 rounded-xl transition-colors duration-200 ${link.isPrimary === true
-                                ? "bg-white/10 border border-white/20 text-white shadow-lg shadow-white/5"
-                                : "text-zinc-400 hover:text-white hover:bg-white/5"
+                            ? "bg-white/10 border border-white/20 text-white shadow-lg shadow-white/5"
+                            : "text-zinc-400 hover:text-white hover:bg-white/5"
                             }`}
                         whileHover={{ scale: 1.15, y: -2 }}
                         whileTap={{ scale: 0.95 }}

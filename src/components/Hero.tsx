@@ -2,10 +2,7 @@ import { motion } from "framer-motion";
 import { heroContent } from "@lib/content";
 import { staggerContainer, fadeInUp } from "@lib/animations";
 
-/**
- * @description Hero section - landing page focal point
- * @details Clean component that pulls content from centralized source
- */
+/** Hero section - landing page focal point */
 export default function Hero() {
     const { tagline } = heroContent;
 
@@ -50,4 +47,3 @@ export default function Hero() {
         </motion.section>
     );
 }
-

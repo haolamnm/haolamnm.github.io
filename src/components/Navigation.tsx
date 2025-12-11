@@ -2,9 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { navItems } from "@lib/config";
 
-/**
- * @description Navigation with glass styling and active indicator
- */
+/** Navigation with glass styling and active indicator */
 export default function Navigation() {
     const location = useLocation();
 

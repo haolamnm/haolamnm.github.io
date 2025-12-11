@@ -9,8 +9,8 @@ interface SEOProps {
 }
 
 /**
- * @description Reusable SEO component for dynamic meta tags
- * @details Each page needs unique title/description for search engine visibility
+ * SEO component for dynamic meta tags.
+ * Sets title, description, Open Graph, and Twitter Card.
  */
 export function SEO({
     title,

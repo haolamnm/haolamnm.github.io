@@ -1,13 +1,9 @@
-/**
- * @description Reusable tag/badge component
- * @details Eliminates duplicate tag rendering across pages
- */
-
 interface TagProps {
     children: string;
     size?: "sm" | "md";
 }
 
+/** Reusable tag/badge component */
 export default function Tag({ children, size = "sm" }: TagProps) {
     const sizeClasses = size === "sm"
         ? "px-2 py-0.5 text-xs"

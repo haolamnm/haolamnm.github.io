@@ -13,8 +13,10 @@ interface Particle {
 }
 
 /**
- * @description Creates a debounced version of a function
- * @details Prevents expensive operations from firing too frequently (e.g., resize events)
+ * Create a debounced version of a function.
+ * @param fn - Function to debounce
+ * @param ms - Delay in milliseconds
+ * @returns Debounced function
  */
 function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number): T {
     let timer: number;
@@ -25,15 +27,13 @@ function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number): T 
 }
 
 /**
- * @description ParticleField - mouse-follow particle animation for hero section
- * @details WHY edge-biased distribution: More particles around edges, sparse in center (10-20%)
- * creates a subtle frame effect without obscuring content.
- * @details Accessibility: Respects prefers-reduced-motion, renders null if enabled.
+ * Mouse-following particle animation for hero background.
+ * Respects prefers-reduced-motion for accessibility.
+ * Uses edge-biased distribution (85% edges, 15% center).
  */
 export default function ParticleField() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
-        if (typeof window === "undefined") return false;
         return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     });
     const mouseRef = useRef({ x: 0, y: 0 });
@@ -63,39 +63,39 @@ export default function ParticleField() {
         };
         resize();
 
-        // WHY debounce: Prevents expensive canvas re-render 100+ times/sec during window drag
+        // Debounce resize to prevent expensive redraws during window drag
         const debouncedResize = debounce(resize, 200);
         window.addEventListener("resize", debouncedResize);
 
-        // WHY edge-biased distribution: More particles around edges, sparse in center
+        /**
+         * Generate edge-biased position (85% edges, 15% center).
+         * Creates subtle frame effect without obscuring content.
+         */
         const generateEdgeBiasedPosition = (
             width: number,
             height: number
         ): { x: number; y: number } => {
-            // 80-90% of particles spawn in outer 40% of area
             const edgeBias = Math.random() < 0.85;
 
             if (edgeBias) {
-                // Spawn in edge regions
                 const edge = Math.floor(Math.random() * 4);
                 switch (edge) {
-                    case 0: // Top edge
+                    case 0: // Top
                         return { x: Math.random() * width, y: Math.random() * height * 0.3 };
-                    case 1: // Bottom edge
+                    case 1: // Bottom
                         return {
                             x: Math.random() * width,
                             y: height * 0.7 + Math.random() * height * 0.3,
                         };
-                    case 2: // Left edge
+                    case 2: // Left
                         return { x: Math.random() * width * 0.3, y: Math.random() * height };
-                    default: // Right edge
+                    default: // Right
                         return {
                             x: width * 0.7 + Math.random() * width * 0.3,
                             y: Math.random() * height,
                         };
                 }
             } else {
-                // 10-15% in center
                 return { x: Math.random() * width, y: Math.random() * height };
             }
         };
@@ -149,6 +149,7 @@ export default function ParticleField() {
                 p.vx *= 0.96;
                 p.vy *= 0.96;
 
+                // Wrap around edges
                 if (p.x < 0) p.x = canvas.width;
                 if (p.x > canvas.width) p.x = 0;
                 if (p.y < 0) p.y = canvas.height;
@@ -159,8 +160,7 @@ export default function ParticleField() {
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size * pulseScale, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * (0.7 + Math.sin(p.pulse) * 0.3)
-                    })`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * (0.7 + Math.sin(p.pulse) * 0.3)})`;
                 ctx.fill();
             });
 
