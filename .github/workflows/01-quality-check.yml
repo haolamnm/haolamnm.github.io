@@ -34,6 +34,9 @@ jobs:
       - name: Run ESLint
         run: bun run lint
 
+      - name: Type Check
+        run: bunx tsc --noEmit
+
       - name: Run Unit Tests
         run: bun run test
 
