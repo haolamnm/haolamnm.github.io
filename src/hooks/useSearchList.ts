@@ -6,11 +6,16 @@
 import { useState, useMemo } from "react";
 import { useDebounce } from "./useDebounce";
 
+/** Extract keys where value is string or string[] */
+type StringKeys<T> = {
+    [K in keyof T]: T[K] extends string | string[] ? K : never;
+}[keyof T];
+
 interface UseSearchListOptions<T> {
     /** Items to search through */
     items: T[];
-    /** Field names to search within */
-    searchFields: (keyof T)[];
+    /** Field names to search within (must be string or string[] fields) */
+    searchFields: StringKeys<T>[];
     /** Items per page (default: 9) */
     itemsPerPage?: number;
     /** Debounce delay in ms (default: 300) */
