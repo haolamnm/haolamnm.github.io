@@ -30,14 +30,14 @@ export default function NotFoundPage() {
                     className="inline-flex items-center gap-2 px-4 py-2 glass-card text-white hover:bg-white/10 transition-colors"
                 >
                     <HomeIcon className="w-4 h-4" />
-                    Go Home
+                    {pageContent.notFound.goHome}
                 </Link>
                 <button
                     onClick={() => window.history.back()}
                     className="inline-flex items-center gap-2 px-4 py-2 text-zinc-400 hover:text-white transition-colors"
                 >
                     <ArrowLeftIcon className="w-4 h-4" />
-                    Go Back
+                    {pageContent.notFound.goBack}
                 </button>
             </div>
         </motion.div>

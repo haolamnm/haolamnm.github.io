@@ -27,6 +27,11 @@ export const pageContent = {
         searchPlaceholder: "Search projects by name or tag...",
         emptyState: (query: string) => `No projects found matching "${query}"`,
         loadMore: "Load More",
+        links: {
+            github: "GitHub",
+            codeberg: "Codeberg",
+            website: "Website",
+        },
     },
     thoughts: {
         title: "Thoughts",
@@ -40,13 +45,19 @@ export const pageContent = {
         title: "404",
         subtitle: "Page not found",
         description: "The page you're looking for doesn't exist or has been moved.",
-        backHome: "Back to Home",
+        goHome: "Go Home",
+        goBack: "Go Back",
     },
     post: {
         notFound: {
             title: "Post Not Found",
             description: "The post you're looking for doesn't exist.",
             backLink: "Back to Thoughts",
+        },
+        error: {
+            title: "Failed to load",
+            description: "Something went wrong loading this post.",
+            retry: "Try Again",
         },
         backLink: "Back to Thoughts",
     },

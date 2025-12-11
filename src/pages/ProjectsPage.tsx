@@ -134,7 +134,7 @@ function ProjectCard({
                             aria-label={`View ${project.title} on GitHub`}
                         >
                             <GithubIcon className="w-4 h-4" />
-                            <span>GitHub</span>
+                            <span>{content.links.github}</span>
                         </a>
                     )}
                     {project.codeberg && (
@@ -146,7 +146,7 @@ function ProjectCard({
                             aria-label={`View ${project.title} on Codeberg`}
                         >
                             <CodebergIcon className="w-4 h-4" />
-                            <span>Codeberg</span>
+                            <span>{content.links.codeberg}</span>
                         </a>
                     )}
                     {project.website && (
@@ -158,7 +158,7 @@ function ProjectCard({
                             aria-label={`Visit ${project.title} website`}
                         >
                             <GlobeIcon className="w-4 h-4" />
-                            <span>Website</span>
+                            <span>{content.links.website}</span>
                         </a>
                     )}
                 </div>

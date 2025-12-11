@@ -63,15 +63,15 @@ export default function PostPage() {
                 animate="visible"
                 className="text-center py-24"
             >
-                <h1 className="text-4xl font-bold font-mono mb-4">Failed to load</h1>
+                <h1 className="text-4xl font-bold font-mono mb-4">{content.error.title}</h1>
                 <p className="text-zinc-400 mb-8">
-                    Something went wrong loading this post.
+                    {content.error.description}
                 </p>
                 <button
                     onClick={loadPost}
                     className="inline-flex items-center gap-2 px-4 py-2 glass-card text-white hover:bg-white/10 transition-colors"
                 >
-                    Try Again
+                    {content.error.retry}
                 </button>
             </motion.div>
         );
