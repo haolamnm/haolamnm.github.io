@@ -1,14 +1,20 @@
 /**
- * @description Generic hook for search, filter, and pagination
- * @details Extracted from ProjectsPage and ThoughtsPage to avoid duplication
+ * Generic hook for search, filter, and pagination with debouncing.
+ * @module useSearchList
  */
 
 import { useState, useMemo } from "react";
+import { useDebounce } from "./useDebounce";
 
 interface UseSearchListOptions<T> {
+    /** Items to search through */
     items: T[];
+    /** Field names to search within */
     searchFields: (keyof T)[];
+    /** Items per page (default: 9) */
     itemsPerPage?: number;
+    /** Debounce delay in ms (default: 300) */
+    debounceMs?: number;
 }
 
 interface UseSearchListResult<T> {
@@ -20,18 +26,26 @@ interface UseSearchListResult<T> {
     loadMore: () => void;
 }
 
+/**
+ * Search, filter, and paginate a list of items.
+ * @param options - Configuration options
+ * @returns Search state and handlers
+ */
 export function useSearchList<T>({
     items,
     searchFields,
     itemsPerPage = 9,
+    debounceMs = 300,
 }: UseSearchListOptions<T>): UseSearchListResult<T> {
     const [query, setQuery] = useState("");
     const [visibleCount, setVisibleCount] = useState(itemsPerPage);
 
-    const filtered = useMemo(() => {
-        if (!query.trim()) return items;
+    const debouncedQuery = useDebounce(query, debounceMs);
 
-        const q = query.toLowerCase();
+    const filtered = useMemo(() => {
+        if (!debouncedQuery.trim()) return items;
+
+        const q = debouncedQuery.toLowerCase();
         return items.filter((item) =>
             searchFields.some((field) => {
                 const value = item[field];
@@ -41,7 +55,7 @@ export function useSearchList<T>({
                 return String(value).toLowerCase().includes(q);
             })
         );
-    }, [query, items, searchFields]);
+    }, [debouncedQuery, items, searchFields]);
 
     const visible = filtered.slice(0, visibleCount);
     const hasMore = visibleCount < filtered.length;
