@@ -14,7 +14,8 @@ import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
 
 /**
- * @description Load posts manifest for dynamic sitemap routes
+ * Load post slugs from manifest for sitemap generation.
+ * @returns Array of post route paths
  */
 function getPostSlugs(): string[] {
   const manifestPath = path.resolve(__dirname, "./src/lib/posts-manifest.json");
@@ -28,16 +29,12 @@ function getPostSlugs(): string[] {
 }
 
 /**
- * @description Vite configuration for haolamnm.dev portfolio
+ * Vite configuration for haolamnm.dev portfolio.
  *
- * @details
- * - MDX BEFORE React: MDX must transform .mdx files before React processes JSX
- * - Sitemap: Auto-generates sitemap.xml for SEO with dynamic blog routes
- * - copy404: Fixes GitHub Pages SPA routing (see below)
+ * Plugin order: MDX before React (MDX transforms .mdx before React processes JSX)
  *
- * @details remark/rehype plugins:
- * - remark-frontmatter + remark-mdx-frontmatter: Parse and export frontmatter as data
- * - rehype-prism-plus: Syntax highlighting with line numbers support
+ * Remark plugins: GFM, math, frontmatter extraction
+ * Rehype plugins: KaTeX, slugs, Prism syntax highlighting
  */
 export default defineConfig({
   plugins: [
@@ -59,29 +56,18 @@ export default defineConfig({
       hostname: "https://haolamnm.dev",
       dynamicRoutes: ["/", "/projects", "/thoughts", ...getPostSlugs()],
     }),
-    /**
-     * WHY visualizer plugin:
-     * Generates stats.html showing bundle composition (gzip + brotli sizes).
-     * Helps identify optimization opportunities (e.g., large dependencies, duplicates).
-     * Only runs in production builds to avoid cluttering dev workflow.
-     */
+    // Bundle analyzer - generates stats.html with gzip/brotli sizes
     visualizer({
       filename: "stats.html",
       gzipSize: true,
       brotliSize: true,
-      template: "treemap", // "treemap", "sunburst", "network"
+      template: "treemap",
     }),
-    /**
-     * WHY copy404 plugin:
-     * GitHub Pages serves 404.html for unknown routes. By copying index.html to 404.html,
-     * React Router takes over client-side routing on page refresh. This fixes the
-     * "reload 404 bug" where refreshing /projects or /thoughts showed a 404 page.
-     */
+    // GitHub Pages SPA routing fix - copies index.html to 404.html
     {
       name: "copy-404-for-spa-routing",
       closeBundle() {
         copyFileSync("dist/index.html", "dist/404.html");
-        console.log("Copied index.html to 404.html for GitHub Pages SPA routing");
       },
     },
   ],
@@ -95,11 +81,7 @@ export default defineConfig({
     },
   },
   build: {
-    /**
-     * WHY manual chunks:
-     * Route-based code splitting keeps initial bundle under 200KB.
-     * Vendor libs (React, Router) are cached separately from app code.
-     */
+    // Manual chunks for optimal caching - vendor libs separate from app code
     rollupOptions: {
       output: {
         manualChunks: {
@@ -111,4 +93,3 @@ export default defineConfig({
     target: "esnext",
   },
 });
-
