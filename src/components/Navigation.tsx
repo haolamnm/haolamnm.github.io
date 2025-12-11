@@ -9,10 +9,11 @@ export default function Navigation() {
     const location = useLocation();
 
     const getActiveIndex = () => {
-        if (location.pathname === "/") return 0;
-        if (location.pathname.startsWith("/projects")) return 1;
-        if (location.pathname.startsWith("/thoughts")) return 2;
-        return -1;
+        return navItems.findIndex((item) =>
+            item.path === "/"
+                ? location.pathname === "/"
+                : location.pathname === item.path || location.pathname.startsWith(`${item.path}/`)
+        );
     };
 
     const activeIndex = getActiveIndex();

@@ -37,9 +37,9 @@ export default function SocialDock() {
                         rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                         aria-label={link.label}
                         title={link.label}
-                        className={`flex items-center justify-center w-10 h-10 rounded-xl transition-colors duration-200 ${"isPrimary" in link
-                            ? "bg-white/10 border border-white/20 text-white shadow-lg shadow-white/5"
-                            : "text-zinc-400 hover:text-white hover:bg-white/5"
+                        className={`flex items-center justify-center w-10 h-10 rounded-xl transition-colors duration-200 ${link.isPrimary === true
+                                ? "bg-white/10 border border-white/20 text-white shadow-lg shadow-white/5"
+                                : "text-zinc-400 hover:text-white hover:bg-white/5"
                             }`}
                         whileHover={{ scale: 1.15, y: -2 }}
                         whileTap={{ scale: 0.95 }}
