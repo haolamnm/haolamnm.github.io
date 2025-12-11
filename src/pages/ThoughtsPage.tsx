@@ -1,44 +1,26 @@
-import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getAllPosts, type PostMeta } from "@lib/posts";
 import { pageContent } from "@lib/content";
 import { SearchIcon, CalendarIcon, ArrowRightIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
+import { useSearchList } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
 import Tag from "@components/Tag";
 import { SEO } from "@components/SEO";
 
-const ITEMS_PER_PAGE = 9;
 const content = pageContent.thoughts;
 
 /**
  * @description Thoughts page - blog listing with search and pagination
- * @details Pagination: Reduces initial DOM size and JS execution time for better Core Web Vitals
+ * @details Uses useSearchList hook for search/filter/pagination logic
  */
 export default function ThoughtsPage() {
     const allPosts = getAllPosts();
-    const [searchQuery, setSearchQuery] = useState("");
-    const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
-
-    const filteredPosts = useMemo(() => {
-        if (!searchQuery.trim()) return allPosts;
-
-        const query = searchQuery.toLowerCase();
-        return allPosts.filter(
-            (post) =>
-                post.title.toLowerCase().includes(query) ||
-                post.excerpt.toLowerCase().includes(query) ||
-                (post.tags ?? []).some((tag) => tag.toLowerCase().includes(query))
-        );
-    }, [searchQuery, allPosts]);
-
-    const visiblePosts = filteredPosts.slice(0, visibleCount);
-    const hasMore = visibleCount < filteredPosts.length;
-
-    const handleLoadMore = () => {
-        setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
-    };
+    const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
+        items: allPosts,
+        searchFields: ["title", "excerpt", "tags"],
+    });
 
     return (
         <>
@@ -72,8 +54,8 @@ export default function ThoughtsPage() {
                         <input
                             type="text"
                             placeholder={content.searchPlaceholder}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
                             className="w-full pl-12 pr-4 py-3 glass-card bg-white/5 border-white/10 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:border-white/20"
                         />
                     </div>
@@ -85,15 +67,15 @@ export default function ThoughtsPage() {
                     animate="visible"
                     className="space-y-4"
                 >
-                    {visiblePosts.map((post) => (
+                    {visible.map((post) => (
                         <PostCard key={post.slug} post={post} />
                     ))}
 
-                    {filteredPosts.length === 0 && (
+                    {filtered.length === 0 && (
                         <motion.p variants={fadeInUp} className="text-center text-zinc-500 py-12">
                             {allPosts.length === 0
                                 ? content.emptyDefault
-                                : content.emptyState(searchQuery)}
+                                : content.emptyState(query)}
                         </motion.p>
                     )}
                 </motion.div>
@@ -106,7 +88,7 @@ export default function ThoughtsPage() {
                         className="flex justify-center mt-8"
                     >
                         <button
-                            onClick={handleLoadMore}
+                            onClick={loadMore}
                             className="glass-button px-6 py-3 text-zinc-400 hover:text-white transition-colors"
                         >
                             {content.loadMore}
@@ -159,4 +141,3 @@ function PostCard({ post }: { post: PostMeta }) {
         </motion.div>
     );
 }
-

@@ -1,42 +1,24 @@
-import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { projects, type Project } from "@lib/projects";
 import { pageContent } from "@lib/content";
 import { SearchIcon, GithubIcon, GlobeIcon, CodebergIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
+import { useSearchList } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
 import Tag from "@components/Tag";
 import { SEO } from "@components/SEO";
 
-const ITEMS_PER_PAGE = 9;
 const content = pageContent.projects;
 
 /**
  * @description Projects page with Bento Grid layout, search, and pagination
- * @details Pagination: Reduces initial DOM size and JS execution time for better Core Web Vitals
+ * @details Uses useSearchList hook for search/filter/pagination logic
  */
 export default function ProjectsPage() {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
-
-    const filteredProjects = useMemo(() => {
-        if (!searchQuery.trim()) return projects;
-
-        const query = searchQuery.toLowerCase();
-        return projects.filter(
-            (project) =>
-                project.title.toLowerCase().includes(query) ||
-                project.tags.some((tag) => tag.toLowerCase().includes(query)) ||
-                project.description.toLowerCase().includes(query)
-        );
-    }, [searchQuery]);
-
-    const visibleProjects = filteredProjects.slice(0, visibleCount);
-    const hasMore = visibleCount < filteredProjects.length;
-
-    const handleLoadMore = () => {
-        setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
-    };
+    const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
+        items: projects,
+        searchFields: ["title", "tags", "description"],
+    });
 
     return (
         <>
@@ -70,8 +52,8 @@ export default function ProjectsPage() {
                         <input
                             type="text"
                             placeholder={content.searchPlaceholder}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
                             className="w-full pl-12 pr-4 py-3 glass-card bg-white/5 border-white/10 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:border-white/20"
                         />
                     </div>
@@ -83,7 +65,7 @@ export default function ProjectsPage() {
                     animate="visible"
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
                 >
-                    {visibleProjects.map((project) => (
+                    {visible.map((project) => (
                         <ProjectCard
                             key={project.id}
                             project={project}
@@ -91,12 +73,12 @@ export default function ProjectsPage() {
                         />
                     ))}
 
-                    {filteredProjects.length === 0 && (
+                    {filtered.length === 0 && (
                         <motion.p
                             variants={fadeInUp}
                             className="col-span-full text-center text-zinc-500 py-12"
                         >
-                            {content.emptyState(searchQuery)}
+                            {content.emptyState(query)}
                         </motion.p>
                     )}
                 </motion.div>
@@ -109,7 +91,7 @@ export default function ProjectsPage() {
                         className="flex justify-center mt-8"
                     >
                         <button
-                            onClick={handleLoadMore}
+                            onClick={loadMore}
                             className="glass-button px-6 py-3 text-zinc-400 hover:text-white transition-colors"
                         >
                             {content.loadMore}
@@ -187,4 +169,3 @@ function ProjectCard({
         </motion.div>
     );
 }
-
