@@ -4,11 +4,8 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 /**
- * @description Vitest configuration
- * @details
- * - Keeps test configuration isolated from build config
- * - jsdom environment for React component testing
- * - Same path aliases as main config for consistency
+ * Vitest configuration for unit testing.
+ * Uses jsdom for React component testing with same aliases as vite.config.ts.
  */
 export default defineConfig({
     plugins: [react()],

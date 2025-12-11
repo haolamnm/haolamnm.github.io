@@ -1,6 +1,6 @@
 /**
- * @description Build-time script to generate posts manifest from MDX frontmatter
- * @details Runs before vite build to create JSON metadata without bundling MDX content
+ * Build script to generate posts manifest from MDX frontmatter.
+ * Creates JSON metadata file for lazy-loading without bundling full MDX.
  */
 
 import { readdirSync, readFileSync, writeFileSync, existsSync } from "fs";
@@ -8,20 +8,16 @@ import { join, basename, dirname } from "path";
 import { fileURLToPath } from "url";
 import matter from "gray-matter";
 
-interface PostMeta {
-    slug: string;
-    title: string;
-    date: string;
-    excerpt: string;
-    tags: string[];
-}
+import type { PostMeta } from "../src/lib/types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const POSTS_DIR = join(__dirname, "../src/posts");
 const OUTPUT_PATH = join(__dirname, "../src/lib/posts-manifest.json");
 
+/**
+ * Generate posts manifest from MDX files.
+ */
 function generateManifest(): void {
-    // Check if posts directory exists
     if (!existsSync(POSTS_DIR)) {
         console.log("No posts directory found, creating empty manifest");
         writeFileSync(OUTPUT_PATH, JSON.stringify([], null, 2));
@@ -35,11 +31,9 @@ function generateManifest(): void {
         const content = readFileSync(filePath, "utf-8");
         const { data } = matter(content);
 
-        const slug = basename(file, ".mdx");
-
         return {
-            slug,
-            title: data.title ?? slug,
+            slug: basename(file, ".mdx"),
+            title: data.title ?? basename(file, ".mdx"),
             date: data.date ?? new Date().toISOString().split("T")[0],
             excerpt: data.excerpt ?? "",
             tags: data.tags ?? [],

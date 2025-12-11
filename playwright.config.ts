@@ -1,8 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * @description Playwright configuration for E2E tests
- * @details E2E tests verify critical user flows work correctly in real browsers
+ * Playwright E2E test configuration.
+ * Tests critical user flows in Chromium and Firefox.
  */
 export default defineConfig({
     testDir: "./e2e",
@@ -15,7 +15,6 @@ export default defineConfig({
         baseURL: "http://localhost:5173",
         trace: "on-first-retry",
     },
-
     projects: [
         {
             name: "chromium",
@@ -26,7 +25,6 @@ export default defineConfig({
             use: { ...devices["Desktop Firefox"] },
         },
     ],
-
     webServer: {
         command: "bun run dev",
         url: "http://localhost:5173",
