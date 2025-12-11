@@ -1,17 +1,47 @@
 import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { getPostBySlug } from "@lib/posts";
+import { getPostBySlug, type Post } from "@lib/posts";
+import { pageContent } from "@lib/content";
 import { pageEntrance } from "@lib/animations";
 import { ArrowLeftIcon, CalendarIcon } from "@lib/icons";
 import Tag from "@components/Tag";
 import { SEO } from "@components/SEO";
 
+const content = pageContent.post;
+
 /**
- * @description Individual blog post page
+ * @description Individual blog post page with async loading
  */
 export default function PostPage() {
     const { slug } = useParams<{ slug: string }>();
-    const post = slug ? getPostBySlug(slug) : null;
+    const [post, setPost] = useState<Post | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!slug) {
+            setLoading(false);
+            return;
+        }
+
+        getPostBySlug(slug).then((result) => {
+            setPost(result);
+            setLoading(false);
+        });
+    }, [slug]);
+
+    if (loading) {
+        return (
+            <motion.div
+                variants={pageEntrance}
+                initial="hidden"
+                animate="visible"
+                className="text-center py-24"
+            >
+                <div className="text-zinc-400">Loading...</div>
+            </motion.div>
+        );
+    }
 
     if (!post) {
         return (
@@ -21,16 +51,16 @@ export default function PostPage() {
                 animate="visible"
                 className="text-center py-24"
             >
-                <h1 className="text-4xl font-bold font-mono mb-4">Post Not Found</h1>
+                <h1 className="text-4xl font-bold font-mono mb-4">{content.notFound.title}</h1>
                 <p className="text-zinc-400 mb-8">
-                    The post you're looking for doesn't exist.
+                    {content.notFound.description}
                 </p>
                 <Link
                     to="/thoughts"
                     className="inline-flex items-center gap-2 text-white hover:text-zinc-300 transition-colors"
                 >
                     <ArrowLeftIcon className="w-4 h-4" />
-                    Back to Thoughts
+                    {content.notFound.backLink}
                 </Link>
             </motion.div>
         );
@@ -58,7 +88,7 @@ export default function PostPage() {
                     className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-8"
                 >
                     <ArrowLeftIcon className="w-4 h-4" />
-                    Back to Thoughts
+                    {content.backLink}
                 </Link>
 
                 <header className="mb-12">

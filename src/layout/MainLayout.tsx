@@ -42,8 +42,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
             <SocialDock />
 
-            {/* Bug report link - bottom right corner */}
-            <footer className="fixed bottom-2 right-4 z-40">
+            {/* Bug report link - centered above dock on mobile, bottom right on desktop */}
+            <footer className="fixed bottom-20 md:bottom-2 left-0 right-0 md:left-auto md:right-4 z-40 flex justify-center md:justify-end">
                 <a
                     href={footerContent.bugReport.url}
                     target="_blank"

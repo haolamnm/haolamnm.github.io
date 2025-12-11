@@ -46,6 +46,14 @@ export const pageContent = {
         description: "The page you're looking for doesn't exist or has been moved.",
         backHome: "Back to Home",
     },
+    post: {
+        notFound: {
+            title: "Post Not Found",
+            description: "The post you're looking for doesn't exist.",
+            backLink: "Back to Thoughts",
+        },
+        backLink: "Back to Thoughts",
+    },
 } as const;
 
 /**
