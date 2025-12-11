@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Navigation from "@components/Navigation";
 import SocialDock from "@components/SocialDock";
@@ -9,12 +9,31 @@ interface MainLayoutProps {
     children: ReactNode;
 }
 
-/** Resets scroll position on route change */
+/**
+ * Resets scroll position and moves focus on route change.
+ * Focus management ensures screen reader users start at page content.
+ * Skips on initial load to prevent focus ring flash.
+ */
 function ScrollToTop() {
     const { pathname } = useLocation();
+    const isInitialMount = useRef(true);
 
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        // Skip focus management on initial mount to prevent focus ring flash
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            return;
+        }
+
+        // Move focus to main content for screen reader accessibility
+        const main = document.querySelector("main");
+        if (main) {
+            main.setAttribute("tabindex", "-1");
+            main.style.outline = "none"; // Prevent any focus ring
+            main.focus({ preventScroll: true });
+        }
     }, [pathname]);
 
     return null;
@@ -39,7 +58,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
             <SocialDock />
 
-            <footer className="fixed bottom-20 md:bottom-2 left-0 right-0 md:left-auto md:right-4 z-40 flex justify-center md:justify-end">
+            <footer className="fixed bottom-1 md:bottom-2 left-0 right-0 md:left-auto md:right-4 z-40 flex justify-center md:justify-end">
                 <a
                     href={footerContent.bugReport.url}
                     target="_blank"
