@@ -1,7 +1,9 @@
 /**
- * @fileoverview Site configuration for core identity and settings
- * @description Single source of truth for personal info used across the site
+ * Site configuration and social links.
+ * Single source of truth for personal info.
  */
+
+import type { SocialLink, NavItem } from "./types";
 
 export const siteConfig = {
     name: "Hao Lam",
@@ -10,29 +12,9 @@ export const siteConfig = {
         "Exploring the frontiers of Computer Vision. Bridging the gap between pixels and perception.",
     email: "me@haolamnm.dev",
     domain: "haolamnm.dev",
-};
+} as const;
 
-/**
- * @description Social link types with discriminated union for primary links
- */
-type Platform = "github" | "linkedin" | "facebook" | "email" | "resume";
-
-interface BaseSocialLink {
-    href: string;
-    label: string;
-    platform: Platform;
-}
-
-interface RegularSocialLink extends BaseSocialLink {
-    isPrimary?: false;
-}
-
-interface PrimarySocialLink extends BaseSocialLink {
-    isPrimary: true;
-}
-
-export type SocialLink = RegularSocialLink | PrimarySocialLink;
-
+/** Social links displayed in SocialDock */
 export const socialLinks: readonly SocialLink[] = [
     {
         href: "https://github.com/haolamnm",
@@ -62,8 +44,9 @@ export const socialLinks: readonly SocialLink[] = [
     },
 ];
 
-export const navItems = [
+/** Navigation items for main nav */
+export const navItems: readonly NavItem[] = [
     { path: "/", label: "Home" },
     { path: "/projects", label: "Projects" },
     { path: "/thoughts", label: "Thoughts" },
-] as const;
+];

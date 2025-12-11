@@ -1,8 +1,4 @@
-/**
- * @fileoverview Centralized project data
- * @description Single source of truth for project information, easy to update and extend
- */
-
+/** Project metadata */
 export interface Project {
     id: string;
     title: string;
@@ -15,6 +11,7 @@ export interface Project {
     featured?: boolean;
 }
 
+/** List of projects */
 export const projects: Project[] = [
     {
         id: "jneurite",

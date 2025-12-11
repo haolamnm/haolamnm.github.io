@@ -1,13 +1,11 @@
 /**
- * @fileoverview Centralized content for all UI text
- * @description Single source of truth for content - makes updates instant and keeps components clean
+ * Centralized UI content.
+ * Single source of truth for all text content.
  */
 
 import { siteConfig } from "./config";
 
-/**
- * Hero section content
- */
+/** Hero section content */
 export const heroContent = {
     name: siteConfig.name,
     role: siteConfig.role,
@@ -21,9 +19,7 @@ export const heroContent = {
     description: siteConfig.description,
 } as const;
 
-/**
- * Page-specific content
- */
+/** Page-specific content */
 export const pageContent = {
     projects: {
         title: "Projects",
@@ -56,9 +52,7 @@ export const pageContent = {
     },
 } as const;
 
-/**
- * Footer content
- */
+/** Footer content */
 export const footerContent = {
     bugReport: {
         text: "Found a bug?",
@@ -66,9 +60,7 @@ export const footerContent = {
     },
 } as const;
 
-/**
- * SEO defaults
- */
+/** SEO defaults */
 export const seoContent = {
     defaultTitle: `${siteConfig.name} | ${siteConfig.role}`,
     defaultDescription: siteConfig.description,

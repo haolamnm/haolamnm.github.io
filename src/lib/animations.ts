@@ -1,18 +1,18 @@
 import type { Variants } from "framer-motion";
 
 /**
- * @description Shared animation configurations
- * @details Eliminates duplicate animation variants across pages
+ * Shared animation configurations.
+ * Centralized variants for consistent motion across pages.
  */
 
-// Standard spring config for consistent feel
+/** Spring transition with natural feel */
 export const springConfig = {
     type: "spring" as const,
     stiffness: 100,
     damping: 15,
 };
 
-// Stagger container for lists
+/** Container with staggered children */
 export const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -21,7 +21,7 @@ export const staggerContainer: Variants = {
     },
 };
 
-// Fade up animation for list items
+/** Fade up animation for list items */
 export const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -31,7 +31,7 @@ export const fadeInUp: Variants = {
     },
 };
 
-// Page entrance animation
+/** Page entrance animation */
 export const pageEntrance: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
