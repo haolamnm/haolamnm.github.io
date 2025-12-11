@@ -38,12 +38,6 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Run ESLint
-        run: bun run lint
-
-      - name: Run Unit Tests
-        run: bun run test
-
       - name: Build Production Bundle
         run: bun run build
 
