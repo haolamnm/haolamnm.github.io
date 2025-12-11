@@ -1,9 +1,9 @@
 /**
  * @description Handles loading and parsing of .mdx files for posts
- * - Loads .mdx files at build time using Vite's import.meta.glob
- * - Extracts frontmatter for listing without loading full content
- * - Provides getAllPosts() and getPostBySlug() for pages
+ * @details Uses build-time manifest for listing, lazy loads content on demand
  */
+
+import postsManifest from "./posts-manifest.json";
 
 export interface PostMeta {
     slug: string;
@@ -18,61 +18,35 @@ export interface Post extends PostMeta {
 }
 
 /**
- * @description eager: true - MDX modules need to be loaded to access exports
- * @description type definition: MDX exports frontmatter as named export
+ * @description Lazy-loaded modules - only loaded when specific post is requested
  */
 const postModules = import.meta.glob<{
     default: React.ComponentType;
-    frontmatter?: {
-        title?: string;
-        date?: string;
-        excerpt?: string;
-        tags?: string[];
-    };
-}>("../posts/*.mdx", { eager: true });
+}>("../posts/*.mdx");
 
 /**
  * @description Get all posts metadata for listing
- * @details Defensive defaults: MDX frontmatter might be missing or incomplete
+ * @details Returns pre-built manifest - no MDX parsing required
  */
 export function getAllPosts(): PostMeta[] {
-    const posts = Object.entries(postModules).map(([path, mod]) => {
-        const slug = path.replace("../posts/", "").replace(".mdx", "");
-        const fm = mod.frontmatter ?? {};
-
-        return {
-            slug,
-            title: fm.title ?? slug,
-            date: fm.date ?? new Date().toISOString(),
-            excerpt: fm.excerpt ?? "",
-            tags: fm.tags ?? [],
-        };
-    });
-
-    // Sort by date descending: Newest posts first
-    return posts.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+    return postsManifest as PostMeta[];
 }
 
 /**
- * @description Get a single post by slug
+ * @description Get a single post by slug (async for lazy loading)
  */
-export function getPostBySlug(slug: string): Post | null {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+    const meta = postsManifest.find((p) => p.slug === slug) as PostMeta | undefined;
+    if (!meta) return null;
+
     const path = `../posts/${slug}.mdx`;
-    const mod = postModules[path];
+    const loader = postModules[path];
+    if (!loader) return null;
 
-    if (!mod) return null;
-
-    const fm = mod.frontmatter ?? {};
+    const mod = await loader();
 
     return {
-        slug,
-        title: fm.title ?? slug,
-        date: fm.date ?? new Date().toISOString(),
-        excerpt: fm.excerpt ?? "",
-        tags: fm.tags ?? [],
+        ...meta,
         Content: mod.default,
     };
 }
-
