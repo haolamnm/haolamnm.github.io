@@ -217,6 +217,7 @@ export default function ParticleField() {
     return (
         <motion.canvas
             ref={canvasRef}
+            data-testid="particle-canvas"
             className="fixed inset-0 pointer-events-none z-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -3,6 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * Playwright E2E test configuration.
  * Tests critical user flows in Chromium and Firefox.
+ * Visual tests use preview server to avoid dev-mode artifacts.
  */
 export default defineConfig({
     testDir: "./e2e",
@@ -19,15 +20,42 @@ export default defineConfig({
         {
             name: "chromium",
             use: { ...devices["Desktop Chrome"] },
+            testIgnore: /visual\.spec\.ts/,
         },
         {
             name: "firefox",
             use: { ...devices["Desktop Firefox"] },
+            testIgnore: /visual\.spec\.ts/,
+        },
+        // Visual tests run against preview (production build) to avoid HMR artifacts
+        {
+            name: "visual-chromium",
+            use: {
+                ...devices["Desktop Chrome"],
+                baseURL: "http://localhost:4173",
+            },
+            testMatch: /visual\.spec\.ts/,
+        },
+        {
+            name: "visual-firefox",
+            use: {
+                ...devices["Desktop Firefox"],
+                baseURL: "http://localhost:4173",
+            },
+            testMatch: /visual\.spec\.ts/,
         },
     ],
-    webServer: {
-        command: "bun run dev",
-        url: "http://localhost:5173",
-        reuseExistingServer: !process.env.CI,
-    },
+    webServer: [
+        {
+            command: "bun run dev",
+            url: "http://localhost:5173",
+            reuseExistingServer: !process.env.CI,
+        },
+        {
+            command: "bun run build && bun run preview",
+            url: "http://localhost:4173",
+            reuseExistingServer: !process.env.CI,
+        },
+    ],
 });
+
