@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { seoContent } from "@lib/content";
+import { siteConfig, socialLinks } from "@lib/config";
 
 interface SEOProps {
     title?: string;
@@ -34,15 +35,14 @@ export function SEO({
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Person",
-        name: "Hao Lam",
-        url: seoContent.siteUrl,
-        sameAs: [
-            "https://facebook.com/haolamnm",
-            "https://github.com/haolamnm",
-            "https://linkedin.com/in/haolamnm",
-        ],
-        jobTitle: "Computer Vision",
+        name: siteConfig.name,
+        url: `https://${siteConfig.domain}`,
+        jobTitle: siteConfig.role,
+        description: siteConfig.description,
         image: fullImageUrl,
+        sameAs: socialLinks
+            .map((link) => link.href)
+            .filter((href) => href.startsWith("https://")),
     };
 
     return (
