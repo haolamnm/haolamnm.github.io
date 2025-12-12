@@ -31,6 +31,7 @@ function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number): T 
  * Mouse-following particle animation for hero background.
  * Respects prefers-reduced-motion for accessibility.
  * Uses edge-biased distribution (85% edges, 15% center).
+ * On touch devices, particles only react while finger is on screen.
  */
 export default function ParticleField() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -38,6 +39,7 @@ export default function ParticleField() {
         return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     });
     const mouseRef = useRef({ x: 0, y: 0 });
+    const isPointerActiveRef = useRef(false);
     const particlesRef = useRef<Particle[]>([]);
     const animationRef = useRef<number>(0);
 
@@ -64,7 +66,6 @@ export default function ParticleField() {
         };
         resize();
 
-        // Debounce resize to prevent expensive redraws during window drag
         const debouncedResize = debounce(resize, 200);
         window.addEventListener("resize", debouncedResize);
 
@@ -81,16 +82,16 @@ export default function ParticleField() {
             if (edgeBias) {
                 const edge = Math.floor(Math.random() * 4);
                 switch (edge) {
-                    case 0: // Top
+                    case 0:
                         return { x: Math.random() * width, y: Math.random() * height * 0.3 };
-                    case 1: // Bottom
+                    case 1:
                         return {
                             x: Math.random() * width,
                             y: height * 0.7 + Math.random() * height * 0.3,
                         };
-                    case 2: // Left
+                    case 2:
                         return { x: Math.random() * width * 0.3, y: Math.random() * height };
-                    default: // Right
+                    default:
                         return {
                             x: width * 0.7 + Math.random() * width * 0.3,
                             y: Math.random() * height,
@@ -118,38 +119,68 @@ export default function ParticleField() {
 
         const handleMouseMove = (e: MouseEvent) => {
             mouseRef.current = { x: e.clientX, y: e.clientY };
+            isPointerActiveRef.current = true;
         };
+        const handleMouseLeave = () => {
+            isPointerActiveRef.current = false;
+        };
+
+        const handleTouchStart = (e: TouchEvent) => {
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                mouseRef.current = { x: touch.clientX, y: touch.clientY };
+                isPointerActiveRef.current = true;
+            }
+        };
+        const handleTouchMove = (e: TouchEvent) => {
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                mouseRef.current = { x: touch.clientX, y: touch.clientY };
+            }
+        };
+        const handleTouchEnd = () => {
+            isPointerActiveRef.current = false;
+        };
+
         window.addEventListener("mousemove", handleMouseMove, { passive: true });
+        window.addEventListener("mouseleave", handleMouseLeave);
+        window.addEventListener("touchstart", handleTouchStart, { passive: true });
+        window.addEventListener("touchmove", handleTouchMove, { passive: true });
+        window.addEventListener("touchend", handleTouchEnd);
+        window.addEventListener("touchcancel", handleTouchEnd);
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const mouse = mouseRef.current;
+            const isActive = isPointerActiveRef.current;
 
             particlesRef.current.forEach((p) => {
-                const dx = mouse.x - p.x;
-                const dy = mouse.y - p.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (isActive) {
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
 
-                const { attractRadius, repelRadius, attractForce, repelForce, friction } = PARTICLE_CONFIG;
+                    const { attractRadius, repelRadius, attractForce, repelForce } = PARTICLE_CONFIG;
 
-                if (dist < repelRadius && dist > 0) {
-                    const force = ((repelRadius - dist) / repelRadius) * repelForce;
-                    p.vx -= (dx / dist) * force;
-                    p.vy -= (dy / dist) * force;
-                } else if (dist < attractRadius && dist > repelRadius) {
-                    const force =
-                        ((dist - repelRadius) / (attractRadius - repelRadius)) * attractForce;
-                    p.vx += (dx / dist) * force;
-                    p.vy += (dy / dist) * force;
+                    if (dist < repelRadius && dist > 0) {
+                        const force = ((repelRadius - dist) / repelRadius) * repelForce;
+                        p.vx -= (dx / dist) * force;
+                        p.vy -= (dy / dist) * force;
+                    } else if (dist < attractRadius && dist > repelRadius) {
+                        const force =
+                            ((dist - repelRadius) / (attractRadius - repelRadius)) * attractForce;
+                        p.vx += (dx / dist) * force;
+                        p.vy += (dy / dist) * force;
+                    }
                 }
 
+                const { friction } = PARTICLE_CONFIG;
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vx *= friction;
                 p.vy *= friction;
 
-                // Wrap around edges
                 if (p.x < 0) p.x = canvas.width;
                 if (p.x > canvas.width) p.x = 0;
                 if (p.y < 0) p.y = canvas.height;
@@ -172,6 +203,11 @@ export default function ParticleField() {
         return () => {
             window.removeEventListener("resize", debouncedResize);
             window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseleave", handleMouseLeave);
+            window.removeEventListener("touchstart", handleTouchStart);
+            window.removeEventListener("touchmove", handleTouchMove);
+            window.removeEventListener("touchend", handleTouchEnd);
+            window.removeEventListener("touchcancel", handleTouchEnd);
             cancelAnimationFrame(animationRef.current);
         };
     }, [prefersReducedMotion]);
