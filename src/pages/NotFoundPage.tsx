@@ -11,7 +11,7 @@ export default function NotFoundPage() {
             animate={{ opacity: 1, y: 0 }}
             className="min-h-[60vh] flex flex-col items-center justify-center text-center"
         >
-            <h1 className="text-8xl font-bold font-mono text-white/10 mb-4">
+            <h1 className="text-8xl font-bold font-mono text-white/10 mb-4" aria-hidden="true">
                 {pageContent.notFound.title}
             </h1>
             <h2 className="text-2xl font-semibold text-white mb-4">
