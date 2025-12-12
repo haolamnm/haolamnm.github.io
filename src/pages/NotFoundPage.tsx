@@ -3,10 +3,7 @@ import { motion } from "framer-motion";
 import { HomeIcon, ArrowLeftIcon } from "@lib/icons";
 import { pageContent } from "@lib/content";
 
-/**
- * @description 404 page for missing routes
- * @remarks Provides navigation back to safe pages
- */
+/** 404 page with navigation back to safe pages */
 export default function NotFoundPage() {
     return (
         <motion.div

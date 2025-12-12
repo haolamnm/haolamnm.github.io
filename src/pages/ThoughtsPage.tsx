@@ -12,10 +12,7 @@ import { SEO } from "@components/SEO";
 
 const content = pageContent.thoughts;
 
-/**
- * @description Thoughts page - blog listing with search and pagination
- * @details Uses useSearchList hook for search/filter/pagination logic
- */
+/** Blog listing with search and pagination */
 export default function ThoughtsPage() {
     const allPosts = getAllPosts();
     const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
