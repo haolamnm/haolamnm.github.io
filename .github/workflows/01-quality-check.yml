@@ -50,6 +50,10 @@ jobs:
           path: dist/
           retention-days: 7
 
+      - name: Check for Broken Links
+        run: bun run test:links
+        continue-on-error: true
+
   lighthouse:
     name: Lighthouse Performance Audit
     runs-on: ubuntu-latest
