@@ -27,12 +27,11 @@ export default defineConfig({
             use: { ...devices["Desktop Firefox"] },
             testIgnore: /visual\.spec\.ts/,
         },
-        // Visual tests run against preview (production build) to avoid HMR artifacts
         {
             name: "visual-chromium",
             use: {
                 ...devices["Desktop Chrome"],
-                baseURL: "http://localhost:4173",
+                baseURL: "http://localhost:5173",
             },
             testMatch: /visual\.spec\.ts/,
         },
@@ -40,7 +39,7 @@ export default defineConfig({
             name: "visual-firefox",
             use: {
                 ...devices["Desktop Firefox"],
-                baseURL: "http://localhost:4173",
+                baseURL: "http://localhost:5173",
             },
             testMatch: /visual\.spec\.ts/,
         },
@@ -49,11 +48,6 @@ export default defineConfig({
         {
             command: "bun run dev",
             url: "http://localhost:5173",
-            reuseExistingServer: !process.env.CI,
-        },
-        {
-            command: "bun run build && bun run preview",
-            url: "http://localhost:4173",
             reuseExistingServer: !process.env.CI,
         },
     ],

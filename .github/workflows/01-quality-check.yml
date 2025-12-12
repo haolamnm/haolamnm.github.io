@@ -35,10 +35,19 @@ jobs:
         run: bun run lint
 
       - name: Type Check
-        run: bunx tsc --noEmit
+        run: bun run typecheck
 
       - name: Run Unit Tests
-        run: bun run test
+        run: bun run test:unit
+
+      - name: Install Playwright Browsers
+        run: bunx playwright install --with-deps
+
+      - name: Run E2E Tests
+        run: bun run test:e2e
+
+      - name: Run Accessibility Tests
+        run: bun run test:a11y
 
       - name: Build Production Bundle
         run: bun run build
