@@ -10,9 +10,13 @@
   <!-- Google Search Console Verfication -->
   <meta name="google-site-verification" content="vKzcVvHatyDl5YoQPZzkIHqzbbO03V3zbFxPPfst3KI" />
 
-  <!-- Content Security Policy -->
+  <!-- Security: Referrer Policy -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- Security: Content Security Policy -->
   <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self';" />
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+
   <!-- SEO Meta Tags -->
   <title>Hao Lam | Computer Vision</title>
   <meta name="description"
