@@ -56,7 +56,7 @@ export default defineConfig({
     react(),
     Sitemap({
       hostname: "https://haolamnm.dev",
-      dynamicRoutes: ["/", "/projects", "/thoughts", ...getPostSlugs()],
+      dynamicRoutes: ["/projects", "/thoughts", ...getPostSlugs()],
     }),
     // Bundle analyzer - generates stats.html with gzip/brotli sizes
     visualizer({
