@@ -48,13 +48,16 @@ async function checkLinks(): Promise<void> {
 
         if (exitCode !== 0) {
             console.error("\nBroken links detected!");
+            preview.kill("SIGKILL");
             process.exit(1);
         }
 
         console.log("\nAll links are valid!");
     } finally {
-        preview.kill();
+        preview.kill("SIGKILL");
     }
+
+    process.exit(0);
 }
 
 checkLinks().catch((error) => {
