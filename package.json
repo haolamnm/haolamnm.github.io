@@ -59,6 +59,7 @@
     "gray-matter": "^4.0.3",
     "jsdom": "^26.1.0",
     "katex": "^0.16.21",
+    "linkinator": "^7.5.1",
     "postcss": "^8.5.4",
     "prettier": "^3.5.3",
     "rehype-katex": "^7.0.1",
