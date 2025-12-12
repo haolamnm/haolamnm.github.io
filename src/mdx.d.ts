@@ -1,7 +1,4 @@
-/**
- * @description mdx.d.ts - extends Vitest types with jest-dom matchers
- * @details Provides TypeScript support for custom matchers like toBeInTheDocument()
- */
+/** MDX module type declarations for TypeScript */
 declare module "*.mdx" {
     import type { ComponentType, ReactNode, HTMLAttributes } from "react";
 
@@ -12,7 +9,6 @@ declare module "*.mdx" {
         tags: string[];
     };
 
-    // Allows overriding MDX elements (like pre for copy button)
     interface MDXProps {
         components?: Record<
             string,

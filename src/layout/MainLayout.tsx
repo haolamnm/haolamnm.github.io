@@ -21,13 +21,11 @@ function ScrollToTop() {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // Skip focus management on initial mount to prevent focus ring flash
         if (isInitialMount.current) {
             isInitialMount.current = false;
             return;
         }
 
-        // Move focus to main content for screen reader accessibility
         const main = document.querySelector("main");
         if (main) {
             main.setAttribute("tabindex", "-1");

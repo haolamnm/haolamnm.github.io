@@ -50,27 +50,22 @@ export function SEO({
             <title>{fullTitle}</title>
             <meta name="description" content={description} />
 
-            {/* Theme color for mobile browser chrome */}
             <meta name="theme-color" content="#09090b" />
 
-            {/* Robots and canonical URL */}
             <meta name="robots" content="index, follow" />
             <link rel="canonical" href={fullUrl} />
 
-            {/* Open Graph */}
             <meta property="og:type" content={type} />
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={fullImageUrl} />
             <meta property="og:url" content={fullUrl} />
 
-            {/* Twitter Card */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={fullImageUrl} />
 
-            {/* JSON-LD structured data */}
             <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         </Helmet>
     );

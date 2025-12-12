@@ -4,10 +4,7 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 import "./index.css";
 
-/**
- * @description StrictMode: Catches potential issues in development
- * @details Double-renders components to detect side effects. Warns about deprecated lifecycle methods.
- */
+/** Application entry point */
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <HelmetProvider>
