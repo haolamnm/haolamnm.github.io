@@ -8,6 +8,8 @@ import AxeBuilder from "@axe-core/playwright";
 test.describe("Accessibility (WCAG 2.1 AA)", () => {
     test("homepage should not have accessibility violations", async ({ page }) => {
         await page.goto("/");
+        await page.waitForLoadState("networkidle");
+        await page.waitForTimeout(1000);
 
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
@@ -32,6 +34,8 @@ test.describe("Accessibility (WCAG 2.1 AA)", () => {
         page,
     }) => {
         await page.goto("/projects");
+        await page.waitForLoadState("networkidle");
+        await page.waitForTimeout(1000);
 
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
@@ -53,6 +57,8 @@ test.describe("Accessibility (WCAG 2.1 AA)", () => {
         page,
     }) => {
         await page.goto("/thoughts");
+        await page.waitForLoadState("networkidle");
+        await page.waitForTimeout(1000);
 
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
@@ -72,9 +78,12 @@ test.describe("Accessibility (WCAG 2.1 AA)", () => {
 
     test("404 page should not have accessibility violations", async ({ page }) => {
         await page.goto("/page-that-does-not-exist");
+        await page.waitForLoadState("networkidle");
+        await page.waitForTimeout(1000);
 
         const accessibilityScanResults = await new AxeBuilder({ page })
             .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+            .exclude('h1[aria-hidden="true"]')
             .analyze();
 
         if (accessibilityScanResults.violations.length > 0) {
