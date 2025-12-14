@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import { copyFileSync, existsSync, readFileSync } from "fs";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import mdx from "@mdx-js/rollup";
 import remarkGfm from "remark-gfm";
@@ -39,6 +40,7 @@ function getPostSlugs(): string[] {
  */
 export default defineConfig({
   plugins: [
+    tailwindcss(),
     mdx({
       remarkPlugins: [
         remarkGfm,

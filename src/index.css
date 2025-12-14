@@ -27,9 +27,7 @@
   font-display: swap;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* ============================================
    DESIGN TOKENS
@@ -89,7 +87,9 @@
 
   /* Glass Button - Interactive glass element */
   .glass-button {
-    @apply glass-card px-4 py-2 cursor-pointer;
+    @apply bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl;
+    @apply transition-all duration-300 ease-out;
+    @apply px-4 py-2 cursor-pointer;
     @apply active:scale-95;
   }
 
@@ -131,7 +131,7 @@
 @layer utilities {
 
   .text-gradient {
-    @apply bg-gradient-to-r from-white via-zinc-300 to-white bg-clip-text text-transparent;
+    @apply bg-linear-to-r from-white via-zinc-300 to-white bg-clip-text text-transparent;
   }
 
   .glow {
@@ -166,7 +166,9 @@
    Blog post code blocks
    ============================================ */
 pre {
-  @apply glass-card p-4 overflow-x-auto font-mono text-sm relative;
+  @apply bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl;
+  @apply transition-all duration-300 ease-out;
+  @apply p-4 overflow-x-auto font-mono text-sm relative;
 }
 
 pre::before {
