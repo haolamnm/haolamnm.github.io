@@ -102,11 +102,11 @@ function PostCard({ post }: { post: PostMeta }) {
     const formattedDate = formatDate(post.date);
 
     return (
-        <motion.div variants={fadeInUp}>
+        <motion.div variants={fadeInUp} data-testid="post-card">
             <Link to={`/thoughts/${post.slug}`}>
                 <GlassCard className="group">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div className="flex-grow">
+                        <div className="grow">
                             <div className="flex flex-wrap gap-2 mb-2">
                                 {post.tags.map((tag) => (
                                     <Tag key={tag}>{tag}</Tag>

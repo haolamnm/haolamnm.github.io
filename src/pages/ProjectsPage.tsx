@@ -120,7 +120,7 @@ function ProjectCard({
                     {project.title}
                 </h2>
 
-                <p className="text-zinc-400 text-sm mb-4 flex-grow">
+                <p className="text-zinc-400 text-sm mb-4 grow">
                     {project.description}
                 </p>
 
