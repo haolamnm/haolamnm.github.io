@@ -28,6 +28,8 @@ interface UseSearchListResult<T> {
     loadMore: () => void;
 }
 
+const DEFAULT_ITEMS_PER_PAGE = 9;
+
 /**
  * Search, filter, and paginate a list of items.
  * Optimized with React 19's useDeferredValue for high-performance non-blocking filtering.
@@ -37,7 +39,7 @@ interface UseSearchListResult<T> {
 export function useSearchList<T>({
     items,
     searchFields,
-    itemsPerPage = 9,
+    itemsPerPage = DEFAULT_ITEMS_PER_PAGE,
 }: UseSearchListOptions<T>): UseSearchListResult<T> {
     const [query, setQuery] = useState("");
     const [visibleCount, setVisibleCount] = useState(itemsPerPage);

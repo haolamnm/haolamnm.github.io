@@ -42,6 +42,7 @@ export default function ParticleField() {
     const isPointerActiveRef = useRef(false);
     const particlesRef = useRef<Particle[]>([]);
     const animationRef = useRef<number>(0);
+    const RESIZE_DEBOUNCE_MS = 200;
 
     useEffect(() => {
         const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -66,7 +67,7 @@ export default function ParticleField() {
         };
         resize();
 
-        const debouncedResize = debounce(resize, 200);
+        const debouncedResize = debounce(resize, RESIZE_DEBOUNCE_MS);
         window.addEventListener("resize", debouncedResize);
 
         /**
