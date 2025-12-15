@@ -79,7 +79,7 @@ export default defineConfig({
     // Inject SEO tags at build time - Single Source of Truth
     {
       name: "html-inject-seo",
-      transformIndexHtml() {
+      transformIndexHtml(html) {
         const jsonLd = {
           "@context": "https://schema.org",
           "@type": "Person",
@@ -93,41 +93,19 @@ export default defineConfig({
             .filter((href) => href.startsWith("https://")),
         };
 
-        return [
-          {
-            tag: "title",
-            children: seoContent.defaultTitle,
-          },
-          {
-            tag: "meta",
-            attrs: { name: "description", content: seoContent.defaultDescription },
-          },
-          {
-            tag: "meta",
-            attrs: { name: "author", content: siteConfig.name },
-          },
-          {
-            tag: "meta",
-            attrs: { property: "og:type", content: "website" },
-          },
-          {
-            tag: "meta",
-            attrs: { property: "og:title", content: seoContent.defaultTitle },
-          },
-          {
-            tag: "meta",
-            attrs: { property: "og:description", content: seoContent.defaultDescription },
-          },
-          {
-            tag: "meta",
-            attrs: { property: "og:image", content: "/og-image.png" },
-          },
-          {
-            tag: "script",
-            attrs: { type: "application/ld+json" },
-            children: JSON.stringify(jsonLd),
-          },
-        ];
+        const seoHtml = `<title>${seoContent.defaultTitle}</title>
+  <meta name="description" content="${seoContent.defaultDescription}">
+  <meta name="author" content="${siteConfig.name}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${seoContent.defaultTitle}">
+  <meta property="og:description" content="${seoContent.defaultDescription}">
+  <meta property="og:image" content="/og-image.png">
+  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
+
+        return html.replace(
+          "<!-- SEO Meta Tags are injected by Vite at build time -->",
+          seoHtml
+        );
       },
     },
   ],
