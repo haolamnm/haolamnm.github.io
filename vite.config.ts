@@ -14,6 +14,8 @@ import rehypeExternalLinks from "rehype-external-links";
 import Sitemap from "vite-plugin-sitemap";
 import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
+import { siteConfig, socialLinks } from "./src/lib/config";
+import { seoContent } from "./src/lib/content";
 
 /**
  * Load post slugs from manifest for sitemap generation.
@@ -72,6 +74,60 @@ export default defineConfig({
       name: "copy-404-for-spa-routing",
       closeBundle() {
         copyFileSync("dist/index.html", "dist/404.html");
+      },
+    },
+    // Inject SEO tags at build time - Single Source of Truth
+    {
+      name: "html-inject-seo",
+      transformIndexHtml() {
+        const jsonLd = {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: siteConfig.name,
+          url: `https://${siteConfig.domain}`,
+          jobTitle: siteConfig.role,
+          description: siteConfig.description,
+          image: `https://${siteConfig.domain}/og-image.png`,
+          sameAs: socialLinks
+            .map((link) => link.href)
+            .filter((href) => href.startsWith("https://")),
+        };
+
+        return [
+          {
+            tag: "title",
+            children: seoContent.defaultTitle,
+          },
+          {
+            tag: "meta",
+            attrs: { name: "description", content: seoContent.defaultDescription },
+          },
+          {
+            tag: "meta",
+            attrs: { name: "author", content: siteConfig.name },
+          },
+          {
+            tag: "meta",
+            attrs: { property: "og:type", content: "website" },
+          },
+          {
+            tag: "meta",
+            attrs: { property: "og:title", content: seoContent.defaultTitle },
+          },
+          {
+            tag: "meta",
+            attrs: { property: "og:description", content: seoContent.defaultDescription },
+          },
+          {
+            tag: "meta",
+            attrs: { property: "og:image", content: "/og-image.png" },
+          },
+          {
+            tag: "script",
+            attrs: { type: "application/ld+json" },
+            children: JSON.stringify(jsonLd),
+          },
+        ];
       },
     },
   ],

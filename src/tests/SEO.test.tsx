@@ -21,11 +21,11 @@ describe("SEO", () => {
         );
     };
 
-    it("renders default title when no title provided", async () => {
+    it("does not render default title (handled by index.html)", async () => {
         renderWithProviders(<SEO />);
 
         await waitFor(() => {
-            expect(document.title).toContain("Hao Lam");
+            expect(document.title).toBe("");
         });
     });
 
@@ -38,7 +38,7 @@ describe("SEO", () => {
         });
     });
 
-    it("renders meta description", async () => {
+    it("renders custom meta description", async () => {
         renderWithProviders(<SEO description="Test description" />);
 
         await waitFor(() => {
@@ -47,15 +47,25 @@ describe("SEO", () => {
         });
     });
 
-    it("renders Open Graph meta tags", async () => {
+    it("does not render default meta description", async () => {
+        renderWithProviders(<SEO />);
+
+        await waitFor(() => {
+            const meta = document.querySelector('meta[name="description"]');
+            expect(meta).toBeNull();
+        });
+    });
+
+    it("renders Open Graph meta tags for custom pages", async () => {
         renderWithProviders(<SEO title="Test Page" />);
 
         await waitFor(() => {
             const ogTitle = document.querySelector('meta[property="og:title"]');
             expect(ogTitle?.getAttribute("content")).toContain("Test Page");
 
+            // Default og:type is 'website', so it should NOT be rendered
             const ogType = document.querySelector('meta[property="og:type"]');
-            expect(ogType?.getAttribute("content")).toBe("website");
+            expect(ogType).toBeNull();
         });
     });
 

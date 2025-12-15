@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { seoContent } from "@lib/content";
-import { siteConfig, socialLinks } from "@lib/config";
 
 interface SEOProps {
     title?: string;
@@ -31,42 +30,36 @@ export function SEO({
 
     const fullUrl = `${seoContent.siteUrl}${location.pathname}`;
 
-    // JSON-LD structured data for Google Knowledge Panels
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: siteConfig.name,
-        url: `https://${siteConfig.domain}`,
-        jobTitle: siteConfig.role,
-        description: siteConfig.description,
-        image: fullImageUrl,
-        sameAs: socialLinks
-            .map((link) => link.href)
-            .filter((href) => href.startsWith("https://")),
-    };
+    const isDefaultTitle = fullTitle === seoContent.defaultTitle;
+    const isDefaultDescription = description === seoContent.defaultDescription;
+    const isDefaultImage = image === "/og-image.png";
+    const isDefaultType = type === "website";
 
     return (
         <Helmet>
-            <title>{fullTitle}</title>
-            <meta name="description" content={description} />
+            {!isDefaultTitle && <title>{fullTitle}</title>}
+
+            {!isDefaultDescription && (
+                <meta name="description" content={description} />
+            )}
 
             <meta name="theme-color" content="#09090b" />
 
             <meta name="robots" content="index, follow" />
             <link rel="canonical" href={fullUrl} />
 
-            <meta property="og:type" content={type} />
-            <meta property="og:title" content={fullTitle} />
-            <meta property="og:description" content={description} />
-            <meta property="og:image" content={fullImageUrl} />
+            {!isDefaultType && <meta property="og:type" content={type} />}
+            {!isDefaultTitle && <meta property="og:title" content={fullTitle} />}
+            {!isDefaultDescription && (
+                <meta property="og:description" content={description} />
+            )}
+            {!isDefaultImage && <meta property="og:image" content={fullImageUrl} />}
             <meta property="og:url" content={fullUrl} />
 
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={fullImageUrl} />
-
-            <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         </Helmet>
     );
 }
