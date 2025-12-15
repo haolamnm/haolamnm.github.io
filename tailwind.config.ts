@@ -13,12 +13,7 @@ const config: Config = {
                 mono: ["JetBrains Mono", "Fira Code", "monospace"],
             },
             colors: {
-                owl: {
-                    bg: "#09090b",
-                    surface: "rgba(255, 255, 255, 0.05)",
-                    border: "rgba(255, 255, 255, 0.1)",
-                    "border-hover": "rgba(255, 255, 255, 0.2)",
-                },
+                // Extended colors can go here if needed
             },
             backdropBlur: {
                 "2xl": "40px",

@@ -32,6 +32,15 @@ export const PARTICLE_CONFIG = {
 
     /** Pulse animation speed multiplier */
     pulseSpeed: 0.02,
+
+    /** Debounce time for window resize events in ms */
+    resizeDebounceMs: 200,
+
+    /**
+     * Frame thickness for edge-biased generation.
+     * 0.3 means particles spawn in the outer 30% of the screen.
+     */
+    frameThickness: 0.3,
 } as const;
 
 export type ParticleConfig = typeof PARTICLE_CONFIG;

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { PARTICLE_CONFIG } from "@lib/particle-config";
+import { debounce } from "@lib/utils";
 
 interface Particle {
     id: number;
@@ -11,20 +12,6 @@ interface Particle {
     size: number;
     opacity: number;
     pulse: number;
-}
-
-/**
- * Create a debounced version of a function.
- * @param fn - Function to debounce
- * @param ms - Delay in milliseconds
- * @returns Debounced function
- */
-function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number): T {
-    let timer: number;
-    return ((...args: unknown[]) => {
-        clearTimeout(timer);
-        timer = window.setTimeout(() => fn(...args), ms);
-    }) as T;
 }
 
 /**
@@ -42,7 +29,6 @@ export default function ParticleField() {
     const isPointerActiveRef = useRef(false);
     const particlesRef = useRef<Particle[]>([]);
     const animationRef = useRef<number>(0);
-    const RESIZE_DEBOUNCE_MS = 200;
 
     useEffect(() => {
         const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -67,7 +53,7 @@ export default function ParticleField() {
         };
         resize();
 
-        const debouncedResize = debounce(resize, RESIZE_DEBOUNCE_MS);
+        const debouncedResize = debounce(resize, PARTICLE_CONFIG.resizeDebounceMs);
         window.addEventListener("resize", debouncedResize);
 
         /**
@@ -79,22 +65,24 @@ export default function ParticleField() {
             height: number
         ): { x: number; y: number } => {
             const edgeBias = Math.random() < PARTICLE_CONFIG.edgeBias;
+            const thickness = PARTICLE_CONFIG.frameThickness;
+            const innerStart = 1 - thickness;
 
             if (edgeBias) {
                 const edge = Math.floor(Math.random() * 4);
                 switch (edge) {
-                    case 0:
-                        return { x: Math.random() * width, y: Math.random() * height * 0.3 };
-                    case 1:
+                    case 0: // Top
+                        return { x: Math.random() * width, y: Math.random() * height * thickness };
+                    case 1: // Bottom
                         return {
                             x: Math.random() * width,
-                            y: height * 0.7 + Math.random() * height * 0.3,
+                            y: height * innerStart + Math.random() * height * thickness,
                         };
-                    case 2:
-                        return { x: Math.random() * width * 0.3, y: Math.random() * height };
-                    default:
+                    case 2: // Left
+                        return { x: Math.random() * width * thickness, y: Math.random() * height };
+                    default: // Right
                         return {
-                            x: width * 0.7 + Math.random() * width * 0.3,
+                            x: width * innerStart + Math.random() * width * thickness,
                             y: Math.random() * height,
                         };
                 }

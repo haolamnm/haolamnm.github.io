@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { HomeIcon, ArrowLeftIcon } from "@lib/icons";
 import { pageContent } from "@lib/content";
+import { pageEntrance } from "@lib/animations";
 
 /** 404 page with navigation back to safe pages */
 export default function NotFoundPage() {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={pageEntrance}
+            initial="hidden"
+            animate="visible"
             className="min-h-[60vh] flex flex-col items-center justify-center text-center"
         >
             <h1 className="text-8xl font-bold font-mono text-white/10 mb-4" aria-hidden="true">

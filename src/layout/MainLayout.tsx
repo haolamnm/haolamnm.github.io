@@ -48,6 +48,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
             <Navigation />
 
+            {/*
+              pt-20: Offset for fixed header (approx 80px)
+              pb-32: Offset for fixed social dock at bottom + breathing room
+            */}
             <main className="relative z-10 pt-20 pb-32 min-h-screen">
                 <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-6xl">
                     {children}

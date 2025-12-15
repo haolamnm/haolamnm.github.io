@@ -21,18 +21,37 @@ export const staggerContainer: Variants = {
     },
 };
 
-/** Fade up animation for list items */
-export const fadeInUp: Variants = {
-    hidden: { opacity: 0, y: 20 },
+/**
+ * Create a fade-in animation variant.
+ * @param yOffset - Distance to translate from (default: 20)
+ * @param duration - Transition duration (optional)
+ */
+export const createFadeIn = (yOffset = 20, duration?: number): Variants => ({
+    hidden: { opacity: 0, y: yOffset },
     visible: {
         opacity: 1,
         y: 0,
-        transition: springConfig,
+        transition: duration ? { duration } : springConfig,
     },
-};
+});
 
-/** Page entrance animation */
-export const pageEntrance: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+/** Fade up animation for list items (using spring physics) */
+export const fadeInUp = createFadeIn(20);
+
+/** Page entrance animation (standard fade up) */
+export const pageEntrance = createFadeIn(20);
+
+/** Hero name entrance (scale + fade) */
+export const heroEntrance: Variants = {
+    hidden: { opacity: 0, y: 10, scale: 0.98 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+            ...springConfig,
+            delay: 0.1,
+            duration: 0.6,
+        },
+    },
 };

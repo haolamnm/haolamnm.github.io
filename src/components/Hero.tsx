@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { heroContent } from "@lib/content";
-import { staggerContainer, fadeInUp, springConfig } from "@lib/animations";
+import { staggerContainer, fadeInUp, heroEntrance } from "@lib/animations";
 
 /** Hero section - landing page focal point */
 export default function Hero() {
@@ -22,9 +22,7 @@ export default function Hero() {
                 </motion.span>
 
                 <motion.h1
-                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ ...springConfig, delay: 0.1, duration: 0.6 }}
+                    variants={heroEntrance}
                     className="text-5xl md:text-7xl lg:text-8xl font-bold font-sans tracking-tight mb-6"
                 >
                     <span className="text-shimmer">{heroContent.name}</span>
