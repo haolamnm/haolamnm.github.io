@@ -3,12 +3,13 @@ import { motion } from "framer-motion";
 import { getAllPosts, type PostMeta } from "@lib/posts";
 import { formatDate } from "@lib/formatters";
 import { pageContent } from "@lib/content";
-import { SearchIcon, CalendarIcon, ArrowRightIcon } from "@lib/icons";
+import { CalendarIcon, ArrowRightIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
 import { useSearchList } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
 import Tag from "@components/Tag";
 import { SEO } from "@components/SEO";
+import { SearchInput } from "@components/SearchInput";
 
 const content = pageContent.thoughts;
 
@@ -45,18 +46,11 @@ export default function ThoughtsPage() {
                     transition={{ delay: 0.1 }}
                     className="mb-8"
                 >
-                    <div className="relative max-w-md">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-zinc-500 pointer-events-none">
-                            <SearchIcon />
-                        </div>
-                        <input
-                            type="text"
-                            placeholder={content.searchPlaceholder}
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 glass-card bg-white/5 border-white/10 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:border-white/20"
-                        />
-                    </div>
+                    <SearchInput
+                        value={query}
+                        onChange={setQuery}
+                        placeholder={content.searchPlaceholder}
+                    />
                 </motion.div>
 
                 <motion.div
@@ -102,7 +96,7 @@ function PostCard({ post }: { post: PostMeta }) {
     const formattedDate = formatDate(post.date);
 
     return (
-        <motion.div variants={fadeInUp} data-testid="post-card">
+        <motion.div variants={fadeInUp} data-testid="post-card" layout>
             <Link to={`/thoughts/${post.slug}`}>
                 <GlassCard className="group">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

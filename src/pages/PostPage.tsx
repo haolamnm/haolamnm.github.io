@@ -50,7 +50,7 @@ export default function PostPage() {
                 animate="visible"
                 className="text-center py-24"
             >
-                <div className="text-zinc-400">Loading...</div>
+                <div className="text-zinc-400">{content.loading}</div>
             </motion.div>
         );
     }

@@ -49,6 +49,7 @@ export const pageContent = {
         goBack: "Go Back",
     },
     post: {
+        loading: "Loading...",
         notFound: {
             title: "Post Not Found",
             description: "The post you're looking for doesn't exist.",

@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { projects, type Project } from "@lib/projects";
 import { pageContent } from "@lib/content";
-import { SearchIcon, GithubIcon, GlobeIcon, CodebergIcon } from "@lib/icons";
+import { GithubIcon, GlobeIcon, CodebergIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
 import { useSearchList } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
 import Tag from "@components/Tag";
 import { SEO } from "@components/SEO";
+import { SearchInput } from "@components/SearchInput";
+import { ExternalLink } from "@components/ExternalLink";
 
 const content = pageContent.projects;
 
@@ -42,18 +44,11 @@ export default function ProjectsPage() {
                     transition={{ delay: 0.1 }}
                     className="mb-8"
                 >
-                    <div className="relative max-w-md">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-zinc-500 pointer-events-none">
-                            <SearchIcon />
-                        </div>
-                        <input
-                            type="text"
-                            placeholder={content.searchPlaceholder}
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 glass-card bg-white/5 border-white/10 rounded-xl text-white placeholder:text-zinc-500 focus:outline-none focus:border-white/20"
-                        />
-                    </div>
+                    <SearchInput
+                        value={query}
+                        onChange={setQuery}
+                        placeholder={content.searchPlaceholder}
+                    />
                 </motion.div>
 
                 <motion.div
@@ -108,7 +103,7 @@ function ProjectCard({
     className?: string;
 }) {
     return (
-        <motion.div variants={fadeInUp}>
+        <motion.div variants={fadeInUp} layout>
             <GlassCard className={`h-full flex flex-col ${className}`} variant="hoverable">
                 <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map((tag) => (
@@ -126,40 +121,28 @@ function ProjectCard({
 
                 <div className="flex gap-3 mt-auto pt-4 border-t border-white/5">
                     {project.github && (
-                        <a
+                        <ExternalLink
                             href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
-                            aria-label={`View ${project.title} on GitHub`}
-                        >
-                            <GithubIcon className="w-4 h-4" />
-                            <span>{content.links.github}</span>
-                        </a>
+                            label={content.links.github}
+                            icon={<GithubIcon className="w-4 h-4" />}
+                            ariaLabel={`View ${project.title} on GitHub`}
+                        />
                     )}
                     {project.codeberg && (
-                        <a
+                        <ExternalLink
                             href={project.codeberg}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
-                            aria-label={`View ${project.title} on Codeberg`}
-                        >
-                            <CodebergIcon className="w-4 h-4" />
-                            <span>{content.links.codeberg}</span>
-                        </a>
+                            label={content.links.codeberg}
+                            icon={<CodebergIcon className="w-4 h-4" />}
+                            ariaLabel={`View ${project.title} on Codeberg`}
+                        />
                     )}
                     {project.website && (
-                        <a
+                        <ExternalLink
                             href={project.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
-                            aria-label={`Visit ${project.title} website`}
-                        >
-                            <GlobeIcon className="w-4 h-4" />
-                            <span>{content.links.website}</span>
-                        </a>
+                            label={content.links.website}
+                            icon={<GlobeIcon className="w-4 h-4" />}
+                            ariaLabel={`Visit ${project.title} website`}
+                        />
                     )}
                 </div>
             </GlassCard>
