@@ -32,10 +32,10 @@ export default function Navigation() {
                                 {item.label}
                                 {activeIndex === index && (
                                     <motion.div
+                                        layoutId="active-nav"
                                         className="absolute inset-0 bg-white/10 rounded-lg -z-10"
                                         initial={false}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ duration: 0.15 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                     />
                                 )}
                             </NavLink>

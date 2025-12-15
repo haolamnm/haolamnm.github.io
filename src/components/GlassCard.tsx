@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, memo } from "react";
 import { motion } from "framer-motion";
 
 type GlassVariant = "default" | "hoverable" | "interactive";
@@ -11,7 +11,7 @@ interface GlassCardProps {
 }
 
 /** Glassmorphism card with variant styles */
-export default function GlassCard({
+const GlassCard = memo(function GlassCard({
     children,
     variant = "hoverable",
     className = "",
@@ -36,4 +36,6 @@ export default function GlassCard({
             {children}
         </motion.div>
     );
-}
+});
+
+export default GlassCard;

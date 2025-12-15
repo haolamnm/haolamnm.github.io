@@ -1,10 +1,12 @@
+import { memo } from "react";
+
 interface TagProps {
     children: string;
     size?: "sm" | "md";
 }
 
 /** Reusable tag/badge component */
-export default function Tag({ children, size = "sm" }: TagProps) {
+const Tag = memo(function Tag({ children, size = "sm" }: TagProps) {
     const sizeClasses = size === "sm"
         ? "px-2 py-0.5 text-xs"
         : "px-2 py-1 text-xs";
@@ -14,4 +16,6 @@ export default function Tag({ children, size = "sm" }: TagProps) {
             {children}
         </span>
     );
-}
+});
+
+export default Tag;
