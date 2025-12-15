@@ -95,5 +95,10 @@ export default defineConfig({
       },
     },
     target: "esnext",
+    sourcemap: false,
+    minify: "esbuild",
+  },
+  esbuild: {
+    drop: ["console", "debugger"],
   },
 });

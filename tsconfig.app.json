@@ -12,6 +12,7 @@
     "types": [
       "vite/client"
     ],
+    "incremental": true,
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -27,7 +28,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    /* Path aliases - WHY: Cleaner imports, avoids ../../../ */
+    /* Path aliases */
     "baseUrl": ".",
     "paths": {
       "@/*": [
