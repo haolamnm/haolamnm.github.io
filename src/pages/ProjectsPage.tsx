@@ -3,7 +3,7 @@ import { projects, type Project } from "@lib/projects";
 import { pageContent } from "@lib/content";
 import { GithubIcon, GlobeIcon, CodebergIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
-import { useSearchList } from "@/hooks/useSearchList";
+import { useSearchList, type StringKeys } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
 import Tag from "@components/Tag";
 import { SEO } from "@components/SEO";
@@ -11,12 +11,13 @@ import { SearchInput } from "@components/SearchInput";
 import { ExternalLink } from "@components/ExternalLink";
 
 const content = pageContent.projects;
+const SEARCH_FIELDS: StringKeys<Project>[] = ["title", "tags", "description"];
 
 /** Projects page with Bento Grid layout, search, and pagination */
 export default function ProjectsPage() {
     const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
         items: projects,
-        searchFields: ["title", "tags", "description"],
+        searchFields: SEARCH_FIELDS,
     });
 
     return (

@@ -5,9 +5,9 @@
 
 import { useState, useMemo, useDeferredValue } from "react";
 
-/** Extract keys where value is string or string[] */
-type StringKeys<T> = {
-    [K in keyof T]: T[K] extends string | string[] ? K : never;
+/** Extract keys where value is string or string[] (including optional) */
+export type StringKeys<T> = {
+    [K in keyof T]: NonNullable<T[K]> extends string | string[] ? K : never;
 }[keyof T];
 
 interface UseSearchListOptions<T> {

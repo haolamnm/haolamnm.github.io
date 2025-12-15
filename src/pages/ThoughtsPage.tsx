@@ -5,20 +5,21 @@ import { formatDate } from "@lib/formatters";
 import { pageContent } from "@lib/content";
 import { CalendarIcon, ArrowRightIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
-import { useSearchList } from "@/hooks/useSearchList";
+import { useSearchList, type StringKeys } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
 import Tag from "@components/Tag";
 import { SEO } from "@components/SEO";
 import { SearchInput } from "@components/SearchInput";
 
 const content = pageContent.thoughts;
+const SEARCH_FIELDS: StringKeys<PostMeta>[] = ["title", "excerpt", "tags"];
 
 /** Blog listing with search and pagination */
 export default function ThoughtsPage() {
     const allPosts = getAllPosts();
     const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
         items: allPosts,
-        searchFields: ["title", "excerpt", "tags"],
+        searchFields: SEARCH_FIELDS,
     });
 
     return (
