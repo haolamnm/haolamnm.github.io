@@ -29,7 +29,21 @@
 </head>
 
 <body class="bg-zinc-950 text-white antialiased">
-  <div id="root"></div>
+  <div id="root">
+    <!-- Static Fallback for SEO & slow connections. Replaced by React on hydration. -->
+    <header style="padding: 4rem 2rem; text-align: center; max-width: 800px; margin: 0 auto;">
+      <h1 style="font-size: 3rem; margin-bottom: 1rem;">Hao Lam</h1>
+      <h2 style="font-size: 1.5rem; color: #a1a1aa; margin-bottom: 2rem;">Computer Vision</h2>
+      <p style="font-size: 1.25rem; line-height: 1.6; margin-bottom: 2rem;">
+        Exploring the frontiers of Computer Vision. Bridging the gap between pixels and perception.
+      </p>
+      <nav>
+        <a href="/" style="color: white; margin: 0 1rem;">Home</a>
+        <a href="/projects" style="color: white; margin: 0 1rem;">Projects</a>
+        <a href="/thoughts" style="color: white; margin: 0 1rem;">Thoughts</a>
+      </nav>
+    </header>
+  </div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
