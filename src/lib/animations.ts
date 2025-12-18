@@ -55,3 +55,13 @@ export const heroEntrance: Variants = {
         },
     },
 };
+
+/** Navigation active indicator animation */
+export const navIndicator: Variants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.95 },
+};
+
+/** Navigation indicator transition config */
+export const navIndicatorTransition = { duration: 0.15 };
