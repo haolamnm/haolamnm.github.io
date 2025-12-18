@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { navItems } from "@lib/config";
+import { navIndicator, navIndicatorTransition } from "@lib/animations";
 
 /** Navigation with glass styling and active indicator */
 export default function Navigation() {
@@ -30,14 +31,18 @@ export default function Navigation() {
                                 }
                             >
                                 {item.label}
-                                {activeIndex === index && (
-                                    <motion.div
-                                        layoutId="active-nav"
-                                        className="absolute inset-0 bg-white/10 rounded-lg -z-10"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                    />
-                                )}
+                                <AnimatePresence>
+                                    {activeIndex === index && (
+                                        <motion.div
+                                            className="absolute inset-0 bg-white/10 rounded-lg -z-10"
+                                            variants={navIndicator}
+                                            initial="hidden"
+                                            animate="visible"
+                                            exit="exit"
+                                            transition={navIndicatorTransition}
+                                        />
+                                    )}
+                                </AnimatePresence>
                             </NavLink>
                         </li>
                     ))}
