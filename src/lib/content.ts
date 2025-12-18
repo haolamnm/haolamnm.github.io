@@ -32,6 +32,7 @@ export const pageContent = {
             codeberg: "Codeberg",
             website: "Website",
         },
+        projectCount: (count: number) => `${count} projects`,
     },
     thoughts: {
         title: "Thoughts",
