@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { projects, type Project } from "@lib/projects";
+import { sortedProjects, type Project } from "@lib/projects";
 import { pageContent } from "@lib/content";
-import { GithubIcon, GlobeIcon, CodebergIcon } from "@lib/icons";
+import { GithubIcon, GlobeIcon, CodebergIcon, StarIcon } from "@lib/icons";
 import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
 import { useSearchList, type StringKeys } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
@@ -16,7 +16,7 @@ const SEARCH_FIELDS: StringKeys<Project>[] = ["title", "tags", "description"];
 /** Projects page with Bento Grid layout, search, and pagination */
 export default function ProjectsPage() {
     const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
-        items: projects,
+        items: sortedProjects,
         searchFields: SEARCH_FIELDS,
     });
 
@@ -35,6 +35,9 @@ export default function ProjectsPage() {
                     </h1>
                     <p className="text-zinc-400 text-lg max-w-2xl">
                         {content.subtitle}
+                    </p>
+                    <p className="text-zinc-500 text-sm mt-2">
+                        {content.projectCount(sortedProjects.length)}
                     </p>
                 </motion.div>
 
@@ -112,8 +115,11 @@ function ProjectCard({
                     ))}
                 </div>
 
-                <h2 className="text-xl font-bold font-mono text-white mb-2">
+                <h2 className="text-xl font-bold font-mono text-white mb-2 flex items-center gap-2">
                     {project.title}
+                    {project.featured && (
+                        <StarIcon className="w-4 h-4 text-amber-300" />
+                    )}
                 </h2>
 
                 <p className="text-zinc-400 text-sm mb-4 grow">
