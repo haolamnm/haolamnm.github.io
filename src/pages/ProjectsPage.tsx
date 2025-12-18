@@ -36,7 +36,7 @@ export default function ProjectsPage() {
                     <p className="text-zinc-400 text-lg max-w-2xl">
                         {content.subtitle}
                     </p>
-                    <p className="text-zinc-500 text-sm mt-2">
+                    <p className="text-zinc-400 text-sm mt-2">
                         {content.projectCount(sortedProjects.length)}
                     </p>
                 </motion.div>

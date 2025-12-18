@@ -118,11 +118,11 @@ function PostCard({ post }: { post: PostMeta }) {
                         </div>
 
                         <div className="flex items-center gap-4 md:flex-col md:items-end">
-                            <div className="flex items-center gap-2 text-sm text-zinc-500">
+                            <div className="flex items-center gap-2 text-sm text-zinc-400">
                                 <CalendarIcon className="w-4 h-4" />
                                 <span>{formattedDate}</span>
                             </div>
-                            <ArrowRightIcon className="w-5 h-5 text-zinc-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                            <ArrowRightIcon className="w-5 h-5 text-zinc-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
                         </div>
                     </div>
                 </GlassCard>
