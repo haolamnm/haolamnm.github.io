@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { getPostBySlug, type Post } from "@lib/posts";
 import { asPostSlug } from "@lib/types";
 import { formatDate } from "@lib/formatters";
-import { pageContent } from "@lib/content";
+import { pageContent, buildArticleJsonLd } from "@lib/content";
 import { pageEntrance } from "@lib/animations";
 import { ArrowLeftIcon, CalendarIcon } from "@lib/icons";
 import Tag from "@components/Tag";
@@ -106,7 +106,12 @@ export default function PostPage() {
 
     return (
         <>
-            <SEO title={post.title} description={post.excerpt} type="article" />
+            <SEO
+                title={post.title}
+                description={post.excerpt}
+                type="article"
+                jsonLd={buildArticleJsonLd(post.title, post.date, post.excerpt)}
+            />
             <motion.article
                 variants={pageEntrance}
                 initial="hidden"
