@@ -1,8 +1,8 @@
 import { Resvg } from '@resvg/resvg-js';
-import { readFileSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 
 // Read the existing SVG icon
-const svg = readFileSync('public/icon.svg', 'utf-8');
+// const svg = readFileSync('public/icon.svg', 'utf-8');
 
 // Create a proper 180x180 apple touch icon with dark background
 const appleIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
@@ -15,7 +15,7 @@ const appleIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="180" height
 </svg>`;
 
 const resvg = new Resvg(appleIconSvg, {
-    fitTo: { mode: 'width', value: 180 }
+  fitTo: { mode: 'width', value: 180 }
 });
 const pngData = resvg.render();
 writeFileSync('public/apple-touch-icon.png', pngData.asPng());
