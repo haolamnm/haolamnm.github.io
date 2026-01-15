@@ -1,12 +1,15 @@
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { seoContent } from "@lib/content";
+import type { JsonLdData } from "@lib/types";
 
 interface SEOProps {
     title?: string;
     description?: string;
     image?: string;
     type?: "website" | "article";
+    /** JSON-LD structured data for rich results */
+    jsonLd?: JsonLdData;
 }
 
 /**
@@ -18,6 +21,7 @@ export function SEO({
     description = seoContent.defaultDescription,
     image = "/og-image.png",
     type = "website",
+    jsonLd,
 }: SEOProps) {
     const location = useLocation();
     const fullTitle = title
@@ -60,6 +64,12 @@ export function SEO({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description} />
             <meta name="twitter:image" content={fullImageUrl} />
+
+            {jsonLd && (
+                <script type="application/ld+json">
+                    {JSON.stringify(jsonLd)}
+                </script>
+            )}
         </Helmet>
     );
 }

@@ -79,4 +79,59 @@ export const seoContent = {
     defaultDescription: siteConfig.description,
     siteName: siteConfig.name,
     siteUrl: `https://${siteConfig.domain}`,
+    /** Alternate site name for structured data */
+    alternateName: "Hao Lam Portfolio",
 } as const;
+
+import type { JsonLdGraph, JsonLdArticleWithContext } from "./types";
+import { socialLinks } from "./config";
+
+/**
+ * Build JSON-LD for homepage with WebSite and Person schemas.
+ * Used by SEO component on the homepage.
+ */
+export function buildHomeJsonLd(): JsonLdGraph {
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                name: siteConfig.name,
+                alternateName: seoContent.alternateName,
+                url: seoContent.siteUrl,
+            },
+            {
+                "@type": "Person",
+                name: siteConfig.name,
+                url: seoContent.siteUrl,
+                jobTitle: siteConfig.role,
+                description: siteConfig.description,
+                image: `${seoContent.siteUrl}/og-image.png`,
+                sameAs: socialLinks
+                    .map((link) => link.href)
+                    .filter((href) => href.startsWith("https://")),
+            },
+        ],
+    };
+}
+
+/**
+ * Build JSON-LD for blog article.
+ * @param headline - Article title
+ * @param datePublished - ISO date string
+ * @param description - Article excerpt
+ */
+export function buildArticleJsonLd(
+    headline: string,
+    datePublished: string,
+    description?: string
+): JsonLdArticleWithContext {
+    return {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline,
+        datePublished,
+        author: { "@type": "Person", name: siteConfig.name },
+        ...(description && { description }),
+    };
+}
