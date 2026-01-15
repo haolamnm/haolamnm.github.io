@@ -14,7 +14,7 @@ import rehypeExternalLinks from "rehype-external-links";
 import Sitemap from "vite-plugin-sitemap";
 import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
-import { siteConfig, socialLinks } from "./src/lib/config";
+import { siteConfig } from "./src/lib/config";
 import { seoContent } from "./src/lib/content";
 
 /**
@@ -28,6 +28,7 @@ function getPostSlugs(): string[] {
     const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
     return manifest.map((p: { slug: string }) => `/thoughts/${p.slug}`);
   } catch {
+    console.warn("[Sitemap] Post manifest not found, skipping blog routes");
     return [];
   }
 }
@@ -76,31 +77,18 @@ export default defineConfig({
         copyFileSync("dist/index.html", "dist/404.html");
       },
     },
-    // Inject SEO tags at build time - Single Source of Truth
+    // Inject static SEO meta tags at build time (JSON-LD handled by React at runtime)
     {
       name: "html-inject-seo",
       transformIndexHtml(html) {
-        const jsonLd = {
-          "@context": "https://schema.org",
-          "@type": "Person",
-          name: siteConfig.name,
-          url: `https://${siteConfig.domain}`,
-          jobTitle: siteConfig.role,
-          description: siteConfig.description,
-          image: `https://${siteConfig.domain}/og-image.png`,
-          sameAs: socialLinks
-            .map((link) => link.href)
-            .filter((href) => href.startsWith("https://")),
-        };
-
         const seoHtml = `<title>${seoContent.defaultTitle}</title>
   <meta name="description" content="${seoContent.defaultDescription}">
   <meta name="author" content="${siteConfig.name}">
+  <meta property="og:site_name" content="${siteConfig.name}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${seoContent.defaultTitle}">
   <meta property="og:description" content="${seoContent.defaultDescription}">
-  <meta property="og:image" content="/og-image.png">
-  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
+  <meta property="og:image" content="/og-image.png">`;
 
         return html.replace(
           "<!-- SEO Meta Tags are injected by Vite at build time -->",
@@ -119,15 +107,7 @@ export default defineConfig({
     },
   },
   build: {
-    // Manual chunks for optimal caching - vendor libs separate from app code
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom"],
-          motion: ["framer-motion"],
-        },
-      },
-    },
+    // Vite 7 auto-splitting is optimized for HTTP/2
     target: "esnext",
     sourcemap: false,
     minify: "esbuild",
