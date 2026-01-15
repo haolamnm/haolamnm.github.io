@@ -64,3 +64,46 @@ export type SocialLink = RegularSocialLink | PrimarySocialLink;
 export interface IconProps {
     className?: string;
 }
+
+/** JSON-LD WebSite schema */
+export interface JsonLdWebSite {
+    "@type": "WebSite";
+    name: string;
+    alternateName?: string;
+    url: string;
+}
+
+/** JSON-LD Person schema */
+export interface JsonLdPerson {
+    "@type": "Person";
+    name: string;
+    url: string;
+    jobTitle: string;
+    description: string;
+    image: string;
+    sameAs: string[];
+}
+
+/** JSON-LD Article schema */
+export interface JsonLdArticle {
+    "@type": "Article";
+    headline: string;
+    datePublished: string;
+    dateModified?: string;
+    author: { "@type": "Person"; name: string };
+    description?: string;
+}
+
+/** JSON-LD with @context and @graph for multiple schemas */
+export interface JsonLdGraph {
+    "@context": "https://schema.org";
+    "@graph": (JsonLdWebSite | JsonLdPerson | JsonLdArticle)[];
+}
+
+/** JSON-LD Article with context (for blog posts) */
+export interface JsonLdArticleWithContext extends JsonLdArticle {
+    "@context": "https://schema.org";
+}
+
+/** Union type for all JSON-LD data */
+export type JsonLdData = JsonLdGraph | JsonLdArticleWithContext;
