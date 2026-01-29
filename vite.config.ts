@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { copyFileSync, existsSync, readFileSync } from "fs";
+import { copyFileSync, existsSync, readFileSync } from "node:fs";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import mdx from "@mdx-js/rollup";
@@ -13,7 +13,7 @@ import rehypePrismPlus from "rehype-prism-plus";
 import rehypeExternalLinks from "rehype-external-links";
 import Sitemap from "vite-plugin-sitemap";
 import { visualizer } from "rollup-plugin-visualizer";
-import path from "path";
+import path from "node:path";
 import { siteConfig } from "./src/lib/config";
 import { seoContent } from "./src/lib/content";
 
