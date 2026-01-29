@@ -15,6 +15,15 @@ interface Particle {
 }
 
 /**
+ * Generate a random number for visual animations.
+ * Defined outside component for performance (static in memory).
+ * @returns Random number between 0 and 1
+ */
+function visualRandom(): number {
+  return Math.random(); // NOSONAR: Intentional use for visual animations; cryptographic security not required.
+}
+
+/**
  * Mouse-following particle animation for hero background.
  * Respects prefers-reduced-motion for accessibility.
  * Uses edge-biased distribution (85% edges, 15% center).
@@ -64,36 +73,36 @@ export default function ParticleField() {
       width: number,
       height: number
     ): { x: number; y: number } => {
-      const edgeBias = Math.random() < PARTICLE_CONFIG.edgeBias;
+      const edgeBias = visualRandom() < PARTICLE_CONFIG.edgeBias;
       const thickness = PARTICLE_CONFIG.frameThickness;
       const innerStart = 1 - thickness;
 
       if (edgeBias) {
-        const edge = Math.floor(Math.random() * 4);
+        const edge = Math.floor(visualRandom() * 4);
         switch (edge) {
           case 0: // Top
             return {
-              x: Math.random() * width,
-              y: Math.random() * height * thickness,
+              x: visualRandom() * width,
+              y: visualRandom() * height * thickness,
             };
           case 1: // Bottom
             return {
-              x: Math.random() * width,
-              y: height * innerStart + Math.random() * height * thickness,
+              x: visualRandom() * width,
+              y: height * innerStart + visualRandom() * height * thickness,
             };
           case 2: // Left
             return {
-              x: Math.random() * width * thickness,
-              y: Math.random() * height,
+              x: visualRandom() * width * thickness,
+              y: visualRandom() * height,
             };
           default: // Right
             return {
-              x: width * innerStart + Math.random() * width * thickness,
-              y: Math.random() * height,
+              x: width * innerStart + visualRandom() * width * thickness,
+              y: visualRandom() * height,
             };
         }
       } else {
-        return { x: Math.random() * width, y: Math.random() * height };
+        return { x: visualRandom() * width, y: visualRandom() * height };
       }
     };
 
@@ -108,11 +117,12 @@ export default function ParticleField() {
           y: pos.y,
           vx: 0,
           vy: 0,
-          size: sizeRange.min + Math.random() * (sizeRange.max - sizeRange.min),
+          size:
+            sizeRange.min + visualRandom() * (sizeRange.max - sizeRange.min),
           opacity:
             opacityRange.min +
-            Math.random() * (opacityRange.max - opacityRange.min),
-          pulse: Math.random() * Math.PI * 2,
+            visualRandom() * (opacityRange.max - opacityRange.min),
+          pulse: visualRandom() * Math.PI * 2,
         };
       }
     );
