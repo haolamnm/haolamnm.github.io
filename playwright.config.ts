@@ -28,6 +28,11 @@ export default defineConfig({
             testIgnore: /visual\.spec\.ts/,
         },
         {
+            name: "webkit",
+            use: { ...devices["Desktop Safari"] },
+            testIgnore: /visual\.spec\.ts/,
+        },
+        {
             name: "visual-chromium",
             use: {
                 ...devices["Desktop Chrome"],
@@ -39,6 +44,14 @@ export default defineConfig({
             name: "visual-firefox",
             use: {
                 ...devices["Desktop Firefox"],
+                baseURL: "http://localhost:5173",
+            },
+            testMatch: /visual\.spec\.ts/,
+        },
+        {
+            name: "visual-webkit",
+            use: {
+                ...devices["Desktop Safari"],
                 baseURL: "http://localhost:5173",
             },
             testMatch: /visual\.spec\.ts/,
