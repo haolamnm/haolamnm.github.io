@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useSearchList } from "@/hooks/useSearchList";
+import { useSearchList, type StringKeys } from "@/hooks/useSearchList";
 
 interface TestItem {
   id: number;
@@ -15,6 +15,18 @@ const testItems: TestItem[] = [
   { id: 4, title: "TypeScript Tips", tags: ["typescript", "javascript"] },
   { id: 5, title: "Node.js Server", tags: ["nodejs", "backend"] },
 ];
+
+/** Common hook options for search tests */
+const defaultSearchFields: StringKeys<TestItem>[] = ["title", "tags"];
+const titleSearchFields: StringKeys<TestItem>[] = ["title"];
+const tagsSearchFields: StringKeys<TestItem>[] = ["tags"];
+
+/** Advance timers to trigger debounced search */
+const advanceDebounce = () => {
+  act(() => {
+    vi.advanceTimersByTime(300);
+  });
+};
 
 /**
  * useSearchList hook tests.
@@ -31,31 +43,21 @@ describe("useSearchList", () => {
 
   it("returns all items when query is empty", () => {
     const { result } = renderHook(() =>
-      useSearchList({
-        items: testItems,
-        searchFields: ["title", "tags"],
-      })
+      useSearchList({ items: testItems, searchFields: defaultSearchFields })
     );
-
     expect(result.current.filtered).toHaveLength(5);
     expect(result.current.query).toBe("");
   });
 
   it("filters items by string field", () => {
     const { result } = renderHook(() =>
-      useSearchList({
-        items: testItems,
-        searchFields: ["title"],
-      })
+      useSearchList({ items: testItems, searchFields: titleSearchFields })
     );
 
     act(() => {
       result.current.setQuery("react");
     });
-
-    act(() => {
-      vi.advanceTimersByTime(300);
-    });
+    advanceDebounce();
 
     expect(result.current.filtered).toHaveLength(1);
     expect(result.current.filtered[0].title).toBe("React Fundamentals");
@@ -63,38 +65,26 @@ describe("useSearchList", () => {
 
   it("filters items by array field (tags)", () => {
     const { result } = renderHook(() =>
-      useSearchList({
-        items: testItems,
-        searchFields: ["tags"],
-      })
+      useSearchList({ items: testItems, searchFields: tagsSearchFields })
     );
 
     act(() => {
       result.current.setQuery("javascript");
     });
-
-    act(() => {
-      vi.advanceTimersByTime(300);
-    });
+    advanceDebounce();
 
     expect(result.current.filtered).toHaveLength(3);
   });
 
   it("is case insensitive", () => {
     const { result } = renderHook(() =>
-      useSearchList({
-        items: testItems,
-        searchFields: ["title"],
-      })
+      useSearchList({ items: testItems, searchFields: titleSearchFields })
     );
 
     act(() => {
       result.current.setQuery("PYTHON");
     });
-
-    act(() => {
-      vi.advanceTimersByTime(300);
-    });
+    advanceDebounce();
 
     expect(result.current.filtered).toHaveLength(1);
     expect(result.current.filtered[0].title).toBe("Python Basics");
@@ -104,7 +94,7 @@ describe("useSearchList", () => {
     const { result } = renderHook(() =>
       useSearchList({
         items: testItems,
-        searchFields: ["title"],
+        searchFields: titleSearchFields,
         itemsPerPage: 2,
       })
     );
@@ -117,7 +107,7 @@ describe("useSearchList", () => {
     const { result } = renderHook(() =>
       useSearchList({
         items: testItems,
-        searchFields: ["title"],
+        searchFields: titleSearchFields,
         itemsPerPage: 2,
       })
     );
@@ -127,33 +117,25 @@ describe("useSearchList", () => {
     act(() => {
       result.current.loadMore();
     });
-
     expect(result.current.visible).toHaveLength(4);
     expect(result.current.hasMore).toBe(true);
 
     act(() => {
       result.current.loadMore();
     });
-
     expect(result.current.visible).toHaveLength(5);
     expect(result.current.hasMore).toBe(false);
   });
 
   it("returns empty array for no matches", () => {
     const { result } = renderHook(() =>
-      useSearchList({
-        items: testItems,
-        searchFields: ["title"],
-      })
+      useSearchList({ items: testItems, searchFields: titleSearchFields })
     );
 
     act(() => {
       result.current.setQuery("nonexistent");
     });
-
-    act(() => {
-      vi.advanceTimersByTime(300);
-    });
+    advanceDebounce();
 
     expect(result.current.filtered).toHaveLength(0);
     expect(result.current.visible).toHaveLength(0);
@@ -162,19 +144,13 @@ describe("useSearchList", () => {
 
   it("handles whitespace-only query as empty", () => {
     const { result } = renderHook(() =>
-      useSearchList({
-        items: testItems,
-        searchFields: ["title"],
-      })
+      useSearchList({ items: testItems, searchFields: titleSearchFields })
     );
 
     act(() => {
       result.current.setQuery("   ");
     });
-
-    act(() => {
-      vi.advanceTimersByTime(300);
-    });
+    advanceDebounce();
 
     expect(result.current.filtered).toHaveLength(5);
   });
