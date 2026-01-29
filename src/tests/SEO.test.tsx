@@ -2,97 +2,97 @@ import { describe, it, expect, afterEach } from "vitest";
 import { render, waitFor, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { SEO } from "@components/SEO";
+import { SEOComponent } from "@components/SEO";
 
 /**
  * SEO component tests.
  * Validates meta tag generation for title, description, and Open Graph.
  */
 describe("SEO", () => {
-    afterEach(() => {
-        cleanup();
+  afterEach(() => {
+    cleanup();
+  });
+
+  const renderWithProviders = (ui: React.ReactElement, route = "/") => {
+    return render(
+      <HelmetProvider>
+        <MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>
+      </HelmetProvider>
+    );
+  };
+
+  it("does not render default title (handled by index.html)", async () => {
+    renderWithProviders(<SEOComponent />);
+
+    await waitFor(() => {
+      expect(document.title).toBe("");
     });
+  });
 
-    const renderWithProviders = (ui: React.ReactElement, route = "/") => {
-        return render(
-            <HelmetProvider>
-                <MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>
-            </HelmetProvider>
-        );
-    };
+  it("renders custom title with site name suffix", async () => {
+    renderWithProviders(<SEOComponent title="Projects" />);
 
-    it("does not render default title (handled by index.html)", async () => {
-        renderWithProviders(<SEO />);
-
-        await waitFor(() => {
-            expect(document.title).toBe("");
-        });
+    await waitFor(() => {
+      expect(document.title).toContain("Projects");
+      expect(document.title).toContain("Hao Lam");
     });
+  });
 
-    it("renders custom title with site name suffix", async () => {
-        renderWithProviders(<SEO title="Projects" />);
+  it("renders custom meta description", async () => {
+    renderWithProviders(<SEOComponent description="Test description" />);
 
-        await waitFor(() => {
-            expect(document.title).toContain("Projects");
-            expect(document.title).toContain("Hao Lam");
-        });
+    await waitFor(() => {
+      const meta = document.querySelector('meta[name="description"]');
+      expect(meta?.getAttribute("content")).toBe("Test description");
     });
+  });
 
-    it("renders custom meta description", async () => {
-        renderWithProviders(<SEO description="Test description" />);
+  it("does not render default meta description", async () => {
+    renderWithProviders(<SEOComponent />);
 
-        await waitFor(() => {
-            const meta = document.querySelector('meta[name="description"]');
-            expect(meta?.getAttribute("content")).toBe("Test description");
-        });
+    await waitFor(() => {
+      const meta = document.querySelector('meta[name="description"]');
+      expect(meta).toBeNull();
     });
+  });
 
-    it("does not render default meta description", async () => {
-        renderWithProviders(<SEO />);
+  it("renders Open Graph meta tags for custom pages", async () => {
+    renderWithProviders(<SEOComponent title="Test Page" />);
 
-        await waitFor(() => {
-            const meta = document.querySelector('meta[name="description"]');
-            expect(meta).toBeNull();
-        });
+    await waitFor(() => {
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      expect(ogTitle?.getAttribute("content")).toContain("Test Page");
+
+      // Default og:type is 'website', so it should NOT be rendered
+      const ogType = document.querySelector('meta[property="og:type"]');
+      expect(ogType).toBeNull();
     });
+  });
 
-    it("renders Open Graph meta tags for custom pages", async () => {
-        renderWithProviders(<SEO title="Test Page" />);
+  it("supports article type for blog posts", async () => {
+    renderWithProviders(<SEOComponent title="Blog Post" type="article" />);
 
-        await waitFor(() => {
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            expect(ogTitle?.getAttribute("content")).toContain("Test Page");
-
-            // Default og:type is 'website', so it should NOT be rendered
-            const ogType = document.querySelector('meta[property="og:type"]');
-            expect(ogType).toBeNull();
-        });
+    await waitFor(() => {
+      const ogType = document.querySelector('meta[property="og:type"]');
+      expect(ogType?.getAttribute("content")).toBe("article");
     });
+  });
 
-    it("supports article type for blog posts", async () => {
-        renderWithProviders(<SEO title="Blog Post" type="article" />);
+  it("renders Twitter Card meta tags", async () => {
+    renderWithProviders(<SEOComponent />);
 
-        await waitFor(() => {
-            const ogType = document.querySelector('meta[property="og:type"]');
-            expect(ogType?.getAttribute("content")).toBe("article");
-        });
+    await waitFor(() => {
+      const card = document.querySelector('meta[name="twitter:card"]');
+      expect(card?.getAttribute("content")).toBe("summary_large_image");
     });
+  });
 
-    it("renders Twitter Card meta tags", async () => {
-        renderWithProviders(<SEO />);
+  it("renders canonical URL", async () => {
+    renderWithProviders(<SEOComponent />, "/projects");
 
-        await waitFor(() => {
-            const card = document.querySelector('meta[name="twitter:card"]');
-            expect(card?.getAttribute("content")).toBe("summary_large_image");
-        });
+    await waitFor(() => {
+      const canonical = document.querySelector('link[rel="canonical"]');
+      expect(canonical?.getAttribute("href")).toContain("/projects");
     });
-
-    it("renders canonical URL", async () => {
-        renderWithProviders(<SEO />, "/projects");
-
-        await waitFor(() => {
-            const canonical = document.querySelector('link[rel="canonical"]');
-            expect(canonical?.getAttribute("href")).toContain("/projects");
-        });
-    });
+  });
 });

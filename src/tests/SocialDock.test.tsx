@@ -8,49 +8,49 @@ import SocialDock from "@components/SocialDock";
  * Verifies external link security and accessibility attributes.
  */
 describe("SocialDock", () => {
-    it("renders all social links", () => {
-        render(
-            <BrowserRouter>
-                <SocialDock />
-            </BrowserRouter>
-        );
+  it("renders all social links", () => {
+    render(
+      <BrowserRouter>
+        <SocialDock />
+      </BrowserRouter>
+    );
 
-        const links = screen.getAllByRole("link");
-        expect(links.length).toBeGreaterThan(0);
+    const links = screen.getAllByRole("link");
+    expect(links.length).toBeGreaterThan(0);
+  });
+
+  it("all external links have noopener noreferrer for security", () => {
+    render(
+      <BrowserRouter>
+        <SocialDock />
+      </BrowserRouter>
+    );
+
+    const links = screen.getAllByRole("link");
+
+    links.forEach((link) => {
+      const href = link.getAttribute("href");
+      const target = link.getAttribute("target");
+
+      if (href?.startsWith("http") && target === "_blank") {
+        const rel = link.getAttribute("rel");
+        expect(rel).toContain("noopener");
+        expect(rel).toContain("noreferrer");
+      }
     });
+  });
 
-    it("all external links have noopener noreferrer for security", () => {
-        render(
-            <BrowserRouter>
-                <SocialDock />
-            </BrowserRouter>
-        );
+  it("each link has an accessible aria-label", () => {
+    render(
+      <BrowserRouter>
+        <SocialDock />
+      </BrowserRouter>
+    );
 
-        const links = screen.getAllByRole("link");
+    const links = screen.getAllByRole("link");
 
-        links.forEach((link) => {
-            const href = link.getAttribute("href");
-            const target = link.getAttribute("target");
-
-            if (href?.startsWith("http") && target === "_blank") {
-                const rel = link.getAttribute("rel");
-                expect(rel).toContain("noopener");
-                expect(rel).toContain("noreferrer");
-            }
-        });
+    links.forEach((link) => {
+      expect(link).toHaveAttribute("aria-label");
     });
-
-    it("each link has an accessible aria-label", () => {
-        render(
-            <BrowserRouter>
-                <SocialDock />
-            </BrowserRouter>
-        );
-
-        const links = screen.getAllByRole("link");
-
-        links.forEach((link) => {
-            expect(link).toHaveAttribute("aria-label");
-        });
-    });
+  });
 });
