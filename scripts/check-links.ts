@@ -6,6 +6,7 @@
 
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 const DIST_DIR = "./dist";
 const PORT = 4173;
@@ -18,27 +19,32 @@ async function checkLinks(): Promise<void> {
 
     console.log("Starting link checker...\n");
 
-    const preview = spawn("bunx", ["vite", "preview", "--port", PORT.toString()], {
+    // Use absolute paths to binaries to satisfy SonarQube S4036
+    const binPath = join(process.cwd(), "node_modules", ".bin");
+    const vitePath = join(binPath, process.platform === "win32" ? "vite.cmd" : "vite");
+    const linkinatorPath = join(binPath, process.platform === "win32" ? "linkinator.cmd" : "linkinator");
+
+    const preview = spawn(vitePath, ["preview", "--port", PORT.toString()], {
         stdio: "pipe",
-        shell: true,
     });
 
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     try {
         const linkinator = spawn(
-            "bunx",
+            linkinatorPath,
             [
-                "linkinator",
                 `http://localhost:${PORT}`,
                 "--recurse",
-                "--timeout", "10000",
-                "--skip", "^mailto:",
-                "--skip", "^tel:",
+                "--timeout",
+                "10000",
+                "--skip",
+                "^mailto:",
+                "--skip",
+                "^tel:",
             ],
             {
                 stdio: "inherit",
-                shell: true,
             }
         );
 
