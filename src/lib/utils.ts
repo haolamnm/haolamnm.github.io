@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
  * Prevents class conflicts and handles conditionals.
  */
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -15,10 +15,13 @@ export function cn(...inputs: ClassValue[]) {
  * @param ms - Delay in milliseconds
  * @returns Debounced function
  */
-export function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number): T {
-    let timer: number;
-    return ((...args: unknown[]) => {
-        clearTimeout(timer);
-        timer = window.setTimeout(() => fn(...args), ms);
-    }) as T;
+export function debounce<T extends (...args: unknown[]) => void>(
+  fn: T,
+  ms: number
+): T {
+  let timer: ReturnType<typeof setTimeout>;
+  return ((...args: unknown[]) => {
+    clearTimeout(timer);
+    timer = globalThis.setTimeout(() => fn(...args), ms);
+  }) as T;
 }
