@@ -41,32 +41,25 @@ export function SEOComponent({
 
   const fullUrl = `${seoContent.siteUrl}${location.pathname}`;
 
-  const isDefaultDescription = description === seoContent.defaultDescription;
-  const isDefaultImage = image === "/og-image.png";
-  const isDefaultType = type === "website";
-
   return (
     <Helmet>
       {/* Use fullTitle as key to force Helmet DOM update on SPA navigation */}
       <title key={fullTitle}>{fullTitle}</title>
 
-      {!isDefaultDescription && (
-        <meta name="description" content={description} />
-      )}
-
+      {/* Always render meta tags - Helmet needs to see them to manage <head> */}
+      <meta name="description" content={description} />
       <meta name="theme-color" content="#09090b" />
-
       <meta name="robots" content="index, follow" />
       <link rel="canonical" href={fullUrl} />
 
-      {!isDefaultType && <meta property="og:type" content={type} />}
+      {/* Open Graph */}
+      <meta property="og:type" content={type} />
       <meta property="og:title" content={fullTitle} />
-      {!isDefaultDescription && (
-        <meta property="og:description" content={description} />
-      )}
-      {!isDefaultImage && <meta property="og:image" content={fullImageUrl} />}
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={fullImageUrl} />
       <meta property="og:url" content={fullUrl} />
 
+      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />

@@ -48,12 +48,13 @@ describe("SEO", () => {
     });
   });
 
-  it("does not render default meta description", async () => {
+  it("renders default meta description for homepage", async () => {
     renderWithProviders(<SEOComponent />);
 
     await waitFor(() => {
       const meta = document.querySelector('meta[name="description"]');
-      expect(meta).toBeNull();
+      expect(meta).not.toBeNull();
+      expect(meta?.getAttribute("content")).toContain("Computer Vision");
     });
   });
 
@@ -64,9 +65,9 @@ describe("SEO", () => {
       const ogTitle = document.querySelector('meta[property="og:title"]');
       expect(ogTitle?.getAttribute("content")).toContain("Test Page");
 
-      // Default og:type is 'website', so it should NOT be rendered
+      // og:type should always be rendered (default: website)
       const ogType = document.querySelector('meta[property="og:type"]');
-      expect(ogType).toBeNull();
+      expect(ogType?.getAttribute("content")).toBe("website");
     });
   });
 
