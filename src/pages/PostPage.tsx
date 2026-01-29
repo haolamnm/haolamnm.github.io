@@ -39,7 +39,9 @@ export default function PostPage() {
   }, [slug]);
 
   useEffect(() => {
-    void loadPost();
+    loadPost().catch(() => {
+      // Error already handled in loadPost via setError
+    });
   }, [loadPost]);
 
   if (loading) {
@@ -56,7 +58,11 @@ export default function PostPage() {
         <h1 className="mb-4 font-mono text-4xl font-bold">{content.error.title}</h1>
         <p className="mb-8 text-zinc-400">{content.error.description}</p>
         <button
-          onClick={() => void loadPost()}
+          onClick={() => {
+            loadPost().catch(() => {
+              // Error handled in loadPost
+            });
+          }}
           className="glass-card inline-flex items-center gap-2 px-4 py-2 text-white transition-colors hover:bg-white/10"
         >
           {content.error.retry}
