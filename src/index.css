@@ -71,7 +71,6 @@
    Reusable UI patterns
    ============================================ */
 @layer components {
-
   /* Glass Card - Glassmorphism base component */
   .glass-card {
     @apply bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl;
@@ -102,10 +101,12 @@
   /* Text Shimmer - Animated gradient text effect
      Uses will-change for GPU compositing */
   .text-shimmer {
-    background: linear-gradient(90deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.95) 50%,
-        rgba(255, 255, 255, 0.1) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
     background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -129,7 +130,6 @@
    One-off utilities extending Tailwind
    ============================================ */
 @layer utilities {
-
   .text-gradient {
     @apply bg-linear-to-r from-white via-zinc-300 to-white bg-clip-text text-transparent;
   }
@@ -181,7 +181,7 @@ code {
 }
 
 /* Inline code */
-:not(pre)>code {
+:not(pre) > code {
   @apply bg-white/10 px-1.5 py-0.5 rounded text-zinc-300;
 }
 

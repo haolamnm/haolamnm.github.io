@@ -13,13 +13,12 @@ const NotFoundPage = lazy(() => import("@pages/NotFoundPage"));
 /** Loading spinner for Suspense fallback */
 function PageLoader() {
   return (
-    <div
+    <output
       className="flex items-center justify-center min-h-[50vh]"
-      role="status"
       aria-label="Loading content"
     >
       <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-    </div>
+    </output>
   );
 }
 
