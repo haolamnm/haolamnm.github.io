@@ -16,7 +16,7 @@ export default function Hero() {
       >
         <motion.span
           variants={fadeInUp}
-          className="inline-block px-4 py-1.5 mb-6 text-sm font-mono text-zinc-400 glass-card"
+          className="inline-block px-4 py-1.5 mb-6 text-sm font-mono text-zinc-300 glass-card"
         >
           {heroContent.role}
         </motion.span>
@@ -30,7 +30,7 @@ export default function Hero() {
 
         <motion.p
           variants={fadeInUp}
-          className="text-xl md:text-2xl text-zinc-400 max-w-xl mb-8"
+          className="text-xl md:text-2xl text-zinc-300 max-w-xl mb-8"
         >
           {tagline.prefix}{" "}
           <span className="text-white font-semibold">{tagline.emphasis1}</span>{" "}
@@ -41,7 +41,7 @@ export default function Hero() {
 
         <motion.p
           variants={fadeInUp}
-          className="text-base md:text-lg text-zinc-400 max-w-2xl leading-relaxed"
+          className="text-base md:text-lg text-zinc-300 max-w-2xl leading-relaxed"
         >
           {heroContent.description}
         </motion.p>
