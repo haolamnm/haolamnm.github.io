@@ -22,7 +22,7 @@
     "test:a11y": "playwright test e2e/accessibility.spec.ts",
     "test:visual": "playwright test e2e/visual.spec.ts",
     "test:links": "bun run scripts/check-links.ts",
-    "check": "bun run lint && bun run typecheck && bun run test"
+    "check": "bun run lint && bun run format && bun run typecheck && bun run test"
   },
   "dependencies": {
     "clsx": "^2.1.1",
