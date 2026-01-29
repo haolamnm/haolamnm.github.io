@@ -21,11 +21,12 @@ describe("SEO", () => {
     );
   };
 
-  it("does not render default title (handled by index.html)", async () => {
+  it("renders default title for homepage", async () => {
     renderWithProviders(<SEOComponent />);
 
     await waitFor(() => {
-      expect(document.title).toBe("");
+      expect(document.title).toContain("Hao Lam");
+      expect(document.title).toContain("Computer Vision");
     });
   });
 

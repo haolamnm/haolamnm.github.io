@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import { seoContent } from "@lib/content";
@@ -28,6 +29,12 @@ export function SEOComponent({
     ? `${title} | ${seoContent.siteName}`
     : seoContent.defaultTitle;
 
+  // Directly set document.title as reliable fallback for SPA navigation
+  // react-helmet-async can be flaky during route changes
+  useEffect(() => {
+    document.title = fullTitle;
+  }, [fullTitle]);
+
   const fullImageUrl = image.startsWith("http")
     ? image
     : `${seoContent.siteUrl}${image}`;
@@ -40,8 +47,8 @@ export function SEOComponent({
 
   return (
     <Helmet>
-      {/* Always render title with key to ensure Helmet updates on SPA navigation */}
-      <title key="page-title">{fullTitle}</title>
+      {/* Use fullTitle as key to force Helmet DOM update on SPA navigation */}
+      <title key={fullTitle}>{fullTitle}</title>
 
       {!isDefaultDescription && (
         <meta name="description" content={description} />
