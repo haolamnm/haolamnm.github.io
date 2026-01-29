@@ -31,14 +31,19 @@ interface UseSearchListResult<T> {
 const DEFAULT_ITEMS_PER_PAGE = 9;
 
 /**
+ * Check if a string value contains the query (case-insensitive).
+ */
+const matchesQuery = (value: unknown, query: string): boolean => String(value).toLowerCase().includes(query);
+
+/**
  * Check if a field value matches the search query.
  */
 function fieldMatchesQuery<T>(item: T, field: keyof T, query: string): boolean {
   const value = item[field];
   if (Array.isArray(value)) {
-    return value.some((v) => String(v).toLowerCase().includes(query));
+    return value.some((v) => matchesQuery(v, query));
   }
-  return String(value).toLowerCase().includes(query);
+  return matchesQuery(value, query);
 }
 
 /**
