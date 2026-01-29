@@ -1,6 +1,6 @@
-import { Component, type ReactNode, type ErrorInfo } from "react";
 import { pageContent } from "@lib/content";
 import { ArrowLeftIcon } from "@lib/icons";
+import { Component, type ErrorInfo, type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -27,7 +27,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error("ErrorBoundary caught:", error, errorInfo);
 
     // Detect chunk load failure (version skew after deployment)
@@ -42,25 +42,21 @@ export default class ErrorBoundary extends Component<Props, State> {
     }
   }
 
-  render(): ReactNode {
+  override render(): ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
       }
 
       return (
-        <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-8">
-          <h1 className="text-4xl font-bold font-mono text-white/50 mb-4">
-            Something went wrong
-          </h1>
-          <p className="text-zinc-400 mb-8 max-w-md">
-            {pageContent.notFound.description}
-          </p>
+        <div className="flex min-h-[60vh] flex-col items-center justify-center p-8 text-center">
+          <h1 className="mb-4 font-mono text-4xl font-bold text-white/50">Something went wrong</h1>
+          <p className="mb-8 max-w-md text-zinc-400">{pageContent.notFound.description}</p>
           <button
             onClick={() => globalThis.location.reload()}
-            className="inline-flex items-center gap-2 px-4 py-2 glass-card text-white hover:bg-white/10 transition-colors"
+            className="glass-card inline-flex items-center gap-2 px-4 py-2 text-white transition-colors hover:bg-white/10"
           >
-            <ArrowLeftIcon className="w-4 h-4" />
+            <ArrowLeftIcon className="h-4 w-4" />
             Reload Page
           </button>
         </div>

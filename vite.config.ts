@@ -1,19 +1,22 @@
-import { defineConfig } from "vite";
 import { copyFileSync, existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+
+import mdx from "@mdx-js/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import mdx from "@mdx-js/rollup";
+import rehypeExternalLinks from "rehype-external-links";
+import rehypeKatex from "rehype-katex";
+import rehypePrismPlus from "rehype-prism-plus";
+import rehypeSlug from "rehype-slug";
+import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import rehypeKatex from "rehype-katex";
-import rehypeSlug from "rehype-slug";
-import rehypePrismPlus from "rehype-prism-plus";
-import rehypeExternalLinks from "rehype-external-links";
-import Sitemap from "vite-plugin-sitemap";
 import { visualizer } from "rollup-plugin-visualizer";
-import path from "node:path";
+import { defineConfig } from "vite";
+import Sitemap from "vite-plugin-sitemap";
+import tsconfigPaths from "vite-tsconfig-paths";
+
 import { siteConfig } from "./src/lib/config";
 import { seoContent } from "./src/lib/content";
 
@@ -59,6 +62,7 @@ export default defineConfig({
       ],
     }),
     react(),
+    tsconfigPaths(),
     Sitemap({
       hostname: "https://haolamnm.dev",
       dynamicRoutes: ["/projects", "/thoughts", ...getPostSlugs()],
@@ -97,15 +101,6 @@ export default defineConfig({
       },
     },
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@components": path.resolve(__dirname, "./src/components"),
-      "@pages": path.resolve(__dirname, "./src/pages"),
-      "@layout": path.resolve(__dirname, "./src/layout"),
-      "@lib": path.resolve(__dirname, "./src/lib"),
-    },
-  },
   build: {
     // Vite 7 auto-splitting is optimized for HTTP/2
     target: "esnext",

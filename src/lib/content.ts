@@ -83,7 +83,7 @@ export const seoContent = {
   alternateName: "Hao Lam Portfolio",
 } as const;
 
-import type { JsonLdGraph, JsonLdArticleWithContext } from "./types";
+import type { JsonLdArticleWithContext, JsonLdGraph } from "./types";
 
 /**
  * Build JSON-LD for homepage with WebSite and Person schemas.
@@ -106,9 +106,7 @@ export function buildHomeJsonLd(): JsonLdGraph {
         jobTitle: siteConfig.role,
         description: siteConfig.description,
         image: `${seoContent.siteUrl}/og-image.png`,
-        sameAs: socialLinks
-          .map((link) => link.href)
-          .filter((href) => href.startsWith("https://")),
+        sameAs: socialLinks.map((link) => link.href).filter((href) => href.startsWith("https://")),
       },
     ],
   };

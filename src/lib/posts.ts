@@ -3,8 +3,8 @@
  * Uses build-time manifest for listing, lazy loads content on demand.
  */
 
-import type { PostMeta, PostSlug } from "./types";
 import postsManifest from "./posts-manifest.json";
+import type { PostMeta, PostSlug } from "./types";
 
 export type { PostMeta, PostSlug } from "./types";
 

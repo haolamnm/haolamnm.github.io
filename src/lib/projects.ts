@@ -16,8 +16,7 @@ export const projects: Project[] = [
   {
     id: "jneurite",
     title: "jneurite",
-    description:
-      "A simple vector database indexer with Ollama written in Java.",
+    description: "A simple vector database indexer with Ollama written in Java.",
     tags: ["Java", "Ollama", "Vector", "Indexer"],
     github: "https://github.com/haolamnm/jneurite",
     codeberg: "https://codeberg.org/haolamnm/jneurite",
@@ -44,8 +43,7 @@ export const projects: Project[] = [
   {
     id: "wharf",
     title: "wharf",
-    description:
-      "A simple file and directory description tool written in Rust.",
+    description: "A simple file and directory description tool written in Rust.",
     tags: ["Rust", "CLI", "clap"],
     github: "https://github.com/haolamnm/wharf",
     codeberg: "https://codeberg.org/haolamnm/wharf",
@@ -73,8 +71,7 @@ export const projects: Project[] = [
   {
     id: "poker-game",
     title: "poker-game",
-    description:
-      "A classic Poker Game using C++11 and SDL2, support strategy, graphics, and smooth gameplay.",
+    description: "A classic Poker Game using C++11 and SDL2, support strategy, graphics, and smooth gameplay.",
     tags: ["C++", "SDL2", "GUI", "Game"],
     github: "https://github.com/haolamnm/poker-game",
     featured: false,
@@ -82,8 +79,7 @@ export const projects: Project[] = [
   {
     id: "portfolio",
     title: "portfolio",
-    description:
-      "A simple portfolio website built with TypeScript, React, Tailwind, Vite.",
+    description: "A simple portfolio website built with TypeScript, React, Tailwind, Vite.",
     tags: ["TypeScript", "React", "Tailwind", "Vite"],
     github: "https://github.com/haolamnm/haolamnm.github.io",
     codeberg: "https://codeberg.org/haolamnm/haolamnm.github.io",
@@ -93,8 +89,7 @@ export const projects: Project[] = [
   {
     id: "caffind",
     title: "caffind",
-    description:
-      "A vibe-coded web app to find coffee shops around your location written in TypeScript.",
+    description: "A vibe-coded web app to find coffee shops around your location written in TypeScript.",
     tags: ["TypeScript", "React", "Vite", "Firebase"],
     github: "https://github.com/haolamnm/caffind",
     codeberg: "https://codeberg.org/haolamnm/caffind",
@@ -123,8 +118,7 @@ export const projects: Project[] = [
   {
     id: "dictionary",
     title: "dictionary",
-    description:
-      "A simple console-based dictionary app using Trie and BK-Tree for fast lookups written in C++.",
+    description: "A simple console-based dictionary app using Trie and BK-Tree for fast lookups written in C++.",
     tags: ["C++", "CLI", "DSA", "Trie", "BK-Tree"],
     github: "https://github.com/haolamnm/dictionary",
     featured: false,
@@ -132,8 +126,7 @@ export const projects: Project[] = [
   {
     id: "flashcard-50",
     title: "flashcard-50",
-    description:
-      "A simple streamlit app for flashcard learning written in Python.",
+    description: "A simple streamlit app for flashcard learning written in Python.",
     tags: ["Python", "Streamlit", "CS50P"],
     github: "https://github.com/haolamnm/flashcard-50",
     featured: false,
@@ -141,8 +134,7 @@ export const projects: Project[] = [
   {
     id: "autodoor",
     title: "autodoor",
-    description:
-      "An Arduino script to auto open-close and tint-clear door based on weather written in C++",
+    description: "An Arduino script to auto open-close and tint-clear door based on weather written in C++",
     tags: ["C++", "Arduino", "Embedded"],
     github: "https://github.com/haolamnm/autodoor",
     codeberg: "https://codeberg.org/haolamnm/autodoor",

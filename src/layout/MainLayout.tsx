@@ -1,9 +1,9 @@
-import type { ReactNode } from "react";
-import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import Navigation from "@components/Navigation";
 import SocialDock from "@components/SocialDock";
 import { footerContent } from "@lib/content";
+import type { ReactNode } from "react";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 interface MainLayoutProps {
   readonly children: ReactNode;
@@ -52,20 +52,18 @@ export default function MainLayout({ children }: MainLayoutProps) {
               pt-20: Offset for fixed header (approx 80px)
               pb-32: Offset for fixed social dock at bottom + breathing room
             */}
-      <main className="relative z-10 pt-20 pb-32 min-h-screen">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 max-w-6xl">
-          {children}
-        </div>
+      <main className="relative z-10 min-h-screen pt-20 pb-32">
+        <div className="container mx-auto max-w-6xl px-4 md:px-6 lg:px-8">{children}</div>
       </main>
 
       <SocialDock />
 
-      <footer className="fixed bottom-1 md:bottom-2 left-0 right-0 md:left-auto md:right-4 z-40 flex justify-center md:justify-end">
+      <footer className="fixed right-0 bottom-1 left-0 z-40 flex justify-center md:right-4 md:bottom-2 md:left-auto md:justify-end">
         <a
           href={footerContent.bugReport.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs text-zinc-400 hover:text-zinc-300 transition-colors"
+          className="text-xs text-zinc-400 transition-colors hover:text-zinc-300"
         >
           {footerContent.bugReport.text}
         </a>

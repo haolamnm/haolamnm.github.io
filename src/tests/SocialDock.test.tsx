@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
+import SocialDock from "@components/SocialDock";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import SocialDock from "@components/SocialDock";
+import { describe, expect, it } from "vitest";
 
 /**
  * SocialDock component tests.

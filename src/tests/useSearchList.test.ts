@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { renderHook, act } from "@testing-library/react";
-import { useSearchList, type StringKeys } from "@/hooks/useSearchList";
+import { act, renderHook } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+import { type StringKeys, useSearchList } from "@/hooks/useSearchList";
 
 interface TestItem {
   id: number;
@@ -42,17 +43,13 @@ describe("useSearchList", () => {
   });
 
   it("returns all items when query is empty", () => {
-    const { result } = renderHook(() =>
-      useSearchList({ items: testItems, searchFields: defaultSearchFields })
-    );
+    const { result } = renderHook(() => useSearchList({ items: testItems, searchFields: defaultSearchFields }));
     expect(result.current.filtered).toHaveLength(5);
     expect(result.current.query).toBe("");
   });
 
   it("filters items by string field", () => {
-    const { result } = renderHook(() =>
-      useSearchList({ items: testItems, searchFields: titleSearchFields })
-    );
+    const { result } = renderHook(() => useSearchList({ items: testItems, searchFields: titleSearchFields }));
 
     act(() => {
       result.current.setQuery("react");
@@ -64,9 +61,7 @@ describe("useSearchList", () => {
   });
 
   it("filters items by array field (tags)", () => {
-    const { result } = renderHook(() =>
-      useSearchList({ items: testItems, searchFields: tagsSearchFields })
-    );
+    const { result } = renderHook(() => useSearchList({ items: testItems, searchFields: tagsSearchFields }));
 
     act(() => {
       result.current.setQuery("javascript");
@@ -77,9 +72,7 @@ describe("useSearchList", () => {
   });
 
   it("is case insensitive", () => {
-    const { result } = renderHook(() =>
-      useSearchList({ items: testItems, searchFields: titleSearchFields })
-    );
+    const { result } = renderHook(() => useSearchList({ items: testItems, searchFields: titleSearchFields }));
 
     act(() => {
       result.current.setQuery("PYTHON");
@@ -128,9 +121,7 @@ describe("useSearchList", () => {
   });
 
   it("returns empty array for no matches", () => {
-    const { result } = renderHook(() =>
-      useSearchList({ items: testItems, searchFields: titleSearchFields })
-    );
+    const { result } = renderHook(() => useSearchList({ items: testItems, searchFields: titleSearchFields }));
 
     act(() => {
       result.current.setQuery("nonexistent");
@@ -143,9 +134,7 @@ describe("useSearchList", () => {
   });
 
   it("handles whitespace-only query as empty", () => {
-    const { result } = renderHook(() =>
-      useSearchList({ items: testItems, searchFields: titleSearchFields })
-    );
+    const { result } = renderHook(() => useSearchList({ items: testItems, searchFields: titleSearchFields }));
 
     act(() => {
       result.current.setQuery("   ");

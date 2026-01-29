@@ -3,7 +3,7 @@
  * @module useSearchList
  */
 
-import { useState, useMemo, useDeferredValue } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 
 /** Extract keys where value is string or string[] (including optional) */
 export type StringKeys<T> = {
@@ -44,11 +44,7 @@ function fieldMatchesQuery<T>(item: T, field: keyof T, query: string): boolean {
 /**
  * Check if any of the search fields match the query.
  */
-function itemMatchesQuery<T>(
-  item: T,
-  searchFields: (keyof T)[],
-  query: string
-): boolean {
+function itemMatchesQuery<T>(item: T, searchFields: (keyof T)[], query: string): boolean {
   return searchFields.some((field) => fieldMatchesQuery(item, field, query));
 }
 

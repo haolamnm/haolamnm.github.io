@@ -1,5 +1,5 @@
-import { test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { test } from "@playwright/test";
 
 test("check homepage accessibility - detailed output", async ({ page }) => {
     await page.goto("/");

@@ -1,8 +1,8 @@
+import { seoContent } from "@lib/content";
+import type { JsonLdData } from "@lib/types";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
-import { seoContent } from "@lib/content";
-import type { JsonLdData } from "@lib/types";
 
 interface SEOProps {
   readonly title?: string;
@@ -25,9 +25,7 @@ export function SEOComponent({
   jsonLd,
 }: SEOProps) {
   const location = useLocation();
-  const fullTitle = title
-    ? `${title} | ${seoContent.siteName}`
-    : seoContent.defaultTitle;
+  const fullTitle = title ? `${title} | ${seoContent.siteName}` : seoContent.defaultTitle;
 
   // Directly set document.title as reliable fallback for SPA navigation
   // react-helmet-async can be flaky during route changes
@@ -35,9 +33,7 @@ export function SEOComponent({
     document.title = fullTitle;
   }, [fullTitle]);
 
-  const fullImageUrl = image.startsWith("http")
-    ? image
-    : `${seoContent.siteUrl}${image}`;
+  const fullImageUrl = image.startsWith("http") ? image : `${seoContent.siteUrl}${image}`;
 
   const fullUrl = `${seoContent.siteUrl}${location.pathname}`;
 
@@ -65,9 +61,7 @@ export function SEOComponent({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImageUrl} />
 
-      {jsonLd && (
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      )}
+      {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
     </Helmet>
   );
 }

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { PARTICLE_CONFIG } from "@lib/particle-config";
 import { debounce } from "@lib/utils";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 interface Particle {
   id: number;
@@ -41,8 +41,7 @@ export default function ParticleField() {
 
   useEffect(() => {
     const mq = globalThis.matchMedia("(prefers-reduced-motion: reduce)");
-    const onChange = (e: MediaQueryListEvent) =>
-      setPrefersReducedMotion(e.matches);
+    const onChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
     mq.addEventListener?.("change", onChange);
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
@@ -69,10 +68,7 @@ export default function ParticleField() {
      * Generate edge-biased position (85% edges, 15% center).
      * Creates subtle frame effect without obscuring content.
      */
-    const generateEdgeBiasedPosition = (
-      width: number,
-      height: number
-    ): { x: number; y: number } => {
+    const generateEdgeBiasedPosition = (width: number, height: number): { x: number; y: number } => {
       const edgeBias = visualRandom() < PARTICLE_CONFIG.edgeBias;
       const thickness = PARTICLE_CONFIG.frameThickness;
       const innerStart = 1 - thickness;
@@ -106,26 +102,20 @@ export default function ParticleField() {
       }
     };
 
-    particlesRef.current = Array.from(
-      { length: PARTICLE_CONFIG.count },
-      (_, i) => {
-        const pos = generateEdgeBiasedPosition(canvas.width, canvas.height);
-        const { sizeRange, opacityRange } = PARTICLE_CONFIG;
-        return {
-          id: i,
-          x: pos.x,
-          y: pos.y,
-          vx: 0,
-          vy: 0,
-          size:
-            sizeRange.min + visualRandom() * (sizeRange.max - sizeRange.min),
-          opacity:
-            opacityRange.min +
-            visualRandom() * (opacityRange.max - opacityRange.min),
-          pulse: visualRandom() * Math.PI * 2,
-        };
-      }
-    );
+    particlesRef.current = Array.from({ length: PARTICLE_CONFIG.count }, (_, i) => {
+      const pos = generateEdgeBiasedPosition(canvas.width, canvas.height);
+      const { sizeRange, opacityRange } = PARTICLE_CONFIG;
+      return {
+        id: i,
+        x: pos.x,
+        y: pos.y,
+        vx: 0,
+        vy: 0,
+        size: sizeRange.min + visualRandom() * (sizeRange.max - sizeRange.min),
+        opacity: opacityRange.min + visualRandom() * (opacityRange.max - opacityRange.min),
+        pulse: visualRandom() * Math.PI * 2,
+      };
+    });
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
@@ -177,17 +167,14 @@ export default function ParticleField() {
           const dy = mouse.y - p.y;
           const dist = Math.hypot(dx, dy);
 
-          const { attractRadius, repelRadius, attractForce, repelForce } =
-            PARTICLE_CONFIG;
+          const { attractRadius, repelRadius, attractForce, repelForce } = PARTICLE_CONFIG;
 
           if (dist < repelRadius && dist > 0) {
             const force = ((repelRadius - dist) / repelRadius) * repelForce;
             p.vx -= (dx / dist) * force;
             p.vy -= (dy / dist) * force;
           } else if (dist < attractRadius && dist > repelRadius) {
-            const force =
-              ((dist - repelRadius) / (attractRadius - repelRadius)) *
-              attractForce;
+            const force = ((dist - repelRadius) / (attractRadius - repelRadius)) * attractForce;
             p.vx += (dx / dist) * force;
             p.vy += (dy / dist) * force;
           }
@@ -236,7 +223,7 @@ export default function ParticleField() {
     <motion.canvas
       ref={canvasRef}
       data-testid="particle-canvas"
-      className="fixed inset-0 pointer-events-none z-0"
+      className="pointer-events-none fixed inset-0 z-0"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5 }}

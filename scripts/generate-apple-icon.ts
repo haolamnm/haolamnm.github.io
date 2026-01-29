@@ -1,5 +1,6 @@
-import { Resvg } from '@resvg/resvg-js';
 import { writeFileSync } from 'node:fs';
+
+import { Resvg } from '@resvg/resvg-js';
 
 // Read the existing SVG icon
 // const svg = readFileSync('public/icon.svg', 'utf-8');

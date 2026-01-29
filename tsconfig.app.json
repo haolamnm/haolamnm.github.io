@@ -10,7 +10,8 @@
     ],
     "module": "ESNext",
     "types": [
-      "vite/client"
+      "vite/client",
+      "@types/bun"
     ],
     "incremental": true,
     "skipLibCheck": true,
@@ -21,6 +22,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "resolveJsonModule": true,
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -28,6 +30,10 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": true,
     /* Path aliases */
     "baseUrl": ".",
     "paths": {

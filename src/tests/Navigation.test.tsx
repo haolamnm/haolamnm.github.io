@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
 import Navigation from "@components/Navigation";
 import { navItems } from "@lib/config";
+import { render, screen } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { describe, expect, it } from "vitest";
 
 /**
  * Navigation component tests.

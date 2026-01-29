@@ -30,6 +30,36 @@
 @import "tailwindcss";
 
 /* ============================================
+   TAILWIND v4 THEME CONFIGURATION
+   Migrated from tailwind.config.ts to CSS-first format
+   ============================================ */
+@theme {
+  /* Custom Fonts */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  /* Custom Backdrop Blur */
+  --backdrop-blur-2xl: 40px;
+  --backdrop-blur-3xl: 64px;
+
+  /* Custom Animations */
+  --animate-shimmer: shimmer 2.5s linear infinite;
+  --animate-float-slow: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+
+  /* Custom Z-Index Scale */
+  --z-background: 0;
+  --z-content: 10;
+  --z-sticky: 30;
+  --z-footer: 40;
+  --z-dock: 50;
+  --z-header: 60;
+  --z-modal: 70;
+  --z-tooltip: 80;
+  --z-toast: 90;
+}
+
+/* ============================================
    DESIGN TOKENS
    Centralized values for consistency and theming
    ============================================ */
@@ -38,8 +68,6 @@
   --color-surface: rgba(255, 255, 255, 0.05);
   --color-border: rgba(255, 255, 255, 0.1);
   --color-border-hover: rgba(255, 255, 255, 0.2);
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
 /* ============================================
@@ -52,7 +80,7 @@
   }
 
   body {
-    @apply bg-zinc-950 text-white font-sans;
+    @apply bg-zinc-950 font-sans text-white;
     min-height: 100vh;
   }
 
@@ -62,7 +90,7 @@
 
   /* Keyboard focus only - no mouse focus ring */
   :focus-visible {
-    @apply outline-none ring-2 ring-white/50 ring-offset-2 ring-offset-zinc-950;
+    @apply ring-2 ring-white/50 ring-offset-2 ring-offset-zinc-950 outline-none;
   }
 }
 
@@ -73,7 +101,7 @@
 @layer components {
   /* Glass Card - Glassmorphism base component */
   .glass-card {
-    @apply bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl;
+    @apply rounded-2xl border border-white/15 bg-white/5 backdrop-blur-xl;
     @apply transition-all duration-300 ease-out;
   }
 
@@ -86,9 +114,9 @@
 
   /* Glass Button - Interactive glass element */
   .glass-button {
-    @apply bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl;
+    @apply rounded-2xl border border-white/15 bg-white/5 backdrop-blur-xl;
     @apply transition-all duration-300 ease-out;
-    @apply px-4 py-2 cursor-pointer;
+    @apply cursor-pointer px-4 py-2;
     @apply active:scale-95;
   }
 
@@ -161,14 +189,36 @@
   }
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
 /* ============================================
    CODE BLOCK STYLING
    Blog post code blocks
    ============================================ */
 pre {
-  @apply bg-white/5 backdrop-blur-xl border border-white/15 rounded-2xl;
+  @apply rounded-2xl border border-white/15 bg-white/5 backdrop-blur-xl;
   @apply transition-all duration-300 ease-out;
-  @apply p-4 overflow-x-auto font-mono text-sm relative;
+  @apply relative overflow-x-auto p-4 font-mono text-sm;
 }
 
 pre::before {
@@ -182,7 +232,7 @@ code {
 
 /* Inline code */
 :not(pre) > code {
-  @apply bg-white/10 px-1.5 py-0.5 rounded text-zinc-300;
+  @apply rounded bg-white/10 px-1.5 py-0.5 text-zinc-300;
 }
 
 /* ============================================
@@ -278,25 +328,25 @@ pre code .hljs-built_in {
    MARKDOWN/BLOG STYLING
    ============================================ */
 .prose-content {
-  @apply text-zinc-300 leading-relaxed;
+  @apply leading-relaxed text-zinc-300;
 }
 
 .prose-content h1,
 .prose-content h2,
 .prose-content h3 {
-  @apply text-white font-bold font-mono;
+  @apply font-mono font-bold text-white;
 }
 
 .prose-content h1 {
-  @apply text-3xl mb-6;
+  @apply mb-6 text-3xl;
 }
 
 .prose-content h2 {
-  @apply text-2xl mt-8 mb-4;
+  @apply mt-8 mb-4 text-2xl;
 }
 
 .prose-content h3 {
-  @apply text-xl mt-6 mb-3;
+  @apply mt-6 mb-3 text-xl;
 }
 
 .prose-content p {
@@ -304,7 +354,7 @@ pre code .hljs-built_in {
 }
 
 .prose-content a {
-  @apply text-white underline underline-offset-4 hover:text-zinc-300 transition-colors;
+  @apply text-white underline underline-offset-4 transition-colors hover:text-zinc-300;
 }
 
 .prose-content ul,
@@ -317,7 +367,7 @@ pre code .hljs-built_in {
 }
 
 .prose-content blockquote {
-  @apply border-l-2 border-white/30 pl-4 italic text-zinc-400;
+  @apply border-l-2 border-white/30 pl-4 text-zinc-400 italic;
 }
 
 /* Print stylesheet for PDF exports */

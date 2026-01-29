@@ -1,5 +1,5 @@
-import { type ReactNode, memo } from "react";
 import { motion } from "framer-motion";
+import { memo, type ReactNode } from "react";
 
 type GlassVariant = "default" | "hoverable" | "interactive";
 
@@ -11,11 +11,7 @@ interface GlassCardProps {
 }
 
 /** Glassmorphism card with variant styles */
-const GlassCard = memo(function GlassCard({
-  children,
-  variant = "hoverable",
-  className = "",
-}: GlassCardProps) {
+const GlassCard = memo(function GlassCard({ children, variant = "hoverable", className = "" }: GlassCardProps) {
   const getHoverProps = () => {
     switch (variant) {
       case "interactive":

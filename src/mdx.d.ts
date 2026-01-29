@@ -1,6 +1,6 @@
 /** MDX module type declarations for TypeScript */
 declare module "*.mdx" {
-  import type { ComponentType, ReactNode, HTMLAttributes } from "react";
+  import type { ComponentType, HTMLAttributes, ReactNode } from "react";
 
   export const frontmatter: {
     title: string;
@@ -10,10 +10,7 @@ declare module "*.mdx" {
   };
 
   interface MDXProps {
-    components?: Record<
-      string,
-      ComponentType<HTMLAttributes<HTMLElement> & { children?: ReactNode }>
-    >;
+    components?: Record<string, ComponentType<HTMLAttributes<HTMLElement> & { children?: ReactNode }>>;
   }
 
   const MDXComponent: ComponentType<MDXProps>;

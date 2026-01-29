@@ -3,13 +3,12 @@
  * Single source of truth for personal info.
  */
 
-import type { SocialLink, NavItem } from "./types";
+import type { NavItem, SocialLink } from "./types";
 
 export const siteConfig = {
   name: "Hao Lam",
   role: "Computer Vision",
-  description:
-    "Exploring the frontiers of Computer Vision. Bridging the gap between pixels and perception.",
+  description: "Exploring the frontiers of Computer Vision. Bridging the gap between pixels and perception.",
   email: "me@haolamnm.dev",
   domain: "haolamnm.dev",
 } as const;

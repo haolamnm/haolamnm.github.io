@@ -3,9 +3,10 @@
  * Creates JSON metadata file for lazy-loading without bundling full MDX.
  */
 
-import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join, basename, dirname } from "node:path";
+import { existsSync,readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, dirname,join } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import matter from "gray-matter";
 
 import type { PostMeta } from "../src/lib/types";

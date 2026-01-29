@@ -1,15 +1,16 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { getAllPosts, type PostMeta } from "@lib/posts";
-import { formatDate } from "@lib/formatters";
-import { pageContent } from "@lib/content";
-import { CalendarIcon, ArrowRightIcon } from "@lib/icons";
-import { staggerContainer, fadeInUp, pageEntrance } from "@lib/animations";
-import { useSearchList, type StringKeys } from "@/hooks/useSearchList";
 import GlassCard from "@components/GlassCard";
-import Tag from "@components/Tag";
-import { SEOComponent } from "@components/SEO";
 import { SearchInput } from "@components/SearchInput";
+import { SEOComponent } from "@components/SEO";
+import Tag from "@components/Tag";
+import { fadeInUp, pageEntrance, staggerContainer } from "@lib/animations";
+import { pageContent } from "@lib/content";
+import { formatDate } from "@lib/formatters";
+import { ArrowRightIcon, CalendarIcon } from "@lib/icons";
+import { getAllPosts, type PostMeta } from "@lib/posts";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+
+import { type StringKeys, useSearchList } from "@/hooks/useSearchList";
 
 const content = pageContent.thoughts;
 const SEARCH_FIELDS: StringKeys<PostMeta>[] = ["title", "excerpt", "tags"];
@@ -17,26 +18,18 @@ const SEARCH_FIELDS: StringKeys<PostMeta>[] = ["title", "excerpt", "tags"];
 /** Blog listing with search and pagination */
 export default function ThoughtsPage() {
   const allPosts = getAllPosts();
-  const { query, setQuery, visible, filtered, hasMore, loadMore } =
-    useSearchList({
-      items: allPosts,
-      searchFields: SEARCH_FIELDS,
-    });
+  const { query, setQuery, visible, filtered, hasMore, loadMore } = useSearchList({
+    items: allPosts,
+    searchFields: SEARCH_FIELDS,
+  });
 
   return (
     <>
       <SEOComponent title={content.title} description={content.subtitle} />
       <section>
-        <motion.div
-          variants={pageEntrance}
-          initial="hidden"
-          animate="visible"
-          className="mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold font-mono mb-4">
-            {content.title}
-          </h1>
-          <p className="text-zinc-400 text-lg max-w-2xl">{content.subtitle}</p>
+        <motion.div variants={pageEntrance} initial="hidden" animate="visible" className="mb-12">
+          <h1 className="mb-4 font-mono text-4xl font-bold md:text-5xl">{content.title}</h1>
+          <p className="max-w-2xl text-lg text-zinc-400">{content.subtitle}</p>
         </motion.div>
 
         <motion.div
@@ -46,45 +39,26 @@ export default function ThoughtsPage() {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <SearchInput
-            value={query}
-            onChange={setQuery}
-            placeholder={content.searchPlaceholder}
-          />
+          <SearchInput value={query} onChange={setQuery} placeholder={content.searchPlaceholder} />
         </motion.div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="space-y-4"
-        >
+        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-4">
           {visible.map((post) => (
             <PostCard key={post.slug} post={post} />
           ))}
 
           {filtered.length === 0 && (
-            <motion.p
-              variants={fadeInUp}
-              className="text-center text-zinc-400 py-12"
-            >
-              {allPosts.length === 0
-                ? content.emptyDefault
-                : content.emptyState(query)}
+            <motion.p variants={fadeInUp} className="py-12 text-center text-zinc-400">
+              {allPosts.length === 0 ? content.emptyDefault : content.emptyState(query)}
             </motion.p>
           )}
         </motion.div>
 
         {hasMore && (
-          <motion.div
-            variants={fadeInUp}
-            initial="hidden"
-            animate="visible"
-            className="flex justify-center mt-8"
-          >
+          <motion.div variants={fadeInUp} initial="hidden" animate="visible" className="mt-8 flex justify-center">
             <button
               onClick={loadMore}
-              className="glass-button px-6 py-3 text-zinc-400 hover:text-white transition-colors"
+              className="glass-button px-6 py-3 text-zinc-400 transition-colors hover:text-white"
             >
               {content.loadMore}
             </button>
@@ -102,29 +76,27 @@ function PostCard({ post }: { readonly post: PostMeta }) {
     <motion.div variants={fadeInUp} data-testid="post-card" layout>
       <Link to={`/thoughts/${post.slug}`}>
         <GlassCard className="group">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="grow">
-              <div className="flex flex-wrap gap-2 mb-2">
+              <div className="mb-2 flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
                   <Tag key={tag}>{tag}</Tag>
                 ))}
               </div>
 
-              <h2 className="text-xl font-bold font-mono text-white mb-2 group-hover:text-zinc-200 transition-colors">
+              <h2 className="mb-2 font-mono text-xl font-bold text-white transition-colors group-hover:text-zinc-200">
                 {post.title}
               </h2>
 
-              <p className="text-zinc-400 text-sm line-clamp-2">
-                {post.excerpt}
-              </p>
+              <p className="line-clamp-2 text-sm text-zinc-400">{post.excerpt}</p>
             </div>
 
             <div className="flex items-center gap-4 md:flex-col md:items-end">
               <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <CalendarIcon className="w-4 h-4" />
+                <CalendarIcon className="h-4 w-4" />
                 <span>{formattedDate}</span>
               </div>
-              <ArrowRightIcon className="w-5 h-5 text-zinc-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
+              <ArrowRightIcon className="h-5 w-5 text-zinc-400 transition-all group-hover:translate-x-1 group-hover:text-white" />
             </div>
           </div>
         </GlassCard>

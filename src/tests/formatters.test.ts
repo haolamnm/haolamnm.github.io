@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
 import { formatDate } from "@lib/formatters";
+import { describe, expect, it } from "vitest";
 
 /**
  * Formatters utility tests.

@@ -1,8 +1,8 @@
-import { describe, it, expect, afterEach } from "vitest";
-import { render, waitFor, cleanup } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
 import { SEOComponent } from "@components/SEO";
+import { cleanup, render, waitFor } from "@testing-library/react";
+import { HelmetProvider } from "react-helmet-async";
+import { MemoryRouter } from "react-router-dom";
+import { afterEach, describe, expect, it } from "vitest";
 
 /**
  * SEO component tests.

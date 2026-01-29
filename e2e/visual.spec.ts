@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect,test } from "@playwright/test";
 
 /** Hide particle canvas to prevent flaky tests from random positions */
 async function hideParticles(page: import("@playwright/test").Page) {

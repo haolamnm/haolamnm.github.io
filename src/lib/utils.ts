@@ -15,10 +15,7 @@ export function cn(...inputs: ClassValue[]) {
  * @param ms - Delay in milliseconds
  * @returns Debounced function
  */
-export function debounce<T extends (...args: unknown[]) => void>(
-  fn: T,
-  ms: number
-): T {
+export function debounce<T extends (...args: unknown[]) => void>(fn: T, ms: number): T {
   let timer: ReturnType<typeof setTimeout>;
   return ((...args: unknown[]) => {
     clearTimeout(timer);

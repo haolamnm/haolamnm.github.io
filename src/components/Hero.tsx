@@ -1,48 +1,35 @@
-import { motion } from "framer-motion";
+import { fadeInUp, heroEntrance, staggerContainer } from "@lib/animations";
 import { heroContent } from "@lib/content";
-import { staggerContainer, fadeInUp, heroEntrance } from "@lib/animations";
+import { motion } from "framer-motion";
 
 /** Hero section - landing page focal point */
 export default function Hero() {
   const { tagline } = heroContent;
 
   return (
-    <section className="min-h-[70vh] flex flex-col items-center justify-center text-center">
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col items-center"
-      >
+    <section className="flex min-h-[70vh] flex-col items-center justify-center text-center">
+      <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="flex flex-col items-center">
         <motion.span
           variants={fadeInUp}
-          className="inline-block px-4 py-1.5 mb-6 text-sm font-mono text-zinc-300 glass-card"
+          className="glass-card mb-6 inline-block px-4 py-1.5 font-mono text-sm text-zinc-300"
         >
           {heroContent.role}
         </motion.span>
 
         <motion.h1
           variants={heroEntrance}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold font-sans tracking-tight mb-6"
+          className="mb-6 font-sans text-5xl font-bold tracking-tight md:text-7xl lg:text-8xl"
         >
           <span className="text-shimmer">{heroContent.name}</span>
         </motion.h1>
 
-        <motion.p
-          variants={fadeInUp}
-          className="text-xl md:text-2xl text-zinc-300 max-w-xl mb-8"
-        >
-          {tagline.prefix}{" "}
-          <span className="text-white font-semibold">{tagline.emphasis1}</span>{" "}
-          {tagline.middle}{" "}
-          <span className="text-white font-semibold">{tagline.emphasis2}</span>
+        <motion.p variants={fadeInUp} className="mb-8 max-w-xl text-xl text-zinc-300 md:text-2xl">
+          {tagline.prefix} <span className="font-semibold text-white">{tagline.emphasis1}</span> {tagline.middle}{" "}
+          <span className="font-semibold text-white">{tagline.emphasis2}</span>
           {tagline.suffix}
         </motion.p>
 
-        <motion.p
-          variants={fadeInUp}
-          className="text-base md:text-lg text-zinc-300 max-w-2xl leading-relaxed"
-        >
+        <motion.p variants={fadeInUp} className="max-w-2xl text-base leading-relaxed text-zinc-300 md:text-lg">
           {heroContent.description}
         </motion.p>
       </motion.div>

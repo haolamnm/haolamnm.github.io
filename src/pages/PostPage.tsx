@@ -1,14 +1,14 @@
-import { useParams, Link } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { SEOComponent } from "@components/SEO";
+import Tag from "@components/Tag";
+import { pageEntrance } from "@lib/animations";
+import { buildArticleJsonLd, pageContent } from "@lib/content";
+import { formatDate } from "@lib/formatters";
+import { ArrowLeftIcon, CalendarIcon } from "@lib/icons";
 import { getPostBySlug, type Post } from "@lib/posts";
 import { asPostSlug } from "@lib/types";
-import { formatDate } from "@lib/formatters";
-import { pageContent, buildArticleJsonLd } from "@lib/content";
-import { pageEntrance } from "@lib/animations";
-import { ArrowLeftIcon, CalendarIcon } from "@lib/icons";
-import Tag from "@components/Tag";
-import { SEOComponent } from "@components/SEO";
+import { motion } from "framer-motion";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const content = pageContent.post;
 
@@ -39,17 +39,12 @@ export default function PostPage() {
   }, [slug]);
 
   useEffect(() => {
-    loadPost();
+    void loadPost();
   }, [loadPost]);
 
   if (loading) {
     return (
-      <motion.div
-        variants={pageEntrance}
-        initial="hidden"
-        animate="visible"
-        className="text-center py-24"
-      >
+      <motion.div variants={pageEntrance} initial="hidden" animate="visible" className="py-24 text-center">
         <div className="text-zinc-400">{content.loading}</div>
       </motion.div>
     );
@@ -57,19 +52,12 @@ export default function PostPage() {
 
   if (error) {
     return (
-      <motion.div
-        variants={pageEntrance}
-        initial="hidden"
-        animate="visible"
-        className="text-center py-24"
-      >
-        <h1 className="text-4xl font-bold font-mono mb-4">
-          {content.error.title}
-        </h1>
-        <p className="text-zinc-400 mb-8">{content.error.description}</p>
+      <motion.div variants={pageEntrance} initial="hidden" animate="visible" className="py-24 text-center">
+        <h1 className="mb-4 font-mono text-4xl font-bold">{content.error.title}</h1>
+        <p className="mb-8 text-zinc-400">{content.error.description}</p>
         <button
-          onClick={loadPost}
-          className="inline-flex items-center gap-2 px-4 py-2 glass-card text-white hover:bg-white/10 transition-colors"
+          onClick={() => void loadPost()}
+          className="glass-card inline-flex items-center gap-2 px-4 py-2 text-white transition-colors hover:bg-white/10"
         >
           {content.error.retry}
         </button>
@@ -79,21 +67,14 @@ export default function PostPage() {
 
   if (!post) {
     return (
-      <motion.div
-        variants={pageEntrance}
-        initial="hidden"
-        animate="visible"
-        className="text-center py-24"
-      >
-        <h1 className="text-4xl font-bold font-mono mb-4">
-          {content.notFound.title}
-        </h1>
-        <p className="text-zinc-400 mb-8">{content.notFound.description}</p>
+      <motion.div variants={pageEntrance} initial="hidden" animate="visible" className="py-24 text-center">
+        <h1 className="mb-4 font-mono text-4xl font-bold">{content.notFound.title}</h1>
+        <p className="mb-8 text-zinc-400">{content.notFound.description}</p>
         <Link
           to="/thoughts"
-          className="inline-flex items-center gap-2 text-white hover:text-zinc-300 transition-colors"
+          className="inline-flex items-center gap-2 text-white transition-colors hover:text-zinc-300"
         >
-          <ArrowLeftIcon className="w-4 h-4" />
+          <ArrowLeftIcon className="h-4 w-4" />
           {content.notFound.backLink}
         </Link>
       </motion.div>
@@ -112,22 +93,17 @@ export default function PostPage() {
         type="article"
         jsonLd={buildArticleJsonLd(post.title, post.date, post.excerpt)}
       />
-      <motion.article
-        variants={pageEntrance}
-        initial="hidden"
-        animate="visible"
-        className="max-w-3xl mx-auto"
-      >
+      <motion.article variants={pageEntrance} initial="hidden" animate="visible" className="mx-auto max-w-3xl">
         <Link
           to="/thoughts"
-          className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-8"
+          className="mb-8 inline-flex items-center gap-2 text-zinc-400 transition-colors hover:text-white"
         >
-          <ArrowLeftIcon className="w-4 h-4" />
+          <ArrowLeftIcon className="h-4 w-4" />
           {content.backLink}
         </Link>
 
         <header className="mb-12">
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="mb-4 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
               <Tag key={tag} size="md">
                 {tag}
@@ -135,12 +111,10 @@ export default function PostPage() {
             ))}
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold font-mono mb-4">
-            {post.title}
-          </h1>
+          <h1 className="mb-4 font-mono text-4xl font-bold md:text-5xl">{post.title}</h1>
 
           <div className="flex items-center gap-2 text-zinc-400">
-            <CalendarIcon className="w-4 h-4" />
+            <CalendarIcon className="h-4 w-4" />
             <time dateTime={post.date}>{formattedDate}</time>
           </div>
         </header>
