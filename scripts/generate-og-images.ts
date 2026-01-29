@@ -3,9 +3,9 @@
  * Creates PNG images at dist/og/[slug].png for social media previews.
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { join, dirname } from "path";
-import { fileURLToPath } from "url";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import type { ReactNode } from "react";
@@ -377,4 +377,9 @@ async function main(): Promise<void> {
     }
 }
 
-main().catch(console.error);
+try {
+    await main();
+} catch (error) {
+    console.error(error);
+    process.exit(1);
+}

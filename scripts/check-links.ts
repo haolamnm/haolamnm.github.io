@@ -4,8 +4,8 @@
  * Uses linkinator to validate all internal and external links.
  */
 
-import { spawn } from "child_process";
-import { existsSync } from "fs";
+import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
 
 const DIST_DIR = "./dist";
 const PORT = 4173;
@@ -60,7 +60,9 @@ async function checkLinks(): Promise<void> {
     process.exit(0);
 }
 
-checkLinks().catch((error) => {
+try {
+    await checkLinks();
+} catch (error) {
     console.error("Link check failed:", error);
     process.exit(1);
-});
+}

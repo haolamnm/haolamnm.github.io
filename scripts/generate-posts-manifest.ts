@@ -3,12 +3,13 @@
  * Creates JSON metadata file for lazy-loading without bundling full MDX.
  */
 
-import { readdirSync, readFileSync, writeFileSync, existsSync } from "fs";
-import { join, basename, dirname } from "path";
-import { fileURLToPath } from "url";
+import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { join, basename, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import matter from "gray-matter";
 
 import type { PostMeta } from "../src/lib/types";
+import { asPostSlug } from "../src/lib/types";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const POSTS_DIR = join(__dirname, "../src/posts");
@@ -32,7 +33,7 @@ function generateManifest(): void {
         const { data } = matter(content);
 
         return {
-            slug: basename(file, ".mdx"),
+            slug: asPostSlug(basename(file, ".mdx")),
             title: data.title ?? basename(file, ".mdx"),
             date: data.date ?? new Date().toISOString().split("T")[0],
             excerpt: data.excerpt ?? "",
