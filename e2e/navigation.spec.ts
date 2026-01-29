@@ -14,14 +14,14 @@ test.describe("Site Navigation", () => {
     test("can navigate to Projects page", async ({ page }) => {
         await page.goto("/");
         await page.click("text=Projects");
-        await expect(page).toHaveURL(/.*projects/);
+        await expect(page).toHaveURL("/projects");
         await expect(page.locator("h1")).toContainText("Projects");
     });
 
     test("can navigate to Thoughts page", async ({ page }) => {
         await page.goto("/");
         await page.click("text=Thoughts");
-        await expect(page).toHaveURL(/.*thoughts/);
+        await expect(page).toHaveURL("/thoughts");
         await expect(page.locator("h1")).toContainText("Thoughts");
     });
 
