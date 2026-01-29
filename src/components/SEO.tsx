@@ -4,72 +4,70 @@ import { seoContent } from "@lib/content";
 import type { JsonLdData } from "@lib/types";
 
 interface SEOProps {
-    title?: string;
-    description?: string;
-    image?: string;
-    type?: "website" | "article";
-    /** JSON-LD structured data for rich results */
-    jsonLd?: JsonLdData;
+  readonly title?: string;
+  readonly description?: string;
+  readonly image?: string;
+  readonly type?: "website" | "article";
+  /** JSON-LD structured data for rich results */
+  readonly jsonLd?: JsonLdData;
 }
 
 /**
  * SEO component for dynamic meta tags.
  * Sets title, description, Open Graph, Twitter Card, and JSON-LD structured data.
  */
-export function SEO({
-    title,
-    description = seoContent.defaultDescription,
-    image = "/og-image.png",
-    type = "website",
-    jsonLd,
+export function SEOComponent({
+  title,
+  description = seoContent.defaultDescription,
+  image = "/og-image.png",
+  type = "website",
+  jsonLd,
 }: SEOProps) {
-    const location = useLocation();
-    const fullTitle = title
-        ? `${title} | ${seoContent.siteName}`
-        : seoContent.defaultTitle;
+  const location = useLocation();
+  const fullTitle = title
+    ? `${title} | ${seoContent.siteName}`
+    : seoContent.defaultTitle;
 
-    const fullImageUrl = image.startsWith("http")
-        ? image
-        : `${seoContent.siteUrl}${image}`;
+  const fullImageUrl = image.startsWith("http")
+    ? image
+    : `${seoContent.siteUrl}${image}`;
 
-    const fullUrl = `${seoContent.siteUrl}${location.pathname}`;
+  const fullUrl = `${seoContent.siteUrl}${location.pathname}`;
 
-    const isDefaultTitle = fullTitle === seoContent.defaultTitle;
-    const isDefaultDescription = description === seoContent.defaultDescription;
-    const isDefaultImage = image === "/og-image.png";
-    const isDefaultType = type === "website";
+  const isDefaultDescription = description === seoContent.defaultDescription;
+  const isDefaultImage = image === "/og-image.png";
+  const isDefaultType = type === "website";
 
-    return (
-        <Helmet>
-            {!isDefaultTitle && <title>{fullTitle}</title>}
+  return (
+    <Helmet>
+      {/* Always render title with key to ensure Helmet updates on SPA navigation */}
+      <title key="page-title">{fullTitle}</title>
 
-            {!isDefaultDescription && (
-                <meta name="description" content={description} />
-            )}
+      {!isDefaultDescription && (
+        <meta name="description" content={description} />
+      )}
 
-            <meta name="theme-color" content="#09090b" />
+      <meta name="theme-color" content="#09090b" />
 
-            <meta name="robots" content="index, follow" />
-            <link rel="canonical" href={fullUrl} />
+      <meta name="robots" content="index, follow" />
+      <link rel="canonical" href={fullUrl} />
 
-            {!isDefaultType && <meta property="og:type" content={type} />}
-            {!isDefaultTitle && <meta property="og:title" content={fullTitle} />}
-            {!isDefaultDescription && (
-                <meta property="og:description" content={description} />
-            )}
-            {!isDefaultImage && <meta property="og:image" content={fullImageUrl} />}
-            <meta property="og:url" content={fullUrl} />
+      {!isDefaultType && <meta property="og:type" content={type} />}
+      <meta property="og:title" content={fullTitle} />
+      {!isDefaultDescription && (
+        <meta property="og:description" content={description} />
+      )}
+      {!isDefaultImage && <meta property="og:image" content={fullImageUrl} />}
+      <meta property="og:url" content={fullUrl} />
 
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content={fullTitle} />
-            <meta name="twitter:description" content={description} />
-            <meta name="twitter:image" content={fullImageUrl} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={fullImageUrl} />
 
-            {jsonLd && (
-                <script type="application/ld+json">
-                    {JSON.stringify(jsonLd)}
-                </script>
-            )}
-        </Helmet>
-    );
+      {jsonLd && (
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      )}
+    </Helmet>
+  );
 }
