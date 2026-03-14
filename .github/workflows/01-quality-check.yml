@@ -32,7 +32,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Setup Typst
-        uses: typst-community/setup-typst@v3
+        uses: typst-community/setup-typst@f5c90506c7ae74fca20e339034af05c52e0eda92 # v3
 
       - name: Compile Resume PDF
         run: typst compile src/resume/main.typ public/resume.pdf
