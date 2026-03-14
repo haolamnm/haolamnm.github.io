@@ -45,3 +45,6 @@ blob-report/
 
 # Misc
 *.local
+
+# Typst
+public/resume.pdf

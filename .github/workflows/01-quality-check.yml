@@ -31,6 +31,12 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v3
+
+      - name: Compile Resume PDF
+        run: typst compile src/resume/main.typ public/resume.pdf
+
       - name: Run ESLint
         run: bun run lint
 
