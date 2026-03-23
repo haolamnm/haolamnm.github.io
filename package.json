@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "bun run scripts/generate-posts-manifest.ts && vite",
     "build": "bun run prebuild && tsc -b && vite build && bun run generate:og",
+    "build:cv": "typst compile src/resume/main.typ public/resume.pdf",
     "prebuild": "bun run scripts/generate-posts-manifest.ts",
     "generate:og": "bun run scripts/generate-og-images.ts",
     "preview": "vite preview",

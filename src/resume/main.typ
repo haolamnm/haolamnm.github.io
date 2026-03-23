@@ -189,13 +189,13 @@ Second-year Computer Science undergraduate at VNU-HCMUS with a strong interest i
 
 // === AWARDS & ACHIEVEMENTS ===
 #section("Awards & Achievements")
-
 #grid(
   columns: (auto, 1fr),
   gutter: (0.6em, 0.8em),
-  [2026], [*Rank \#62 at #link("https://www.tensortonic.com/")[TensorTonic platform]* — Upload daily progress on LinkedIn.],
+  [2026], [*Rank \#14 at #link("https://www.tensortonic.com/")[TensorTonic platform]* — Upload daily progress on LinkedIn.],
+  [2026], [*Rank \#30 at #link("https://www.woz.ai/")[Woz BuildFast Hackathon]* — Built Todone, an AI-powered task management app.],
   [2025], [*Computer Science Major Dean's List* — Top 5% of cohort, VNU-HCMUS.],
-  [2025], [*Rank \#32/100+ Teams* — HCMC AI Challenge, Video Frame Retrieval.],
+  [2025], [*Attendee — HCMC AI Challenge*, Video Frame Retrieval.],
   [2024], [*3rd Place, Ho Chi Minh City Physics Olympiad* — City-level academic competition.],
   [2023], [*Bronze Medal, April 30th Traditional Physics Olympic* — City-level, Ho Chi Minh City.],
   [2022], [*Highest GPA, Physics Specialized Class* — Top academic standing in cohort.],
