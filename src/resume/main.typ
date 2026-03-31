@@ -116,7 +116,7 @@ Second-year Computer Science undergraduate at VNU-HCMUS with a strong interest i
   "2025",
 )
 #bullets(
-  [Ranked \#32/100+ teams at HCMC AI Challenge; architecture inspired by Visione (#link("https://github.com/aimh-lab/visione")[aimh-lab/visione]).],
+  [Architecture inspired by Visione (#link("https://github.com/aimh-lab/visione")[aimh-lab/visione]).],
   "Built a multi-modal retrieval backend: FFmpeg for segmentation; CLIP, DINOv2, YOLOv10, MMDetection for feature extraction.",
   "Indexed embeddings with FAISS (vector) and Apache Lucene (keyword) for fast retrieval over large frame corpora. Stack: Python, Java.",
 )
@@ -125,7 +125,7 @@ Second-year Computer Science undergraduate at VNU-HCMUS with a strong interest i
 
 #entry-header(
   "Travel Recommendation System",
-  [Team Lead · 5-member · Computational Thinking · #link("https://github.com/haolamnm/[repo]")[GitHub]],
+  [Team Lead · 5-member · Computational Thinking · #link("https://github.com/letra-org/recommend-sys")[GitHub]],
   "2025",
 )
 #bullets(
@@ -192,9 +192,9 @@ Second-year Computer Science undergraduate at VNU-HCMUS with a strong interest i
 #grid(
   columns: (auto, 1fr),
   gutter: (0.6em, 0.8em),
-  [2026], [*Rank \#14 at #link("https://www.tensortonic.com/")[TensorTonic platform]* — Upload daily progress on LinkedIn.],
-  [2026], [*Rank \#30 at #link("https://www.woz.ai/")[Woz BuildFast Hackathon]* — Built Todone, an AI-powered task management app.],
-  [2025], [*Computer Science Major Dean's List* — Top 5% of cohort, VNU-HCMUS.],
+  [2026], [*Rank \#8 at #link("https://www.tensortonic.com/")[TensorTonic platform]* — Upload daily progress on LinkedIn.],
+  [2026], [*Rank \#30 at #link("https://www.withwoz.com/buildfast")[Woz BuildFast Hackathon]* — Built Todone, an AI-powered task management app.],
+  [2025], [*Faculty of Information Technology Dean's List* — Top 5% of cohort, FIT-HCMUS.],
   [2025], [*Attendee — HCMC AI Challenge*, Video Frame Retrieval.],
   [2024], [*3rd Place, Ho Chi Minh City Physics Olympiad* — City-level academic competition.],
   [2023], [*Bronze Medal, April 30th Traditional Physics Olympic* — City-level, Ho Chi Minh City.],
